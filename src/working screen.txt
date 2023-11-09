@@ -1,0 +1,26 @@
+#define TFT_CS   5//   // 3 goes to TFT CS
+#define TFT_DC   27//   // 4 goes to TFT DC
+#define TFT_MOSI 23  // 5 goes to TFT MOSI
+#define TFT_SCK 18//  // 6 goes to TFT SCK/CLK
+#define TFT_RESET  33//  // ESP RST to TFT RESET
+#define TFT_MISO  19   // Not connected
+//
+
+#include <Arduino_GFX_Library.h>
+Arduino_ESP32SPI bus = Arduino_ESP32SPI(TFT_DC, TFT_CS, TFT_SCK, TFT_MOSI, TFT_MISO);
+Arduino_ILI9341 display = Arduino_ILI9341(&bus, TFT_RESET);
+
+void setup() {
+	display.begin();
+	display.fillScreen(WHITE);
+	display.setCursor(20, 20);
+	display.setTextSize(2);
+	display.setTextColor(BLUE);
+	display.print("Hello world");
+}
+
+void loop() {
+	display.fillScreen(WHITE);
+	display.fillScreen(RED);
+	delay(1);
+}
