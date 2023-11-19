@@ -5,30 +5,29 @@ EEPROM_SPI_WE myEEP = EEPROM_SPI_WE(&hspi, EEP_CS);
 
 void ExtEeprom::initialize() {
 	hspi.begin();
-	pinMode(EEP_CS, OUTPUT); //HSPI SS
+	pinMode(EEP_CS, OUTPUT); // HSPI SS
 
-	if(myEEP.init()){
+	if (myEEP.init()) {
 		Serial.println("EEPROM connected");
-	}
-	else{
+	} else {
 		Serial.println("EEPROM does not respond");
-		while(1);
+		while (1)
+			;
 	}
 	myEEP.setPageSize(EEPROM_PAGE_SIZE_64);
 }
 
 void ExtEeprom::test() {
 	/* You can change the SPI clock speed. The default of is 8 MHz */
-	//myEEP.setSPIClockSpeed(4000000); // use AFTER init()!
+	// myEEP.setSPIClockSpeed(4000000); // use AFTER init()!
 
 	/* Select the page size of your EEPROM.
 	 * Choose EEPROM_PAGE_SIZE_xxx,
 	 * with xxx = 16, 32, 64, 128 or 256
 	 */
-	myEEP.setPageSize(EEPROM_PAGE_SIZE_32);
 
 	byte byteToWrite = 42;
-	myEEP.write(10, byteToWrite);  // write a byte to EEPROM address 10
+	myEEP.write(10, byteToWrite); // write a byte to EEPROM address 10
 	byte byteToRead = myEEP.read(10);
 	Serial.print("Byte read: ");
 	Serial.println(byteToRead);
@@ -48,14 +47,15 @@ void ExtEeprom::test() {
 	Serial.println(floatToRead);
 
 	char charArrayToWrite[] = "This is no poetry, I am just a simple char array";
-	myEEP.put(110, charArrayToWrite);  // write stringToWrite to address 110
-	char charArrayToRead[60] = "";  // reserve sufficient space
+	myEEP.put(110, charArrayToWrite); // write stringToWrite to address 110
+	char charArrayToRead[60] = "";	 // reserve sufficient space
 	myEEP.get(110, charArrayToRead);
 	Serial.print("Char array read: ");
 	Serial.println(charArrayToRead);
 
 	String stringToWrite = "Hello, I am a test string";
-	unsigned int nextAddr = myEEP.putString(200, stringToWrite);   // String objects need a different put function
+	unsigned int nextAddr =
+			  myEEP.putString(200, stringToWrite); // String objects need a different put function
 
 	String stringToRead = "";
 	myEEP.getString(200, stringToRead);
@@ -66,15 +66,51 @@ void ExtEeprom::test() {
 
 	int intArrayToWrite[20];
 	int intArrayToRead[20];
-	for(unsigned int i=0; i<(sizeof(intArrayToWrite)/sizeof(int)); i++){
-		intArrayToWrite[i] = 10*i;
+	for (unsigned int i = 0; i < (sizeof(intArrayToWrite) / sizeof(int)); i++) {
+		intArrayToWrite[i] = 10 * i;
 	}
 	myEEP.put(250, intArrayToWrite);
 	myEEP.get(250, intArrayToRead);
-	for(unsigned int i=0; i<(sizeof(intArrayToRead)/sizeof(int)); i++){
+	for (unsigned int i = 0; i < (sizeof(intArrayToRead) / sizeof(int)); i++) {
 		Serial.print("intArrayToRead[");
 		Serial.print(i);
 		Serial.print("]: ");
 		Serial.println(intArrayToRead[i]);
 	}
 }
+
+template<typename T>
+void ExtEeprom::write(T data, uint16_t address, uint16_t byteLength) {
+	if (address + byteLength >= 32000) {
+		Serial.printf("trying to write past the max eeprom bounds: %d", address);
+	}
+
+	uint8_t* buffer = reinterpret_cast<uint8_t*>(&data);
+
+	if (debugEeprom) {
+		Serial.printf("writing (eeprom) %d bytes at address %d", byteLength, address);
+	}
+
+	for (uint16_t i = 0; i < byteLength; i++) {
+		myEEP.put(address + i, buffer[i]);
+	}
+}
+template void ExtEeprom::write(uint8_t data, uint16_t, uint16_t);
+
+template<typename T>
+void ExtEeprom::read(T* data, uint16_t address, uint16_t byteLength) {
+	if (address + byteLength >= 32000) {
+		Serial.printf("trying to read past the max eeprom bounds: %d", address);
+	}
+
+	uint8_t* buffer = reinterpret_cast<uint8_t*>(data);
+
+	if (debugEeprom) {
+		Serial.printf("reading (eeprom) %d bytes at address %d", byteLength, address);
+	}
+
+	for (uint16_t i = 0; i < byteLength; i++) {
+		myEEP.get(address + i, buffer[i]);
+	}
+}
+template void ExtEeprom::read(uint8_t* data, uint16_t, uint16_t);

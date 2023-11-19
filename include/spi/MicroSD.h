@@ -4,12 +4,12 @@
 #include "FS.h"
 #include "SD.h"
 #include "SPI.h"
-#include "globals/pinout.h"
+#include "globals/Pinout.h"
 
 class MicroSD {
-public:
-	static void initialize();
-	static void test();
+	public:
+		static void initialize();
+		static void test();
 };
 
 #endif

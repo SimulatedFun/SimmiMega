@@ -12,4 +12,6 @@
 
 #define SD_CS 17
 
+#define TOUCH_CS 22
+
 #endif
