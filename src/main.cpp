@@ -5,84 +5,58 @@
 //  |_____|_|_|_|_|_|_|_|_|_|_|_|___|_  |__,|
 //                                  |___|
 
-// Starting state upon initialization
-State state = MainMenuState;
-State oldState = OffState;
-boolean stateChange = false;
+// Global objects
+SPIClass* bus;
+Touch* touch;
+Display* display;
+ExtEeprom* eeprom;
 
-// Global debugging variables
+// Debugging variables
 boolean debugEeprom = false;
-boolean debugRam = false;
 
-//#include "spi/Touch.h"
 void setup() {
 	Serial.begin(115200);
-	Serial.printf("\nBuild %s\n", FIRMWARE_VERSION);
-	LEAK(F("Boot up"));
+	Serial.printf("Hello!\n");
 
-	Display::initialize();
-	MicroSD::initialize();
-	ExtEeprom::initialize();
-	RamBlock::initialize();
+	bus = new SPIClass(HSPI);
+	bus->begin(SHARED_CLK, SHARED_MISO, SHARED_MOSI, -1);
 
-	// Debugging, disable later
-	MicroSD::test();
-	ExtEeprom::test();
+	touch = new Touch(bus);
+	touch->initialize();
 
-	LEAK(F("After init"));
+	display = new Display(bus);
+	display->initialize();
 
-	debugExternalMemory();
-
-	//touch_init(320, 240, 0);
+	eeprom = new ExtEeprom(bus);
+	eeprom->initialize();
 }
-
 
 void loop() {
-	//touch_touched();
-	//delay(150);
-	//return;
+	eeprom->test();
 
+	{
+		for (uint8_t r = 0; r < 255; r += 85) {
+			for (uint8_t g = 0; g < 255; g += 85) {
+				for (uint8_t b = 0; b < 255; b += 85) {
+					const uint16_t color = RGB565(r, g, b);
+					DrawingUtils::fill(color);
+				}
+			}
+		}
+		DrawingUtils::fillCheckerboard(RED, WHITE);
+		DrawingUtils::dither(DARK_GREY, false);
+	} // Test screen refresh rate
 
-	stateChange = (state != oldState);
-	oldState = state;
-	switch (state) {
-		// todo
-		case OffState:
-			break;
-		case PlayState:
-			break;
-		case MainMenuState:
-			break;
-		case SpriteEditorState:
-			break;
-		case LogicEditorState:
-			break;
-		case RoomEditorState:
-			break;
-		case DialogEditorState:
-			break;
-		case DataManagementState:
-			break;
-		case PaletteEditorState:
-			break;
-		case SettingsEditorState:
-			break;
-		case SavedGamesState:
-			break;
-		default:
-			break;
-	}
-}
+	{
+		uint16_t x, y, z;
+		x = y = z = 0;
+		touch->getRawPressure(&z);
 
-/// Prints out the system's overall data structure bounds
-void debugExternalMemory() {
-	INFO(F("name of memory location (start, end, size)"));
-	INFO(F("calibration (") << CALIB_MEMORY_START << ", " << (CALIB_MEMORY_START + CALIB_TOTAL_STORAGE_SIZE) << ", " << (CALIB_MEMORY_START + CALIB_TOTAL_STORAGE_SIZE) - CALIB_MEMORY_START << ")");
-	INFO(F("color and angles (") << COLOR_MEMORY_START << ", " << (COLOR_MEMORY_START + COLOR_TOTAL_STORAGE_SIZE) << ", " << (COLOR_MEMORY_START + COLOR_TOTAL_STORAGE_SIZE) - COLOR_MEMORY_START << ")");
-	INFO(F("font/glyphs (") << FONT_MEMORY_START << ", " << FONT_MEMORY_END << ", " << FONT_MEMORY_END - FONT_MEMORY_START << ")");
-	INFO(F("game objects (") << objectMemoryStart << ", " << (objectMemoryStart + objectTotalStorageSize) << ", " << (objectMemoryStart + objectTotalStorageSize) - objectMemoryStart << ")");
-	INFO(F("rooms (") << roomMemoryStart << ", " << (roomMemoryStart + roomTotalStorageSize) << ", " << (roomMemoryStart + roomTotalStorageSize) - roomMemoryStart << ")");
-	INFO(F("dialog (") << dialogMemoryStart << ", " << (dialogMemoryStart + dialogTotalStorageSize) << ", " << (dialogMemoryStart + dialogTotalStorageSize) - dialogMemoryStart << ")");
-	INFO(F("palette (") << paletteMemoryStart << ", " << (paletteMemoryStart + paletteTotalStorageSize) << ", " << (paletteMemoryStart + paletteTotalStorageSize) - paletteMemoryStart << ")");
-	INFO(F("ext memory size (256k bits -> 32k bytes)"));
+		if (z < Z_THRESHOLD) {
+			return;
+		}
+
+		touch->getRawTouch(&x, &y);
+		Serial.printf("x:%d, y:%d, z:%d\n", x, y, z);
+	} // Test touchscreen
 }

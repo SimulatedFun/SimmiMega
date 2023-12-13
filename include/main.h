@@ -2,16 +2,10 @@
 #define main_h
 
 #include <Arduino.h>
-#include "globals/StateMachine.h"
-#include "globals/DataBounds.h"
-#include "globals/Glyphs.h"
-#include "globals/SerialDebugging.h"
-
+#include <SPI.h>
+#include "spi/Touch.h"
 #include "spi/Display.h"
-#include "spi/MicroSD.h"
 #include "spi/ExtEeprom.h"
-#include "RamBlock.h"
-
-void debugExternalMemory();
+#include "DrawingUtils.h"
 
 #endif

@@ -1,17 +1,22 @@
 #ifndef Pinout_h
 #define Pinout_h
 
-#define TFT_CS    5
-#define TFT_DC    27
-#define TFT_MOSI  23
-#define TFT_SCK   18
-#define TFT_RESET 33
-#define TFT_MISO  19 // Not connected
+// Pin Notes
+// - Free io pins: 23, 19
+// - Default hardware spi pins: sck:14, miso:12, mosi:13, cs:15
+// - Default virtual spi pins: sck:18, miso:19, mosi:23, cs:5
 
-#define EEP_CS 15 // external eeprom cs pin
-
-#define SD_CS 17
-
-#define TOUCH_CS 22
+#define SHARED_CLK			 14
+#define SHARED_MOSI			 13
+#define SHARED_MISO			 12
+#define TFT_CS					 22
+#define TFT_DC					 32
+#define TFT_RST				 21
+#define TOUCH_CS				 15
+#define SD_CS					 5
+#define EEPROM_CS				 27
+#define AUDIO_DIN				 33
+#define AUDIO_BLCK			 26
+#define AUDIO_LRCLK			 = 25
 
 #endif

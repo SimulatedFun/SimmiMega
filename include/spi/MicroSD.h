@@ -1,15 +1,23 @@
 #ifndef Storage_h
 #define Storage_h
 
-#include "FS.h"
-#include "SD.h"
-#include "SPI.h"
+#include <Arduino.h>
+#include <SPI.h>
 #include "globals/Pinout.h"
 
+#include "FS.h"
+#include "SD.h"
+
+#define SPI_MICROSD_FREQUENCY 2500000
+
 class MicroSD {
+	private:
+		SPIClass* _spi;
+		void startRead();
+		void endRead();
 	public:
-		static void initialize();
-		static void test();
+		explicit MicroSD(SPIClass* spi) : _spi(spi) {}
+		void initialize();
 };
 
 #endif
