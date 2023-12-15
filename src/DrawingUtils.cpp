@@ -40,4 +40,15 @@ namespace DrawingUtils {
 			i = !i;
 		}
 	}
-} // namespace drawing_utils
+
+	void testRefreshRate() {
+		for (uint8_t r = 0; r < 255; r += 85) {
+			for (uint8_t g = 0; g < 255; g += 85) {
+				for (uint8_t b = 0; b < 255; b += 85) {
+					const uint16_t color = RGB565(r, g, b);
+					DrawingUtils::fill(color);
+				}
+			}
+		}
+	}
+} // namespace DrawingUtils

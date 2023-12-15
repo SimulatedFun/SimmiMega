@@ -1,4 +1,5 @@
 #include "spi/ExtEeprom.h"
+#include "globals/Glyphs.h"
 
 void ExtEeprom::initialize() {
 	pinMode(EEPROM_CS, OUTPUT);
@@ -78,7 +79,7 @@ void ExtEeprom::test() {
 
 template<typename T>
 void ExtEeprom::write(T data, uint16_t address, uint16_t byteLength) {
-	if (address + byteLength > EEPROM_LAST_ADDRESS) {
+	if (address + byteLength >= EEPROM_BYTE_LEN) {
 		Serial.printf("trying to write past the max eeprom bounds: %d", address);
 	}
 
@@ -96,14 +97,14 @@ template void ExtEeprom::write(uint8_t data, uint16_t, uint16_t);
 
 template<typename T>
 void ExtEeprom::read(T* data, uint16_t address, uint16_t byteLength) {
-	if (address + byteLength > EEPROM_LAST_ADDRESS) {
-		Serial.printf("trying to read past the max eeprom bounds: %d", address);
+	if (address + byteLength >= EEPROM_BYTE_LEN) {
+		Serial.printf("trying to read past the max eeprom bounds: %d\n", address);
 	}
 
 	uint8_t* buffer = reinterpret_cast<uint8_t*>(data);
 
 	if (debugEeprom) {
-		Serial.printf("reading (eeprom) %d bytes at address %d", byteLength, address);
+		Serial.printf("reading (eeprom) %d bytes at address %d\n", byteLength, address);
 	}
 
 	for (uint16_t i = 0; i < byteLength; i++) {

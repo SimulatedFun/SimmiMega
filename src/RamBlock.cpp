@@ -1,6 +1,6 @@
 #include "RamBlock.h"
 
-uint8_t block[32000] = {0};
+uint8_t block[RAM_BYTE_LEN] = {0};
 
 void RamBlock::initialize() {
 	for (uint16_t i = 0; i < (uint16_t)sizeof(block); i++) {
@@ -10,7 +10,7 @@ void RamBlock::initialize() {
 
 template<typename T>
 void RamBlock::write(T data, uint16_t address, uint16_t byteLength) {
-	if (address + byteLength >= 32000) {
+	if (address + byteLength >= RAM_BYTE_LEN) {
 		Serial.printf("trying to write past the max ram bounds: %d", address);
 	}
 
@@ -28,7 +28,7 @@ template void RamBlock::write(uint8_t data, uint16_t, uint16_t);
 
 template<typename T>
 void RamBlock::read(T* data, uint16_t address, uint16_t byteLength) {
-	if (address + byteLength >= 32000) {
+	if (address + byteLength >= RAM_BYTE_LEN) {
 		Serial.printf("trying to read past the max ram bounds: %d", address);
 	}
 

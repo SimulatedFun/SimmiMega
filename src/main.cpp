@@ -10,9 +10,12 @@ SPIClass* bus;
 Touch* touch;
 Display* display;
 ExtEeprom* eeprom;
+RamBlock* ram;
+MicroSD* microSd;
+GFXfont* currentFont;
 
 // Debugging variables
-boolean debugEeprom = false;
+boolean debugEeprom = true;
 
 void setup() {
 	Serial.begin(115200);
@@ -29,22 +32,27 @@ void setup() {
 
 	eeprom = new ExtEeprom(bus);
 	eeprom->initialize();
+
+	ram = new RamBlock();
+	ram->initialize();
+
+	microSd = new MicroSD(bus);
+	microSd->initialize();
+
+	eeprom->test();
+	Glyphs::debugFont();
 }
 
 void loop() {
+	microSd->test();
+
 	eeprom->test();
 
 	{
-		for (uint8_t r = 0; r < 255; r += 85) {
-			for (uint8_t g = 0; g < 255; g += 85) {
-				for (uint8_t b = 0; b < 255; b += 85) {
-					const uint16_t color = RGB565(r, g, b);
-					DrawingUtils::fill(color);
-				}
-			}
-		}
+		DrawingUtils::testRefreshRate();
 		DrawingUtils::fillCheckerboard(RED, WHITE);
 		DrawingUtils::dither(DARK_GREY, false);
+		DrawingUtils::fill(BLACK);
 	} // Test screen refresh rate
 
 	{

@@ -13,11 +13,10 @@
 class MicroSD {
 	private:
 		SPIClass* _spi;
-		void startRead();
-		void endRead();
 	public:
 		explicit MicroSD(SPIClass* spi) : _spi(spi) {}
 		void initialize();
+		void test();
 };
 
 #endif

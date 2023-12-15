@@ -5,7 +5,7 @@
 #include "EEPROM_SPI_WE.h"
 #include "globals/Pinout.h"
 
-#define EEPROM_LAST_ADDRESS (32000-1)
+#define EEPROM_BYTE_LEN 32000
 
 class ExtEeprom {
 	private:

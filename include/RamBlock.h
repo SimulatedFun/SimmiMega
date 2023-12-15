@@ -8,17 +8,20 @@
 
 #include <Arduino.h>
 
+#define RAM_BYTE_LEN 32000
+
 class RamBlock {
 	public:
-		static void initialize();
+		void initialize();
 
 		template <typename T>
-		static void write(T data, uint16_t address, uint16_t size);
+		void write(T data, uint16_t address, uint16_t size);
 
 		template <typename T>
-		static void read(T* data, uint16_t address, uint16_t size);
+		void read(T* data, uint16_t address, uint16_t size);
 };
 
+extern RamBlock* ram;
 extern boolean debugRam;
 
 #endif
