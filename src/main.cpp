@@ -39,14 +39,15 @@ void setup() {
 	microSd = new MicroSD(bus);
 	microSd->initialize();
 
-	eeprom->test();
-	Glyphs::debugFont();
+	test();
 }
 
-void loop() {
+void test() {
 	microSd->test();
 
 	eeprom->test();
+
+	Glyphs::debugFont();
 
 	{
 		DrawingUtils::testRefreshRate();
@@ -54,17 +55,8 @@ void loop() {
 		DrawingUtils::dither(DARK_GREY, false);
 		DrawingUtils::fill(BLACK);
 	} // Test screen refresh rate
+}
 
-	{
-		uint16_t x, y, z;
-		x = y = z = 0;
-		touch->getRawPressure(&z);
-
-		if (z < Z_THRESHOLD) {
-			return;
-		}
-
-		touch->getRawTouch(&x, &y);
-		Serial.printf("x:%d, y:%d, z:%d\n", x, y, z);
-	} // Test touchscreen
+void loop() {
+	touch->poll();
 }

@@ -12,4 +12,6 @@
 #include "RamBlock.h"
 #include "DrawingUtils.h"
 
+void test();
+
 #endif
