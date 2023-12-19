@@ -16,6 +16,27 @@ void Touch::endRead() {
 	_spi->endTransaction();
 }
 
+constexpr uint8_t MaxPointDist = 4;
+tsPoint_t Touch::getTouch() {
+	// Scan two touch points
+	const tsPoint_t pt1 = getRawTouch();
+	const tsPoint_t pt2 = getRawTouch();
+
+	// If the points are too far apart, discard
+	if (pt1.x - pt2.x < -MaxPointDist || pt1.x - pt2.x > MaxPointDist) {
+		return tsPoint_t{0, 0, 0};
+	}
+	if (pt1.y - pt2.y < -MaxPointDist || pt1.y - pt2.y > MaxPointDist) {
+		return tsPoint_t{0, 0, 0};
+	}
+
+	// If the two points are relatively close, average them and return the average point
+	const uint16_t x = (pt1.x + pt2.x) / 2;
+	const uint16_t y = (pt1.y + pt2.y) / 2;
+	const uint16_t z = (pt1.z + pt2.z) / 2;
+	return tsPoint_t{x, y, z};
+}
+
 tsPoint_t Touch::getRawTouch() {
 	tsPoint_t point{0, 0, 0};
 	startRead();
@@ -66,7 +87,7 @@ tsPoint_t Touch::getRawTouch() {
 
 void Touch::poll() {
 	static uint8_t unPressCounter = 0;
-	const tsPoint_t point = getRawTouch();
+	const tsPoint_t point = getTouch();
 
 	// no press detected on the screen
 	if (point.z == 0) {
@@ -90,14 +111,14 @@ void Touch::poll() {
 		lastX = calibrated.x;
 		lastY = calibrated.y;
 		touchIsPressed = true;
-		//	display->fillRectangle(x, y, 2, 2, BLUE); // debug
+		display->fillRectangle(lastX, lastY, 2, 2, BLUE); // debug
 	}
 }
 
 boolean Touch::getDisplayPoint(tsPoint_t* calibratedPoint, tsPoint_t* rawPoint) {
 	if (tsMatrix.Determinant == 0) {
-		//DrawingUtils::fill(BLACK);
-		//DrawingUtils::simplePrint(0, 10, F("determinant is zero"), RED, 1);
+		// DrawingUtils::fill(BLACK);
+		// DrawingUtils::simplePrint(0, 10, F("determinant is zero"), RED, 1);
 		return false;
 	}
 
@@ -125,12 +146,14 @@ boolean Touch::getDisplayPoint(tsPoint_t* calibratedPoint, tsPoint_t* rawPoint) 
 ///// @return bool whether read was successful
 boolean Touch::readEepromCalibration() {
 	// RAW(F("======== Calibration Data =======\n"));
-	boolean isCalibrated = false;
+	uint8_t isCalibrated = 0;
 	eeprom->read(&isCalibrated, CALIB_MEMORY_START + CFG_EEPROM_TOUCHSCREEN_CALIBRATED, 1);
-	if (isCalibrated) {
+	Serial.printf("isCalibrated: %d\n", isCalibrated);
+	if (isCalibrated != 0) {
 		for (uint8_t i = 0; i < 7; i++) {
 			int32_t data = 0;
 			eeprom->read(&data, CALIB_MEMORY_START + i * 4, 4);
+			Serial.printf("data: %d %d\n", i, tsMatrix.values[i]);
 			tsMatrix.values[i] = data;
 			// RAW(tsMatrix.values[i] << " ");
 		}
@@ -145,12 +168,12 @@ boolean Touch::readEepromCalibration() {
 /// Writes all calibration data to a specified location in external memory
 /// @param matrixPtr calibration matrix
 void Touch::writeEepromCalibration() {
-	boolean isCalibrated = false;
+	uint8_t isCalibrated = 0;
 	eeprom->write(isCalibrated, CALIB_MEMORY_START + CFG_EEPROM_TOUCHSCREEN_CALIBRATED, 1);
 	for (uint8_t i = 0; i < 7; i++) {
 		eeprom->write(tsMatrix.values[i], CALIB_MEMORY_START + i * 4, 4);
 	}
-	isCalibrated = true;
+	isCalibrated = 1;
 	eeprom->write(isCalibrated, CALIB_MEMORY_START + CFG_EEPROM_TOUCHSCREEN_CALIBRATED, 1);
 }
 
@@ -160,8 +183,9 @@ void Touch::writeEepromCalibration() {
 /// \param matrixPtr pointer to the calibration matrix
 /// \return whether the matrix was calculated successfully
 boolean Touch::setCalibrationMatrix(tsPoint_t* pixelCoord, tsPoint_t* touchCoord) {
-	tsMatrix.Determinant = ((touchCoord[0].x - touchCoord[2].x) * (touchCoord[1].y - touchCoord[2].y)) -
-								  ((touchCoord[1].x - touchCoord[2].x) * (touchCoord[0].y - touchCoord[2].y));
+	tsMatrix.Determinant =
+			  ((touchCoord[0].x - touchCoord[2].x) * (touchCoord[1].y - touchCoord[2].y)) -
+			  ((touchCoord[1].x - touchCoord[2].x) * (touchCoord[0].y - touchCoord[2].y));
 
 	if (tsMatrix.Determinant == 0) {
 		return false;
@@ -173,12 +197,11 @@ boolean Touch::setCalibrationMatrix(tsPoint_t* pixelCoord, tsPoint_t* touchCoord
 	tsMatrix.Bn = ((touchCoord[0].x - touchCoord[2].x) * (pixelCoord[1].x - pixelCoord[2].x)) -
 					  ((pixelCoord[0].x - pixelCoord[2].x) * (touchCoord[1].x - touchCoord[2].x));
 
-	tsMatrix.Cn =
-			  (touchCoord[2].x * pixelCoord[1].x - touchCoord[1].x * pixelCoord[2].x) *
+	tsMatrix.Cn = (touchCoord[2].x * pixelCoord[1].x - touchCoord[1].x * pixelCoord[2].x) *
 								 touchCoord[0].y +
-			  (touchCoord[0].x * pixelCoord[2].x - touchCoord[2].x * pixelCoord[0].x) *
+					  (touchCoord[0].x * pixelCoord[2].x - touchCoord[2].x * pixelCoord[0].x) *
 								 touchCoord[1].y +
-			  (touchCoord[1].x * pixelCoord[0].x - touchCoord[0].x * pixelCoord[1].x) *
+					  (touchCoord[1].x * pixelCoord[0].x - touchCoord[0].x * pixelCoord[1].x) *
 								 touchCoord[2].y;
 
 	tsMatrix.Dn = ((pixelCoord[0].y - pixelCoord[2].y) * (touchCoord[1].y - touchCoord[2].y)) -
@@ -187,12 +210,11 @@ boolean Touch::setCalibrationMatrix(tsPoint_t* pixelCoord, tsPoint_t* touchCoord
 	tsMatrix.En = ((touchCoord[0].x - touchCoord[2].x) * (pixelCoord[1].y - pixelCoord[2].y)) -
 					  ((pixelCoord[0].y - pixelCoord[2].y) * (touchCoord[1].x - touchCoord[2].x));
 
-	tsMatrix.Fn =
-			  (touchCoord[2].x * pixelCoord[1].y - touchCoord[1].x * pixelCoord[2].y) *
+	tsMatrix.Fn = (touchCoord[2].x * pixelCoord[1].y - touchCoord[1].x * pixelCoord[2].y) *
 								 touchCoord[0].y +
-			  (touchCoord[0].x * pixelCoord[2].y - touchCoord[2].x * pixelCoord[0].y) *
+					  (touchCoord[0].x * pixelCoord[2].y - touchCoord[2].x * pixelCoord[0].y) *
 								 touchCoord[1].y +
-			  (touchCoord[1].x * pixelCoord[0].y - touchCoord[0].x * pixelCoord[1].y) *
+					  (touchCoord[1].x * pixelCoord[0].y - touchCoord[0].x * pixelCoord[1].y) *
 								 touchCoord[2].y;
 	return true;
 }
@@ -211,6 +233,7 @@ void Touch::loadHardcodedCalibration() {
 /// Shows a series of points and waits for touch input to calculate a calibration
 /// matrix for the points
 void Touch::calibrate() {
+	Serial.println("calibrating touchscreen");
 	// arbitrary points that are decent for creating the transformation matrix
 	tsPoint_t pixelPoints[3] = {{32, 32}, {288, 120}, {180, 215}};
 	tsPoint_t tsTsPoints[3];
@@ -220,6 +243,7 @@ void Touch::calibrate() {
 		const uint16_t yPos = pixelPoints[i].y;
 
 		DrawingUtils::fill(WHITE);
+		delay(500);
 
 		display->startWrite();
 		{
@@ -234,7 +258,7 @@ void Touch::calibrate() {
 		boolean valid = false;
 		tsPoint_t p;
 		while (!valid) {
-			p = getRawTouch();
+			p = getTouch();
 			if (p.z > MINIMUM_PRESSURE and p.z < MAXIMUM_PRESSURE and p.x > 0 and p.y > 0) {
 				valid = true;
 			}
@@ -244,5 +268,6 @@ void Touch::calibrate() {
 	}
 
 	// Do matrix calculations for calibration and store to external memory
+	writeEepromCalibration();
 	setCalibrationMatrix(&pixelPoints[0], &tsTsPoints[0]);
 }

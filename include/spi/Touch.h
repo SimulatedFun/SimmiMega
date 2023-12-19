@@ -8,8 +8,8 @@
 #define SPI_TOUCH_FREQUENCY 2500000
 
 // region Touchscreen Config
-#define MINIMUM_PRESSURE						100
-#define MAXIMUM_PRESSURE						1000
+#define MINIMUM_PRESSURE						600
+#define MAXIMUM_PRESSURE						3400
 #define CFG_EEPROM_TOUCHSCREEN_CAL_AN		0
 #define CFG_EEPROM_TOUCHSCREEN_CAL_BN		4
 #define CFG_EEPROM_TOUCHSCREEN_CAL_CN		8
@@ -21,6 +21,7 @@
 
 // How many values needed to be considered un-pressing the screen
 #define TOUCHSCREEN_UNTOUCH_COUNT 10
+#define TOUCH_SAMPLE_COUNT 50
 // endregion
 
 // Touchscreen point
@@ -52,6 +53,7 @@ class Touch {
 
 		void initialize();
 		tsPoint_t getRawTouch();
+		tsPoint_t getTouch();
 
 		uint16_t touchX() {
 			return lastX;

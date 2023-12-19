@@ -24,22 +24,23 @@ void setup() {
 	bus = new SPIClass(HSPI);
 	bus->begin(SHARED_CLK, SHARED_MISO, SHARED_MOSI, -1);
 
-	touch = new Touch(bus);
-	touch->initialize();
-
-	display = new Display(bus);
-	display->initialize();
-
 	eeprom = new ExtEeprom(bus);
 	eeprom->initialize();
 
 	ram = new RamBlock();
 	ram->initialize();
 
+	touch = new Touch(bus);
+	touch->initialize();
+	touch->readEepromCalibration(); // after eeprom init
+
+	display = new Display(bus);
+	display->initialize();
+
 	microSd = new MicroSD(bus);
 	microSd->initialize();
 
-	test();
+	display->fillRectangle(0, 0, 320, 240, BLACK);
 }
 
 void test() {

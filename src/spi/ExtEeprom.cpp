@@ -94,6 +94,7 @@ void ExtEeprom::write(T data, uint16_t address, uint16_t byteLength) {
 	}
 }
 template void ExtEeprom::write(uint8_t data, uint16_t, uint16_t);
+template void ExtEeprom::write(int32_t data, uint16_t, uint16_t);
 
 template<typename T>
 void ExtEeprom::read(T* data, uint16_t address, uint16_t byteLength) {
@@ -112,3 +113,4 @@ void ExtEeprom::read(T* data, uint16_t address, uint16_t byteLength) {
 	}
 }
 template void ExtEeprom::read(uint8_t* data, uint16_t, uint16_t);
+template void ExtEeprom::read(int32_t* data, uint16_t, uint16_t);
