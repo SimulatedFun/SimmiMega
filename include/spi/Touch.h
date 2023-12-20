@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "globals/Pinout.h"
+#include "globals/Async.h"
 
 #define SPI_TOUCH_FREQUENCY 2500000
 
@@ -74,6 +75,9 @@ class Touch {
 		void loadHardcodedCalibration();
 		void calibrate();
 		void poll();
+		void clearQueue();
 };
+
+extern Touch* touch;
 
 #endif

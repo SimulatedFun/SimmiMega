@@ -11,13 +11,13 @@ void resetTimer(uint8_t id);
 
 enum AsyncId {
 	// Waiting between touchscreen presses (debounce)
-	betweenTouches,
+	BetweenTouches,
 
 	// Waiting between changing screens and checking for touch input
-	screenChangeWait,
+	ScreenChangeWait,
 
 	// Let asyncIdCount be the last enum value to track the number of timers
-	asyncIdCount
+	AsyncIdCount
 };
 
 #endif

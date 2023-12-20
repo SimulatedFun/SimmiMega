@@ -7,7 +7,7 @@
 #endif
 
 #ifdef SHOW_GOOD
-#define GOOD(...) Serial << "[32m[GOOD] " << __VA_ARGS__ << "[0m" << endl
+#define GOOD(...) Serial << "[GOOD] " << __VA_ARGS__ << endl
 #else
 #define GOOD(...)
 #endif
@@ -25,7 +25,7 @@
 #endif
 
 #ifdef SHOW_ERROR
-#define ERROR(...) Serial << "[31m[EROR] " << __VA_ARGS__ << "[0m" << endl
+#define ERROR(...) Serial << "[EROR] " << __VA_ARGS__ << endl
 #else
 #define ERROR(...)
 #endif
@@ -37,9 +37,8 @@
 #endif
 
 #ifdef SHOW_LEAK
-#define LEAK(...)                                                                                  \
-	Serial << "[33m[LEAK] " << __VA_ARGS__ << " w/ " << esp_get_minimum_free_heap_size() << "[0m" \
-			 << endl
+#define LEAK(...) Serial << "[LEAK] " << __VA_ARGS__ << " (" << \
+								  esp_get_minimum_free_heap_size() << ")" << endl
 #else
 #define LEAK(...)
 #endif

@@ -51,4 +51,12 @@ namespace DrawingUtils {
 			}
 		}
 	}
+
+	void simplePrint(uint16_t x, uint16_t y, const String& text, uint16_t color, uint8_t fontSize) {
+		Text* t = new Text(text);
+		t->setPosition(x, y);
+		t->setStyle(fontSize, color);
+		t->print();
+		delete t;
+	}
 } // namespace DrawingUtils

@@ -38,6 +38,7 @@
 #define ILI9341_CASET 0x2A ///< Column Address Set
 #define ILI9341_PASET 0x2B ///< Page Address Set
 #define ILI9341_RAMWR 0x2C ///< Memory Write
+#define ILI9341_RGBSET 0x2D ///< Color set
 #define ILI9341_RAMRD 0x2E ///< Memory Read
 
 #define ILI9341_PTLAR	 0x30 ///< Partial Area
@@ -144,8 +145,21 @@ class Display {
 			endWrite();
 		}
 
-		void drawLineTx(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
+		void drawRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
+		void drawRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
+			startWrite();
+			drawRectangleTx(x, y, w, h, color);
+			endWrite();
+		}
 
+		void drawDottedRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
+		void drawDottedRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
+			startWrite();
+			drawDottedRectangleTx(x, y, w, h, color);
+			endWrite();
+		}
+
+		void drawLineTx(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
 		void drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color) {
 			startWrite();
 			drawLineTx(x0, y0, x1, y1, color);
@@ -160,7 +174,6 @@ class Display {
 		}
 
 		void drawVerticalLineTx(int16_t x, int16_t y, int16_t h, uint16_t color);
-
 		void drawVerticalLine(int16_t x, int16_t y, int16_t h, uint16_t color) {
 			startWrite();
 			drawVerticalLineTx(x, y, h, color);
@@ -168,7 +181,6 @@ class Display {
 		}
 
 		void drawPixelTx(int16_t x, int16_t y, uint16_t color);
-
 		void drawPixel(int16_t x, int16_t y, uint16_t color) {
 			startWrite();
 			drawPixelTx(x, y, color);
@@ -176,7 +188,7 @@ class Display {
 		}
 
 		void setAddrWindowTx(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h);
-		void epilepsy();
+		void writeColorTx(uint16_t color, uint32_t len);
 };
 
 extern Display* display;

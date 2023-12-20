@@ -1,6 +1,6 @@
 #include "globals/Async.h"
 
-uint32_t lastCall[asyncIdCount] = {0};
+uint32_t lastCall[AsyncIdCount] = {0};
 
 /// Asynchronous timer
 /// \param ms amount of time in milliseconds since last timer reset

@@ -153,7 +153,7 @@ boolean Touch::readEepromCalibration() {
 		for (uint8_t i = 0; i < 7; i++) {
 			int32_t data = 0;
 			eeprom->read(&data, CALIB_MEMORY_START + i * 4, 4);
-			Serial.printf("data: %d %d\n", i, tsMatrix.values[i]);
+			Serial.printf("read data: %d %d\n", i, tsMatrix.values[i]);
 			tsMatrix.values[i] = data;
 			// RAW(tsMatrix.values[i] << " ");
 		}
@@ -171,6 +171,7 @@ void Touch::writeEepromCalibration() {
 	uint8_t isCalibrated = 0;
 	eeprom->write(isCalibrated, CALIB_MEMORY_START + CFG_EEPROM_TOUCHSCREEN_CALIBRATED, 1);
 	for (uint8_t i = 0; i < 7; i++) {
+		Serial.printf("write data: %d %d\n", i, tsMatrix.values[i]);
 		eeprom->write(tsMatrix.values[i], CALIB_MEMORY_START + i * 4, 4);
 	}
 	isCalibrated = 1;
@@ -268,6 +269,15 @@ void Touch::calibrate() {
 	}
 
 	// Do matrix calculations for calibration and store to external memory
-	writeEepromCalibration();
 	setCalibrationMatrix(&pixelPoints[0], &tsTsPoints[0]);
+	writeEepromCalibration();
+}
+
+void Touch::clearQueue() {
+	for (uint8_t i = 0; i < 5; i++) {
+		getTouch();
+	}
+	touchIsPressed = false;
+	resetTimer(ScreenChangeWait);
+	resetTimer(BetweenTouches);
 }

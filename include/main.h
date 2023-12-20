@@ -12,6 +12,9 @@
 #include "RamBlock.h"
 #include "DrawingUtils.h"
 
+#include "states/States.h"
+#include "states/MainMenu.h"
+
 void test();
 
 #endif

@@ -50,7 +50,7 @@ void Display::initialize() {
 	Serial.printf("display initialized\n");
 }
 
-void Display::sendCommand(uint8_t cmd, uint8_t *data, uint8_t dataLen) {
+void Display::sendCommand(uint8_t cmd, uint8_t* data, uint8_t dataLen) {
 	startWrite();
 	writeCommand(cmd);
 	_spi->writeBytes(data, dataLen); // send the data bytes
@@ -59,9 +59,16 @@ void Display::sendCommand(uint8_t cmd, uint8_t *data, uint8_t dataLen) {
 
 void Display::fillRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
 	setAddrWindowTx(x, y, w, h);
-	for (uint32_t i = 0; i < w*h; i++) {
+	for (uint32_t i = 0; i < w * h; i++) {
 		_spi->write16(color);
 	}
+}
+
+void Display::drawRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
+	drawHorizontalLineTx(x, y, w, color);
+	drawHorizontalLineTx(x, y + h - 1, w, color);
+	drawVerticalLineTx(x, y, h, color);
+	drawVerticalLineTx(x + w - 1, y, h, color);
 }
 
 void Display::drawVerticalLineTx(int16_t x, int16_t y, int16_t h, uint16_t color) {
@@ -69,12 +76,12 @@ void Display::drawVerticalLineTx(int16_t x, int16_t y, int16_t h, uint16_t color
 }
 
 #ifndef _swap_int16_t
-#define _swap_int16_t(a, b)                                                    \
-  {                                                                            \
-    const int16_t t = a;                                                       \
-    a = b;                                                                     \
-    b = t;                                                                     \
-  }
+#define _swap_int16_t(a, b)                                                                        \
+	{                                                                                               \
+		const int16_t t = a;                                                                         \
+		a = b;                                                                                       \
+		b = t;                                                                                       \
+	}
 #endif
 
 void Display::drawLineTx(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color) {
@@ -150,4 +157,31 @@ void Display::setAddrWindowTx(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h) 
 
 void Display::drawHorizontalLineTx(int16_t x, int16_t y, int16_t w, uint16_t color) {
 	drawLineTx(x, y, x + w - 1, y, color);
+}
+
+void Display::writeColorTx(uint16_t color, uint32_t len) {
+	if (len == 0) {
+		return; // Avoid 0-byte transfers
+	}
+	while (len-- != 0) {
+		_spi->write16(color);
+	}
+}
+
+void Display::drawDottedRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
+	// vertical lines
+	for (uint16_t i = 0; i < h; i++) {
+		if (i % 3 == 0) {
+			drawPixelTx(x, y + i, color);
+			drawPixelTx(x + w, y + i, color);
+		}
+	}
+
+	// horizontal lines
+	for (uint16_t i = 0; i < w; i++) {
+		if ((i + 1) % 3 == 0) {
+			drawPixelTx(x + i, y, color);
+			drawPixelTx(x + i, y + h, color);
+		}
+	}
 }
