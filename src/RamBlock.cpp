@@ -25,6 +25,12 @@ void RamBlock::write(T data, uint16_t address, uint16_t byteLength) {
 	}
 }
 template void RamBlock::write(uint8_t data, uint16_t, uint16_t);
+template void RamBlock::write(uint16_t data, uint16_t, uint16_t);
+template void RamBlock::write(uint32_t data, uint16_t, uint16_t);
+template void RamBlock::write(uint64_t data, uint16_t, uint16_t);
+template void RamBlock::write(Object data, uint16_t, uint16_t);
+template void RamBlock::write(Color data, uint16_t, uint16_t);
+template void RamBlock::write(Coordinates data, uint16_t, uint16_t);
 
 template<typename T>
 void RamBlock::read(T* data, uint16_t address, uint16_t byteLength) {
@@ -43,3 +49,9 @@ void RamBlock::read(T* data, uint16_t address, uint16_t byteLength) {
 	}
 }
 template void RamBlock::read(uint8_t* data, uint16_t, uint16_t);
+template void RamBlock::read(uint16_t* data, uint16_t, uint16_t);
+template void RamBlock::read(uint32_t* data, uint16_t, uint16_t);
+template void RamBlock::read(uint64_t* data, uint16_t, uint16_t);
+template void RamBlock::read(Object* data, uint16_t, uint16_t);
+template void RamBlock::read(Color* data, uint16_t, uint16_t);
+template void RamBlock::read(Coordinates* data, uint16_t, uint16_t);

@@ -17,6 +17,13 @@
 #define EEPROM_CS				 27
 #define AUDIO_DIN				 33
 #define AUDIO_BLCK			 26
-#define AUDIO_LRCLK			 = 25
+#define AUDIO_LRCLK			 25
+
+// Button input pins
+#define PIN_BUTTON_INPUT 19
+#define PIN_LEFT_BUTTON	 19
+#define PIN_RIGHT_BUTTON 19
+#define PIN_UP_BUTTON	 19
+#define PIN_DOWN_BUTTON	 19
 
 #endif

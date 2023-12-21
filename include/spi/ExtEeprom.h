@@ -2,8 +2,11 @@
 #define Memory_h
 
 #include <Arduino.h>
+#include "globals/Typedefs.h"
 #include "EEPROM_SPI_WE.h"
 #include "globals/Pinout.h"
+#include "Glyphs.h"
+#include "GameObject.h"
 
 #define EEPROM_BYTE_LEN 32000
 

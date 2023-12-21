@@ -3,8 +3,8 @@
 
 #include <Arduino.h>
 #include "globals/DataBounds.h"
-#include "Validate.h"
 #include "globals/SerialDebugging.h"
+#include "Validate.h"
 
 class Folder {
 	public:
@@ -43,7 +43,7 @@ class Folder {
 					}
 				}
 				if (!valid) {
-					ERROR(F("invalid char in string: ") << c << " (" << (uint8_t) c << ")");
+					Serial.printf("invalid char in string: %c (%d)\n", c, (uint8_t) c);
 					return false;
 				}
 			}
@@ -52,7 +52,7 @@ class Folder {
 
 		void setTo(char* src, uint8_t len) {
 			if (len > 8 or len == 0) {
-				ERROR(F("bad len for file name"));
+				Serial.printf("bad len for file name: %d\n", len);
 				resetFilename();
 				return;
 			}

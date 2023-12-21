@@ -16,6 +16,24 @@ enum AsyncId {
 	// Waiting between changing screens and checking for touch input
 	ScreenChangeWait,
 
+	// Waiting at least x amount of seconds between play mode frame changes
+	AsyncPlayModeAnimation,
+
+	// Waiting at least x amount of seconds between button presses
+	ButtonMoveDelay,
+
+
+	// For the up and down arrow in the bottom right of the dialog box in play mode
+	DialogArrowAnimation,
+
+	// For the marching ants animation in the room editor
+	MarchingAntsAnimation,
+	DialogCursorFlash,
+
+	// Play mode dynamic objects
+	PathfindingDelay,
+	WanderingDelay,
+
 	// Let asyncIdCount be the last enum value to track the number of timers
 	AsyncIdCount
 };

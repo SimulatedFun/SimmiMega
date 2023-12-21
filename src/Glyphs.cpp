@@ -1,5 +1,4 @@
-#include "globals/Glyphs.h"
-
+#include "Glyphs.h"
 namespace Glyphs {
 	/// Gets a GlyphLookup object that tells you where in memory the glyph bitmap resides
 	/// Also retrieves relevant information such as how wide/high the glyph is, etc.

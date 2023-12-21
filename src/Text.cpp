@@ -1,5 +1,4 @@
-#include "globals/Text.h"
-
+#include "Text.h"
 Text::Text(char c) {
 	length = 1;
 	characters[0] = c;

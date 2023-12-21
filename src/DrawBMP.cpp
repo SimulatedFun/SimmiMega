@@ -7,12 +7,12 @@
 
 // Code from https://github.com/adafruit/Adafruit_HX8357_Library/blob/master/examples/spitftbitmap/spitftbitmap.ino
 
-const uint8_t PIXEL_BUFFER_SIZE = 60;
+def u8 PIXEL_BUFFER_SIZE = 60;
 
-void drawRGBBitmap(uint16_t x, uint16_t y, const uint16_t *bitmap, uint16_t w, uint16_t h) {
+void drawRGBBitmap(u16 x, u16 y, const u16 *bitmap, u16 w, u16 h) {
 	display->startWrite();
-	for (int16_t j = 0; j < h; j++, y++) {
-		for (int16_t i = 0; i < w; i++) {
+	for (i16 j = 0; j < h; j++, y++) {
+		for (i16 i = 0; i < w; i++) {
 			display->drawPixelTx(x + i, y, bitmap[j * w + i]);
 		}
 	}
@@ -24,7 +24,7 @@ void drawRGBBitmap(uint16_t x, uint16_t y, const uint16_t *bitmap, uint16_t w, u
 /// \param x The x coordinate of the top left corner of the image
 /// \param y The y coordinate of the top left corner of the image
 /// \return True if the image was drawn successfully
-sd_err_code bmpDraw(const String& filename, uint16_t x, uint16_t y, uint16_t maxWidth, uint16_t maxHeight) {
+sd_err bmpDraw(str filename, u16 x, u16 y, u16 maxWidth, u16 maxHeight) {
 	microSd->begin();
 
 	// Open requested file on SD card
@@ -43,21 +43,21 @@ sd_err_code bmpDraw(const String& filename, uint16_t x, uint16_t y, uint16_t max
 		return errFileInvalid;
 	}
 
-	const uint32_t fileSize = read32(bmpFile);
+	const u32 fileSize = read32(bmpFile);
 
 	read32(bmpFile); // unused/reserved bytes
 
-	const uint32_t bmpImageOffset = read32(bmpFile); // Offset to image data in bytes from beginning of file);
+	const u32 bmpImageOffset = read32(bmpFile); // Offset to image data in bytes from beginning of file);
 
-	const uint32_t headerSize = read32(bmpFile); // Read DIB header
+	const u32 headerSize = read32(bmpFile); // Read DIB header
 
-	const uint16_t bmpWidth = read32(bmpFile);
+	const u16 bmpWidth = read32(bmpFile);
 	if (bmpWidth > maxWidth) {
 		microSd->end();
 		return errFileInvalid;
 	}
 
-	const uint16_t bmpHeight = read32(bmpFile);
+	const u16 bmpHeight = read32(bmpFile);
 	if (bmpHeight > maxHeight) {
 		microSd->end();
 		return errFileInvalid;
@@ -72,7 +72,7 @@ sd_err_code bmpDraw(const String& filename, uint16_t x, uint16_t y, uint16_t max
 	}
 
 	// Pixel color depth (currently must be 24)
-	const uint8_t bmpDepth = read16(bmpFile); // bits per pixel
+	const u8 bmpDepth = read16(bmpFile); // bits per pixel
 	if (bmpDepth != 24) {
 		ERROR(F("Bit depth not 24"));
 		bmpFile.close();
@@ -88,11 +88,11 @@ sd_err_code bmpDraw(const String& filename, uint16_t x, uint16_t y, uint16_t max
 	}
 
 	// BMP rows are padded (if needed) to 4-byte boundary
-	const uint32_t rowSize = (bmpWidth * 3 + 3) & ~3; // rowSize not always = bmpWidth
+	const u32 rowSize = (bmpWidth * 3 + 3) & ~3; // rowSize not always = bmpWidth
 
 	// Crop area to be loaded
-	uint16_t w = bmpWidth;
-	uint16_t h = bmpHeight;
+	u16 w = bmpWidth;
+	u16 h = bmpHeight;
 	if ((x + w - 1) >= ScreenWidth) {
 		w = ScreenWidth - x;
 	}
@@ -105,11 +105,11 @@ sd_err_code bmpDraw(const String& filename, uint16_t x, uint16_t y, uint16_t max
 	{
 		display->setAddrWindowTx(x, y, w, h);
 
-		uint32_t pos = 0;
-		uint8_t* buffer = new uint8_t[PIXEL_BUFFER_SIZE]; // pixel buffer (R+G+B per pixel)
-		uint8_t bufferIterator = PIXEL_BUFFER_SIZE;		  // Current position in buffer
+		u32 pos = 0;
+		u8* buffer = new u8[PIXEL_BUFFER_SIZE]; // pixel buffer (R+G+B per pixel)
+		u8 bufferIterator = PIXEL_BUFFER_SIZE;		  // Current position in buffer
 
-		for (uint16_t row = 0; row < h; row++) {
+		for (u16 row = 0; row < h; row++) {
 			pos = bmpImageOffset + (bmpHeight - 1 - row) * rowSize;
 			if (bmpFile.position() != pos) { // Need seek?
 				display->endWrite();
@@ -117,7 +117,7 @@ sd_err_code bmpDraw(const String& filename, uint16_t x, uint16_t y, uint16_t max
 				bufferIterator = PIXEL_BUFFER_SIZE; // Force buffer reload
 			}
 
-			for (uint16_t col = 0; col < w; col++) { // For each pixel...
+			for (u16 col = 0; col < w; col++) { // For each pixel...
 				// Time to read more pixel data?
 				if (bufferIterator >= PIXEL_BUFFER_SIZE) { // Indeed
 					bmpFile.read(buffer, PIXEL_BUFFER_SIZE);
@@ -126,10 +126,10 @@ sd_err_code bmpDraw(const String& filename, uint16_t x, uint16_t y, uint16_t max
 				}
 
 				// Convert pixel from BMP to TFT format, push to display
-				const uint8_t b = buffer[bufferIterator++];
-				const uint8_t g = buffer[bufferIterator++];
-				const uint8_t r = buffer[bufferIterator++];
-				const uint16_t color = RGB565(r, g, b);
+				const u8 b = buffer[bufferIterator++];
+				const u8 g = buffer[bufferIterator++];
+				const u8 r = buffer[bufferIterator++];
+				const u16 color = RGB565(r, g, b);
 				display->writeColorTx(color, 1);
 			} // end pixel
 		}	  // end scanline
@@ -142,26 +142,26 @@ sd_err_code bmpDraw(const String& filename, uint16_t x, uint16_t y, uint16_t max
 	return noSdError;
 }
 
-/// Reads two bytes from a file and returns them as a uint16_t
+/// Reads two bytes from a file and returns them as a u16
 /// Seeks the file forward two bytes as well
 /// \param f File to read from
 /// \return Next two bytes in the file
-uint16_t read16(File& f) {
-	uint16_t result = 0;
-	((uint8_t*) &result)[0] = f.read(); // LSB
-	((uint8_t*) &result)[1] = f.read(); // MSB
+u16 read16(File& f) {
+	u16 result = 0;
+	((u8*) &result)[0] = f.read(); // LSB
+	((u8*) &result)[1] = f.read(); // MSB
 	return result;
 }
 
-/// Reads four bytes from a file and returns them as a uint32_t
+/// Reads four bytes from a file and returns them as a u32
 /// Seeks the file forward four bytes as well
 /// \param f File to read from
 /// \return Next four bytes in the file
-uint32_t read32(File& f) {
-	uint32_t result = 0;
-	((uint8_t*) &result)[0] = f.read(); // LSB
-	((uint8_t*) &result)[1] = f.read();
-	((uint8_t*) &result)[2] = f.read();
-	((uint8_t*) &result)[3] = f.read(); // MSB
+u32 read32(File& f) {
+	u32 result = 0;
+	((u8*) &result)[0] = f.read(); // LSB
+	((u8*) &result)[1] = f.read();
+	((u8*) &result)[2] = f.read();
+	((u8*) &result)[3] = f.read(); // MSB
 	return result;
 }

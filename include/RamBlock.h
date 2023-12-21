@@ -7,6 +7,8 @@
 // retrieve data.
 
 #include <Arduino.h>
+#include "GameObject.h"
+#include "Palette.h"
 
 #define RAM_BYTE_LEN 32000
 

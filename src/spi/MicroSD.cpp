@@ -181,19 +181,19 @@ boolean MicroSD::isSDInserted() {
 	return true; // todo implement checking pin
 }
 
-sd_err_code MicroSD::initialize() {
+sd_err MicroSD::initialize() {
 	// Pull high to disable SD card
 	pinMode(SD_CS, OUTPUT);
 	digitalWrite(SD_CS, HIGH);
 
 	// attempt an SD transaction open/close
-	const sd_err_code err = begin();
+	const sd_err err = begin();
 	end();
 
 	return err;
 }
 
-sd_err_code MicroSD::begin() {
+sd_err MicroSD::begin() {
 	// check if card is physically inserted
 	if (!isSDInserted()) {
 		return errSdNotInserted;
@@ -222,4 +222,8 @@ sd_err_code MicroSD::begin() {
 void MicroSD::end() {
 	SD.end();
 	sdTransactionOpen = false;
+}
+
+boolean MicroSD::getSongInfo(uint8_t musicId, char* name) {
+	return true; // todo
 }

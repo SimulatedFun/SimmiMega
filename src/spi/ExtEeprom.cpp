@@ -1,5 +1,4 @@
 #include "spi/ExtEeprom.h"
-#include "globals/Glyphs.h"
 
 void ExtEeprom::initialize() {
 	pinMode(EEPROM_CS, OUTPUT);
@@ -78,7 +77,7 @@ void ExtEeprom::test() {
 }
 
 template<typename T>
-void ExtEeprom::write(T data, uint16_t address, uint16_t byteLength) {
+void ExtEeprom::write(T data, u16 address, u16 byteLength) {
 	if (address + byteLength >= EEPROM_BYTE_LEN) {
 		Serial.printf("trying to write past the max eeprom bounds: %d", address);
 	}
@@ -89,15 +88,24 @@ void ExtEeprom::write(T data, uint16_t address, uint16_t byteLength) {
 		Serial.printf("writing (eeprom) %d bytes at address %d", byteLength, address);
 	}
 
-	for (uint16_t i = 0; i < byteLength; i++) {
+	for (u16 i = 0; i < byteLength; i++) {
 		myEEP->put(address + i, buffer[i]);
 	}
 }
-template void ExtEeprom::write(uint8_t data, uint16_t, uint16_t);
-template void ExtEeprom::write(int32_t data, uint16_t, uint16_t);
+template void ExtEeprom::write(uint8_t data, u16, u16);
+template void ExtEeprom::write(uint16_t data, u16, u16);
+template void ExtEeprom::write(uint32_t data, u16, u16);
+template void ExtEeprom::write(uint64_t data, u16, u16);
+template void ExtEeprom::write(int16_t data, u16, u16);
+template void ExtEeprom::write(int32_t data, u16, u16);
+template void ExtEeprom::write(Object data, u16, u16);
+template void ExtEeprom::write(GameObject data, u16, u16);
+template void ExtEeprom::write(Coordinates data, u16, u16);
+template void ExtEeprom::write(Folder data, u16, u16);
+template void ExtEeprom::write(Color data, u16, u16);
 
 template<typename T>
-void ExtEeprom::read(T* data, uint16_t address, uint16_t byteLength) {
+void ExtEeprom::read(T* data, u16 address, u16 byteLength) {
 	if (address + byteLength >= EEPROM_BYTE_LEN) {
 		Serial.printf("trying to read past the max eeprom bounds: %d\n", address);
 	}
@@ -108,9 +116,18 @@ void ExtEeprom::read(T* data, uint16_t address, uint16_t byteLength) {
 		Serial.printf("reading (eeprom) %d bytes at address %d\n", byteLength, address);
 	}
 
-	for (uint16_t i = 0; i < byteLength; i++) {
+	for (u16 i = 0; i < byteLength; i++) {
 		myEEP->get(address + i, buffer[i]);
 	}
 }
-template void ExtEeprom::read(uint8_t* data, uint16_t, uint16_t);
-template void ExtEeprom::read(int32_t* data, uint16_t, uint16_t);
+template void ExtEeprom::read(uint8_t* data, u16, u16);
+template void ExtEeprom::read(uint16_t* data, u16, u16);
+template void ExtEeprom::read(uint32_t* data, u16, u16);
+template void ExtEeprom::read(uint64_t* data, u16, u16);
+template void ExtEeprom::read(int16_t* data, u16, u16);
+template void ExtEeprom::read(int32_t* data, u16, u16);
+template void ExtEeprom::read(Object* data, u16, u16);
+template void ExtEeprom::read(GameObject* data, u16, u16);
+template void ExtEeprom::read(Coordinates* data, u16, u16);
+template void ExtEeprom::read(Folder* data, u16, u16);
+template void ExtEeprom::read(Color* data, u16, u16);

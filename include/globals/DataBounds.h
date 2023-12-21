@@ -38,7 +38,7 @@ constexpr uint16_t FONT_MEMORY_START = COLOR_MEMORY_START + COLOR_TOTAL_STORAGE_
 /// Game Storage - objects, rooms, dialog, palettes (all written to a game save) ===================
 const uint16_t startAddress = 4000; // TODO temporary to allow for font to expand
 
-constexpr uint16_t objectCount = 64; // final number will be 950
+constexpr uint16_t objectCount = 84; // final number will be 950
 constexpr uint16_t objectIdSize = VALUES_1024;
 constexpr uint16_t objectStructSize = 26; // (frame 1/2, logic, logic ext) = 208b/8 = 26
 constexpr uint16_t objectTotalStorageSize = objectStructSize * objectCount;
@@ -80,5 +80,23 @@ constexpr uint16_t startingDialogAddress = startingCoordsAddress + startingCoord
 constexpr uint16_t startingDialogLength = dialogIdSize;
 
 constexpr uint16_t endAddress = startingDialogAddress + startingDialogLength;
+
+constexpr uint8_t musicCount = 36;
+
+// not stored, all in ram at runtime and reset every game
+constexpr uint8_t flagCount = 128;
+constexpr uint8_t flagIdSize = (VALUES_128); // 7b
+
+constexpr uint8_t _NO_FLAG = 0;
+constexpr uint8_t _NO_GAMEOBJECT = 0;
+constexpr uint8_t _NO_ROOM = 0;
+constexpr uint8_t _NO_PALETTE = 0;
+constexpr uint8_t _NO_DIALOG = 0;
+constexpr uint8_t _NO_MUSIC = 0;
+constexpr uint8_t _NO_GAME = 0;
+
+// how much eeprom to load into ram
+#define RAM_EEPROM_BYTE_COUNT (32000) // this is 256 kilobits
+
 
 #endif

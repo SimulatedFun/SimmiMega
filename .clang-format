@@ -67,4 +67,3 @@ TabWidth: 3
 UseTab: Always
 SortIncludes: Never
 Standard: c++11
-SeparateDefinitionBlocks: Always

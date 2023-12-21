@@ -20,6 +20,11 @@ GFXfont* currentFont;
 
 // Debugging variables
 boolean debugEeprom = false;
+boolean debugRam = false;
+boolean debugPathfinding = false;
+boolean profileTargetPathfinding = false;
+
+// TODO use ram block for playing game, use eeprom for saving data
 
 void setup() {
 	Serial.begin(115200);
@@ -50,12 +55,29 @@ void setup() {
 
 	//touch->calibrate();
 	touch->readEepromCalibration();
-
 	display->fillRectangle(0, 0, 320, 240, BLACK);
-	//display->fillRectangle(0, 0, 320, 240, GREEN);
+	syncEepromAndRam();
 
-//	bmpDraw("/sys/data.bmp", 1, 1, 312, 240);
-//	delay(1000);
+	// ############################# Set Palette 0 to a black/white gradient
+	Palette* pal = new Palette();
+	pal->id = 0;
+	pal->load(false);
+	pal->setColorByIndex(PALETTE_HIGHLIGHT, WHITE);
+	pal->setColorByIndex(PALETTE_FOREGROUND, DARK_GREY);
+	pal->setColorByIndex(PALETTE_BACKGROUND, BLACK);
+	pal->save();
+	delete pal;
+	// #############################
+
+	// ############################# Set start coordinates and start dialog
+	Coordinates start{0, 0, 0};
+	GameSettings::setStartingCoords(start);
+	GameSettings::getStartingCoords(&start);
+
+	uint8_t dialogId = 0;
+	GameSettings::setStartingDialog(dialogId);
+	GameSettings::getStartingDialog(&dialogId);
+	// #############################
 }
 
 void test() {
@@ -83,14 +105,37 @@ void loop() {
 
 	switch (state) {
 		case PlayState:
-			//stateChange ? play::setup() : play::loop();
+			stateChange ? Play::setup() : Play::loop();
 			break;
 		case MainMenuState:
 			stateChange ? MainMenu::setup() : MainMenu::loop();
+			break;
+		case SpriteEditorState:
+			stateChange ? SpriteEditor::setup() : SpriteEditor::loop();
 			break;
 		default:
 			state = MainMenuState;
 			oldState = OffState; // forces rerun of state change to main menu
 			break;
 	}
+}
+
+/// Loads entire game from external eeprom into ram
+void syncEepromAndRam() {
+	uint64_t buffer; // transfer buffer
+	uint64_t check = 0;
+	for (uint32_t i = 0; i < RAM_EEPROM_BYTE_COUNT / sizeof(buffer); i++) {
+		const uint16_t address = i * sizeof(buffer);
+		eeprom->read(&buffer, address, sizeof(buffer));
+		ram->write(buffer, address, sizeof(buffer));
+		ram->read(&check, address, sizeof(buffer));
+		if (buffer != check) {
+			ERROR(F("doesn't match: "));
+			print64Bit(buffer);
+			RAW(F(" -> "));
+			print64Bit(check);
+			RAW(endl);
+		}
+	}
+	GOOD(F("loaded eeprom into ram"));
 }

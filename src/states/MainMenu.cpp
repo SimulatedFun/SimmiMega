@@ -63,4 +63,4 @@ namespace MainMenu {
 		LEAK(F("menu dealloc end"));
 	}
 
-} // namespace main_menu
+} // namespace MainMenu
