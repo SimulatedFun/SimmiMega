@@ -16,6 +16,7 @@
 #include "states/MainMenu.h"
 #include "states/SpriteEditor.h"
 #include "states/Play.h"
+#include "states/LogicEditor.h"
 
 void test();
 void syncEepromAndRam();

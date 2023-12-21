@@ -53,7 +53,7 @@ void setup() {
 		Serial.printf("Init complete\n");
 	}
 
-	//touch->calibrate();
+	// touch->calibrate();
 	touch->readEepromCalibration();
 	display->fillRectangle(0, 0, 320, 240, BLACK);
 	syncEepromAndRam();
@@ -77,6 +77,19 @@ void setup() {
 	uint8_t dialogId = 0;
 	GameSettings::setStartingDialog(dialogId);
 	GameSettings::getStartingDialog(&dialogId);
+	// #############################
+
+	// #############################
+	// Reset all 130 positions in the room to game object 0
+	for (uint8_t x = 0; x < 13; x++) {
+		for (uint8_t y = 0; y < 10; y++) {
+			const Coordinates c = Coordinates(x, y, 0);
+			RoomHelper::setGameObjectId(0, c);
+		}
+	}
+
+	RoomHelper::setPlayerGameObjectId(0, 0);
+	GameSettings::setStartingCoords(Coordinates(4, 4, 0));
 	// #############################
 }
 
@@ -112,6 +125,9 @@ void loop() {
 			break;
 		case SpriteEditorState:
 			stateChange ? SpriteEditor::setup() : SpriteEditor::loop();
+			break;
+		case LogicEditorState:
+			stateChange ? LogicEditor::setup() : LogicEditor::loop();
 			break;
 		default:
 			state = MainMenuState;

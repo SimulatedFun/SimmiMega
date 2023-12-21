@@ -227,3 +227,21 @@ void MicroSD::end() {
 boolean MicroSD::getSongInfo(uint8_t musicId, char* name) {
 	return true; // todo
 }
+
+boolean MicroSD::getRoomThumbnailData(char* buffer, uint8_t roomId) {
+	// todo project specific
+	begin();
+	{
+		File file = SD.open("rmthumbs.dat", FILE_READ);
+		if (!file) {
+			ERROR(F("unable to open room thumbnails data file"));
+			return false;
+		}
+
+		file.seek(roomId * roomStructSize);
+		file.readBytes(buffer, roomStructSize);
+		file.close();
+	}
+	end();
+	return true;
+}

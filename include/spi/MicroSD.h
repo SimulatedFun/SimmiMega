@@ -55,6 +55,7 @@ class MicroSD {
 		void write64Bit(File* file, uint64_t number);
 
 		boolean getSongInfo(uint8_t musicId, char* name);
+		boolean getRoomThumbnailData(char* buffer, uint8_t roomId);
 };
 extern MicroSD* microSd;
 
