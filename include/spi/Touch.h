@@ -54,7 +54,8 @@ class Touch {
 
 		void initialize();
 		tsPoint_t getRawTouch();
-		tsPoint_t getTouch();
+		void drawMatrix();
+		tsPoint_t getTouch(uint8_t, uint8_t);
 
 		uint16_t touchX() {
 			return lastX;

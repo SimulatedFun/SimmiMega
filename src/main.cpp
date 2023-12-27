@@ -5,6 +5,8 @@
 //  |_____|_|_|_|_|_|_|_|_|_|_|_|___|_  |__,|
 //                                  |___|
 
+// todo all editors should not exit to main menu - should go back to choose window
+
 // Global variables initialized from "states/states.h"
 State state = MainMenuState; // Starting state upon initialization
 State oldState = OffState;	  // Old state - what it was before
@@ -30,33 +32,42 @@ void setup() {
 	Serial.begin(115200);
 	Serial.printf("Hello!\n");
 
-	// Initialize SPI components
+	bus = new SPIClass(HSPI);
+	bus->begin(SHARED_CLK, SHARED_MISO, SHARED_MOSI, -1);
+
+	display = new Display(bus);
+	display->initialize();
+
+	display->startWrite();
 	{
-		bus = new SPIClass(HSPI);
-		bus->begin(SHARED_CLK, SHARED_MISO, SHARED_MOSI, -1);
-
-		eeprom = new ExtEeprom(bus);
-		eeprom->initialize();
-
-		ram = new RamBlock();
-		ram->initialize();
-
-		touch = new Touch(bus);
-		touch->initialize();
-
-		display = new Display(bus);
-		display->initialize();
-
-		microSd = new MicroSD(bus);
-		microSd->initialize();
-
-		Serial.printf("Init complete\n");
+		display->fillRectangleTx(312, 0, 8, 240, BLACK);
+		display->fillRectangleTx(0, 0, 312, 240, RGB565(0x574b67));
+		display->fillRectangleTx(40, 40, 232, 160, RGB565(0x6c5b83));
 	}
+	display->endWrite();
+	drawRGBBitmap(58, 91, intro, 197, 43, 0xf81f);
+	DrawingUtils::simplePrint(87, 150, "Micro Game-Making Machine", WHITE, 1);
+	DrawingUtils::simplePrint(93, 225, "Made by Adam Kehl 2023", RGB565(0x909090), 1);
 
-	// touch->calibrate();
-	touch->readEepromCalibration();
-	display->fillRectangle(0, 0, 320, 240, BLACK);
+	eeprom = new ExtEeprom(bus);
+	eeprom->initialize();
+
+	ram = new RamBlock();
+	ram->initialize();
+
+	touch = new Touch(bus);
+	touch->initialize();
+
+	Serial.printf("Init complete\n");
+
+	//touch->calibrate();
+	//touch->readEepromCalibration();
+	touch->loadHardcodedCalibration();
+	//touch->drawMatrix();
 	syncEepromAndRam();
+
+	microSd = new MicroSD(bus);
+	microSd->initialize();
 
 	// ############################# Set Palette 0 to a black/white gradient
 	Palette* pal = new Palette();
@@ -70,46 +81,55 @@ void setup() {
 	// #############################
 
 	// ############################# Set start coordinates and start dialog
-	Coordinates start{0, 0, 0};
-	GameSettings::setStartingCoords(start);
-	GameSettings::getStartingCoords(&start);
-
-	uint8_t dialogId = 0;
-	GameSettings::setStartingDialog(dialogId);
-	GameSettings::getStartingDialog(&dialogId);
+	//	Coordinates start{0, 0, 0};
+	//	GameSettings::setStartingCoords(start);
+	//	GameSettings::getStartingCoords(&start);
+	//
+	//	uint8_t dialogId = 0;
+	//	GameSettings::setStartingDialog(dialogId);
+	//	GameSettings::getStartingDialog(&dialogId);
 	// #############################
 
 	// #############################
 	// Reset all 130 positions in the room to game object 0
-	for (uint8_t x = 0; x < 13; x++) {
-		for (uint8_t y = 0; y < 10; y++) {
-			const Coordinates c = Coordinates(x, y, 0);
-			RoomHelper::setGameObjectId(0, c);
-		}
-	}
-
-	RoomHelper::setPlayerGameObjectId(0, 0);
-	GameSettings::setStartingCoords(Coordinates(4, 4, 0));
+	//	for (uint8_t x = 0; x < 13; x++) {
+	//		for (uint8_t y = 0; y < 10; y++) {
+	//			const Coordinates c = Coordinates(x, y, 0);
+	//			RoomHelper::setGameObjectId(0, c);
+	//		}
+	//	}
+	//
+	//	RoomHelper::setPlayerGameObjectId(0, 0);
+	//	GameSettings::setStartingCoords(Coordinates(4, 4, 0));
 	// #############################
+
+	microSd->begin();
+	const uint8_t count = FileManager::countGameSavesTx();
+	Serial.printf("count: %d\n", count);
+	microSd->end();
 }
 
-void test() {
-	microSd->test();
-
-	eeprom->test();
-
-	Glyphs::debugFont();
-
-	{
-		DrawingUtils::testRefreshRate();
-		DrawingUtils::fillCheckerboard(RED, WHITE);
-		DrawingUtils::dither(DARK_GREY, false);
-		DrawingUtils::fill(BLACK);
-	} // Test screen refresh rate
-}
+// void test() {
+//	microSd->test();
+//
+//	eeprom->test();
+//
+//	Glyphs::debugFont();
+//
+//	{
+//		DrawingUtils::testRefreshRate();
+//		DrawingUtils::fillCheckerboard(RED, WHITE);
+//		DrawingUtils::dither(DARK_GREY, false);
+//		DrawingUtils::fill(BLACK);
+//	} // Test screen refresh rate
+// }
 
 void loop() {
-	touch->poll();
+	if (state != PlayState) {
+		touch->poll();
+	}
+
+	Commands::check();
 
 	// If the state changes, it runs the setup function, else it loops inside each namespace
 	static boolean stateChange;
@@ -126,9 +146,27 @@ void loop() {
 		case SpriteEditorState:
 			stateChange ? SpriteEditor::setup() : SpriteEditor::loop();
 			break;
+		case RoomEditorState:
+			stateChange ? RoomEditor::setup() : RoomEditor::loop();
+			break;
 		case LogicEditorState:
 			stateChange ? LogicEditor::setup() : LogicEditor::loop();
 			break;
+		case DialogEditorState:
+			stateChange ? DialogEditor::setup() : DialogEditor::loop();
+			break;
+		case PaletteEditorState:
+			stateChange ? PaletteEditor::setup() : PaletteEditor::loop();
+			break;
+		case SettingsEditorState:
+			stateChange ? SettingsMenu::setup() : SettingsMenu::loop();
+			break;
+		case DataManagementState:
+			stateChange ? DataMenu::setup() : DataMenu::loop();
+			break;
+			//		case SavedGamesState:
+			//			stateChange ? SavedGames::setup() : SavedGames::loop();
+			//			break;
 		default:
 			state = MainMenuState;
 			oldState = OffState; // forces rerun of state change to main menu

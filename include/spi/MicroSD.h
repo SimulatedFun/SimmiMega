@@ -4,8 +4,8 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include "globals/Pinout.h"
-#include "globals/SerialDebugging.h"
-#include "GameData.h"
+#include "globals/DataBounds.h"
+#include "globals/Typedefs.h"
 
 #include "FS.h"
 #include "SD.h"
@@ -32,30 +32,13 @@ constexpr sd_err errFailNotExists = 13;
 class MicroSD {
 	private:
 		SPIClass* _spi;
-		boolean sdTransactionOpen = false;
 	public:
+		boolean sdTransactionOpen = false;
 		explicit MicroSD(SPIClass* spi) : _spi(spi) {}
 		boolean isSDInserted(); // checks insertion pin for card physically present
 		sd_err initialize(); // sets up spi, freq, etc. Call once.
 		sd_err begin(); // opens sd transaction
 		void end(); // closes sd transaction
-
-		void test();
-
-		// Directory related functions
-		bool printAllInDirectory(File dir, uint8_t numTabs);
-		bool setWorkingDirectoryToRoot();
-		bool setWorkingDirectory(char* directoryName);
-
-		// File related functions
-		sd_err removeFile(char* filename);
-		bool readLineFromFile(File file, uint16_t lineNumber, char* buffer, uint16_t bufferSize);
-		bool fileExists(char* fileName);
-		//bool closeSdFile(File* file); // just do file->close();
-		void write64Bit(File* file, uint64_t number);
-
-		boolean getSongInfo(uint8_t musicId, char* name);
-		boolean getRoomThumbnailData(char* buffer, uint8_t roomId);
 };
 extern MicroSD* microSd;
 

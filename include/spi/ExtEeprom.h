@@ -19,6 +19,7 @@ class ExtEeprom {
 			myEEP = new EEPROM_SPI_WE(spi, EEPROM_CS);
 		}
 		void initialize();
+		void clear();
 		void test();
 
 		template <typename T>

@@ -10,14 +10,6 @@
 #include "globals/SerialDebugging.h"
 #include "globals/DataBounds.h"
 
-constexpr u8 logicDataStructSize = 11;
-
-struct Object {
-		uint64_t frame1;
-		uint64_t frame2;
-		u8 logic[logicDataStructSize];
-};
-
 class GameObject {
 	public:
 		Object data;

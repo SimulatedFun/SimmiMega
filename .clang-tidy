@@ -13,6 +13,7 @@ Checks: >
   -google-readability-namespace-comments,
   -google-runtime-int,
   -google-runtime-references,
+  -misc-include-cleaner,
   -misc-non-private-member-variables-in-classes,
   -misc-unused-parameters,
   -modernize-avoid-c-arrays,

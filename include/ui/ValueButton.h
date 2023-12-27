@@ -1,6 +1,8 @@
 #ifndef ValueButton_h
 #define ValueButton_h
 
+#include <cmath>
+
 #include "ui/UIElement.h"
 #include "globals/Bitwise.h"
 #include "globals/DataBounds.h"
@@ -9,6 +11,7 @@
 #include "DisplayExtra.h"
 #include "Dialog.h"
 #include "spi/MicroSD.h"
+#include "FileManager.h"
 
 /// ValueButton is any button in which content is previewed/displayed inside it
 /// Examples include:
@@ -16,7 +19,7 @@
 /// 2. player object in the room editor
 /// 3. music file selected to play in the room
 
-enum Frame { Frame1, Frame2 };
+enum Frame: boolean { Frame1, Frame2 };
 
 class SpriteFrameSelector : public UIElement {
 	private:
@@ -248,16 +251,14 @@ class MusicSelector : public UIElement {
 		}
 
 		void renderTrackName() {
-			Text* text;
-			char trackName[13] = {0};
-			for (char& c : trackName) {
-				c = '\0';
-			}
+			String trackName;
 
 			microSd->begin();
-			microSd->getSongInfo(trackId, trackName);
+			FileManager::getSongInfoTx(trackId, &trackName);
 			microSd->end();
-			text = new Text(trackName, 13);
+
+			Text* text;
+			text = new Text(trackName);
 			text->setStyle(1, WHITE);
 
 			if (text->length < 5) {
@@ -436,11 +437,6 @@ class ColorWheel : public UIElement {
 		/// \param y
 		/// \return rgb565 color of the circle at xy, considering darkness value
 		uint16_t getCircleColor(int x, int y);
-
-		/// Calculates the hue of an xy coordinate on the color picker circle
-		/// Uses pre-computed angle values stored in ext eeprom and extrapolates those values
-		/// for the whole circle
-		uint8_t retrieveHue(int x, int y);
 
 		/// Integer square root algorithm - included in production
 		/// \param number calculates sqrt of number

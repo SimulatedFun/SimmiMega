@@ -9,10 +9,13 @@
 
 def u8 PIXEL_BUFFER_SIZE = 60;
 
-void drawRGBBitmap(u16 x, u16 y, const u16 *bitmap, u16 w, u16 h) {
+void drawRGBBitmap(u16 x, u16 y, const u16 *bitmap, u16 w, u16 h, uint16_t transparentColor) {
 	display->startWrite();
 	for (i16 j = 0; j < h; j++, y++) {
 		for (i16 i = 0; i < w; i++) {
+			if (bitmap[j * w + i] == transparentColor) {
+				continue;
+			}
 			display->drawPixelTx(x + i, y, bitmap[j * w + i]);
 		}
 	}

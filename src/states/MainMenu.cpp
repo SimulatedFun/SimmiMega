@@ -4,7 +4,7 @@ namespace MainMenu {
 	MenuItem* buttons[8];
 
 	void setup() {
-		INFO(F("enter menu"));
+		INFO("enter menu");
 		buttons[0] = new MenuItem(PlayBtn, 7, 5);
 		buttons[1] = new MenuItem(SpriteBtn, 110, 5);
 		buttons[2] = new MenuItem(LogicBtn, 212, 5);
@@ -51,16 +51,17 @@ namespace MainMenu {
 
 	void draw() {
 		DrawingUtils::fill(TAN);
+		drawRGBBitmap(215, 167, bottomRight, 91, 68, 0x0000);
 		UIHelper::render();
 	}
 
 	void deallocate() {
-		LEAK(F("menu dealloc start"));
+		LEAK("menu dealloc start");
 		UIHelper::clearActive();
 		for (MenuItem* btn : buttons) {
 			delete btn;
 		}
-		LEAK(F("menu dealloc end"));
+		LEAK("menu dealloc end");
 	}
 
 } // namespace MainMenu

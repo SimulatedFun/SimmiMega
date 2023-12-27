@@ -8,6 +8,7 @@
 #include "globals/DataBounds.h"
 #include "Palette.h"
 #include "RoomHelper.h"
+#include "FileManager.h"
 
 class RoomSelectionGrid : public UIElement {
 	public:

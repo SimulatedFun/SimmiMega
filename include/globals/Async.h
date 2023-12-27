@@ -9,7 +9,7 @@
 boolean checkTimer(uint16_t ms, uint8_t id, boolean autoReset = false);
 void resetTimer(uint8_t id);
 
-enum AsyncId {
+enum AsyncId: uint8_t {
 	// Waiting between touchscreen presses (debounce)
 	BetweenTouches,
 

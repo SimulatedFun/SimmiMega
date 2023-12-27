@@ -121,7 +121,7 @@ constexpr uint8_t bootCommandLength = sizeof(tftBootCommands);
 // clang-format on
 // endregion
 
-#define SPI_TFT_FREQUENCY 40000000
+#define SPI_TFT_FREQUENCY 120000000
 constexpr uint16_t ScreenWidth = 320;
 constexpr uint16_t ScreenHeight = 240;
 

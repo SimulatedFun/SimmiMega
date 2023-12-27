@@ -26,9 +26,20 @@ using frame = boolean;
 constexpr frame first_frame = false;
 constexpr frame second_frame = true;
 
+constexpr boolean pencilTool = true;
+constexpr boolean eraserTool = false;
+
 struct ScreenPosition {
 		uint8_t x : 4;
 		uint8_t y : 4;
+};
+
+constexpr u8 logicDataStructSize = 11;
+
+struct Object {
+		uint64_t frame1;
+		uint64_t frame2;
+		u8 logic[logicDataStructSize];
 };
 
 #endif

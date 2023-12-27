@@ -2,12 +2,15 @@
 #define MenuItem_h
 
 #include <Arduino.h>
+#include "globals/Typedefs.h"
 #include "DrawingUtils.h"
 #include "UIElement.h"
+#include "Callback.h"
 #include "spi/MicroSD.h"
 #include "DrawBMP.h"
+#include "Bitmaps/MenuIcons.h"
 
-enum MenuShortcut {
+enum MenuShortcut : uint8_t {
 	PlayBtn,
 	SpriteBtn,
 	LogicBtn,
@@ -17,6 +20,7 @@ enum MenuShortcut {
 	DataBtn,
 	SettingsBtn
 };
+
 class MenuItem : public UIElement {
 	public:
 		explicit MenuItem(MenuShortcut type, uint16_t inX, uint16_t inY) : shortcut(type) {

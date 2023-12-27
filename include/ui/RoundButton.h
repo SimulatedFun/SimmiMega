@@ -7,7 +7,7 @@
 #include "Glyphs.h"
 
 // Base class for all rounded purple buttons
-enum RoundButtonType {
+enum RoundButtonType: uint8_t {
 	ExitButton,
 	PencilButton,
 	EraserButton,

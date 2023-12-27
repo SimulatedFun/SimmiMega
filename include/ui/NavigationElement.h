@@ -29,7 +29,7 @@ class NumberTabElement : public TabElement {
 		Callback<uint8_t> callback;
 };
 
-enum LogicTab {VisualTab, CollisionTab, AdvancedTab, ProjectSettingsTab, SystemSettingsTab};
+enum LogicTab: uint8_t {VisualTab, CollisionTab, AdvancedTab, ProjectSettingsTab, SystemSettingsTab};
 class WordTabElement : public TabElement {
 	private:
 		LogicTab type;
@@ -49,7 +49,7 @@ class WordTabElement : public TabElement {
 };
 
 /// The two navigation buttons (left and right) at the bottom of the tray nav component
-enum NavDirection { RightNav, LeftNav };
+enum NavDirection: uint8_t { RightNav, LeftNav };
 class NavigationElement : public UIElement {
 	private:
 		NavDirection direction = RightNav;

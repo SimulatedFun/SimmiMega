@@ -729,6 +729,9 @@ namespace LogicEditor {
 		deallocateCollisionTabUI();
 
 		const uint8_t roomId = ChooseRoom::pick();
+		if (roomId == _NO_ROOM) {
+			return;
+		}
 		gameObject->set_touchTeleportsToRoomId(roomId);
 		gameObject->save();
 

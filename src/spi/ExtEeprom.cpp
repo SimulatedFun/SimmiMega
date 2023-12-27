@@ -14,6 +14,10 @@ void ExtEeprom::initialize() {
 	myEEP->setPageSize(EEPROM_PAGE_SIZE_64);
 }
 
+void ExtEeprom::clear() {
+	myEEP->eraseCompleteEEPROM();
+}
+
 void ExtEeprom::test() {
 	/* You can change the SPI clock speed. The default of is 8 MHz */
 	// myEEP->setSPIClockSpeed(4000000); // use AFTER init()!
@@ -79,13 +83,13 @@ void ExtEeprom::test() {
 template<typename T>
 void ExtEeprom::write(T data, u16 address, u16 byteLength) {
 	if (address + byteLength >= EEPROM_BYTE_LEN) {
-		Serial.printf("trying to write past the max eeprom bounds: %d", address);
+		Serial.printf("trying to write past the max eeprom bounds: %d\n", address);
 	}
 
 	uint8_t* buffer = reinterpret_cast<uint8_t*>(&data);
 
 	if (debugEeprom) {
-		Serial.printf("writing (eeprom) %d bytes at address %d", byteLength, address);
+		Serial.printf("writing (eeprom) %d bytes at address %d\n", byteLength, address);
 	}
 
 	for (u16 i = 0; i < byteLength; i++) {
@@ -96,6 +100,7 @@ template void ExtEeprom::write(uint8_t data, u16, u16);
 template void ExtEeprom::write(uint16_t data, u16, u16);
 template void ExtEeprom::write(uint32_t data, u16, u16);
 template void ExtEeprom::write(uint64_t data, u16, u16);
+template void ExtEeprom::write(uint64_t data[4], u16, u16);
 template void ExtEeprom::write(int16_t data, u16, u16);
 template void ExtEeprom::write(int32_t data, u16, u16);
 template void ExtEeprom::write(Object data, u16, u16);
@@ -103,6 +108,8 @@ template void ExtEeprom::write(GameObject data, u16, u16);
 template void ExtEeprom::write(Coordinates data, u16, u16);
 template void ExtEeprom::write(Folder data, u16, u16);
 template void ExtEeprom::write(Color data, u16, u16);
+template void ExtEeprom::write(Description data, u16, u16);
+template void ExtEeprom::write(Title data, u16, u16);
 
 template<typename T>
 void ExtEeprom::read(T* data, u16 address, u16 byteLength) {
@@ -124,6 +131,7 @@ template void ExtEeprom::read(uint8_t* data, u16, u16);
 template void ExtEeprom::read(uint16_t* data, u16, u16);
 template void ExtEeprom::read(uint32_t* data, u16, u16);
 template void ExtEeprom::read(uint64_t* data, u16, u16);
+template void ExtEeprom::read(uint64_t* data[4], u16, u16);
 template void ExtEeprom::read(int16_t* data, u16, u16);
 template void ExtEeprom::read(int32_t* data, u16, u16);
 template void ExtEeprom::read(Object* data, u16, u16);
@@ -131,3 +139,5 @@ template void ExtEeprom::read(GameObject* data, u16, u16);
 template void ExtEeprom::read(Coordinates* data, u16, u16);
 template void ExtEeprom::read(Folder* data, u16, u16);
 template void ExtEeprom::read(Color* data, u16, u16);
+template void ExtEeprom::read(Description* data, u16, u16);
+template void ExtEeprom::read(Title* data, u16, u16);

@@ -79,13 +79,49 @@ void PaletteDepthSelector::renderColor() {
 	display->endWrite();
 }
 
+const float PI_FLOAT = 3.14159265F;
+const float PIBY2_FLOAT = 1.5707963F;
+/// Arc-tangent approximation function found online, slightly larger compile size than the built
+/// in one ONLY used when calling storeAngles. Not compiled in production \param y y-coordinate
+/// between 0 and 1 \param x x-coordinate between 0 and 1 \return returns angle
+float atan2_approximation2(float y, float x) {
+	if (x == 0.0F) {
+		if (y > 0.0F) {
+			return PIBY2_FLOAT;
+		}
+		if (y == 0.0F) {
+			return 0.0F;
+		}
+		return -PIBY2_FLOAT;
+	}
+	float atan = NAN;
+	const float z = y / x;
+	if ((float) fabs(z) < 1.0F) {
+		atan = z / (1.0F + 0.28F * z * z);
+		if (x < 0.0F) {
+			if (y < 0.0F) {
+				return atan - PI_FLOAT;
+			}
+			return atan + PI_FLOAT;
+		}
+	} else {
+		atan = PIBY2_FLOAT - z / (z * z + 0.28F);
+		if (y < 0.0F) {
+			return atan - PI_FLOAT;
+		}
+	}
+	return atan;
+}
+
 // region ColorWheel Functions
 uint16_t ColorWheel::getCircleColor(int x, int y) {
 	const uint8_t distance = int_sqrt(x * x + y * y); // gets distance from (0, 0)
 	if (distance > colorWheelRadius) {
 		return BLACK; // color outside the radius as black
 	}
-	const uint8_t hue = retrieveHue(x, y);
+
+	const double phi = atan2_approximation2(y, x);
+	const double hue = ((phi + PI) / (2 * PI)) * 255;
 	const uint8_t saturation = distance * ((255 * colorWheelTileSize) / ScreenHeight) * 2;
 
 	uint8_t rgb[3];
@@ -94,50 +130,6 @@ uint16_t ColorWheel::getCircleColor(int x, int y) {
 		i = (i * darknessValue) / 255;
 	}
 	return (uint16_t) (((rgb[0] & 0b11111000) << 8) | ((rgb[1] & 0b11111100) << 3) | (rgb[2] >> 3));
-}
-
-uint8_t ColorWheel::retrieveHue(int x, int y) {
-	if (x == 0 and y == 0) {
-		return 0;
-	}
-	uint8_t orientation = 0;
-	boolean reverse = false;
-	int new_x = 0;
-	int new_y = 0;
-
-	if (x > 0) {
-		new_x = x;
-		if (y > 0) {
-			new_y = y;
-			orientation = 4;
-		} else {
-			new_y = -y;
-			orientation = 1;
-			reverse = true;
-		}
-	} else {
-		new_x = -x;
-		if (y > 0) {
-			new_y = y;
-			orientation = 3;
-			reverse = true;
-		} else {
-			new_y = -y;
-			orientation = 2;
-		}
-	}
-
-	int address = 0;
-	if (reverse) {
-		address = new_y * 12 + new_x;
-	} else {
-		address = new_x * 12 + new_y;
-	}
-
-	uint16_t hue = 0;
-	ram->read(&hue, COLOR_MEMORY_START + address, 1);
-	hue -= 64 * orientation;
-	return hue;
 }
 
 uint8_t ColorWheel::int_sqrt(uint8_t number) {

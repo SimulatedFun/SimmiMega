@@ -67,7 +67,7 @@ struct KeyPosition {
 		uint8_t secondaryValue;
 		KeyType secondaryType;
 };
-enum KeyboardMode { NormalKeyboard, DirectoryMode, SymbolKeyboard };
+enum KeyboardMode: uint8_t { NormalKeyboard, DirectoryMode, SymbolKeyboard };
 class Keyboard : public UIElement {
 	public:
 		KeyboardKey *backspace, *enter, *caps, *shift, *symbols, *space;

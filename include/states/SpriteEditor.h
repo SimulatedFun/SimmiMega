@@ -16,9 +16,6 @@
 #include "ui/ValueButton.h"
 #include "ui/TrayElement.h"
 
-constexpr boolean pencilTool = true;
-constexpr boolean eraserTool = false;
-
 namespace SpriteEditor {
 	void setup();
 	void loop();

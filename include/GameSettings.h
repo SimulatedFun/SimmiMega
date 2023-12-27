@@ -5,10 +5,10 @@
 #include "globals/Typedefs.h"
 #include "globals/DataBounds.h"
 #include "Coordinates.h"
-#include "GameData.h"
 #include "spi/ExtEeprom.h"
 #include "RamBlock.h"
 #include "GameData.h"
+#include "FileManager.h"
 
 namespace GameSettings {
 	void getTitle(Title*);				  // glyph ids

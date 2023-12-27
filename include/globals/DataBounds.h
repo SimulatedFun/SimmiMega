@@ -2,6 +2,7 @@
 #define DataBounds_h
 
 #include <Arduino.h>
+#include "globals/Typedefs.h"
 
 // region Value range to bits
 constexpr uint8_t VALUES_65536 = 16;
@@ -40,7 +41,7 @@ const uint16_t startAddress = 4000; // TODO temporary to allow for font to expan
 
 constexpr uint16_t objectCount = 84; // final number will be 950
 constexpr uint16_t objectIdSize = VALUES_1024;
-constexpr uint16_t objectStructSize = 26; // (frame 1/2, logic, logic ext) = 208b/8 = 26
+constexpr uint16_t objectStructSize = sizeof(Object);
 constexpr uint16_t objectTotalStorageSize = objectStructSize * objectCount;
 constexpr uint16_t objectMemoryStart = startAddress;
 
@@ -55,7 +56,7 @@ const uint16_t roomPaletteAddr = 163;
 const uint16_t roomMusicAddr = 163 + 1;
 const uint16_t roomPlayerAddr = 163 + 1 + 1;
 
-constexpr uint16_t dialogCount = 16; // final value will be 128
+constexpr uint16_t dialogCount = 12; // final value will be 128
 constexpr uint16_t dialogIdSize = VALUES_128; // 7b
 constexpr uint16_t dialogMaxLength = 200;		 // arbitrary
 constexpr uint16_t dialogStructSize = dialogMaxLength;
@@ -89,7 +90,7 @@ constexpr uint8_t flagIdSize = (VALUES_128); // 7b
 
 constexpr uint8_t _NO_FLAG = 0;
 constexpr uint8_t _NO_GAMEOBJECT = 0;
-constexpr uint8_t _NO_ROOM = 0;
+constexpr uint8_t _NO_ROOM = 36;
 constexpr uint8_t _NO_PALETTE = 0;
 constexpr uint8_t _NO_DIALOG = 0;
 constexpr uint8_t _NO_MUSIC = 0;

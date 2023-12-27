@@ -1,7 +1,9 @@
-#ifndef states_h
-#define states_h
+#ifndef States_h
+#define States_h
 
-enum State {
+#include <Arduino.h>
+
+enum State: uint8_t {
 	OffState,				// go from this state to another to refresh
 	PlayState,				// initializes engine and plays the game
 	MainMenuState,			// shows main menu and navigation ui

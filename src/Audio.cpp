@@ -3,7 +3,9 @@
 void Audio::initialize() {
 }
 
-void Audio::playFile(char* filename) {
+void Audio::playFile(String filename) {
+	microSd->begin();
+	microSd->end();
 }
 
 void Audio::stop() {

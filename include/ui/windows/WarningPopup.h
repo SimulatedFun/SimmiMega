@@ -8,7 +8,7 @@
 #include "ui/UIHelper.h"
 #include "ui/RoundButton.h"
 
-enum WarningType {ExitPlayWarning, NewProjectWarning, SaveOverwriteWarning};
+enum WarningType : uint8_t { ExitPlayWarning, NewProjectWarning, SaveOverwriteWarning };
 namespace WarningBox {
 	void setup();
 	void setupUI();
@@ -20,6 +20,6 @@ namespace WarningBox {
 
 	void callbackMakeChoice(boolean inChoice);
 	void callbackExit(RoundButton&);
-}
+} // namespace WarningBox
 
 #endif

@@ -1,4 +1,5 @@
 #include "states/Play.h"
+#include "FileManager.h"
 
 // Terminology:
 // "Gameobject" - a data structure that represents a single object sitting in a room or rooms. A
@@ -616,31 +617,27 @@ namespace Play {
 	}
 
 	void playRoomMusic(uint8_t roomId) {
-		//return; // todo fuck you
-		// retrieve song from room and play it
 		uint8_t musicId = 0;
 		RoomHelper::getMusicId(&musicId, roomId);
 		INFO(F("music id: ") << musicId);
 
-		char filename[13];
+		String filename;
+
 		microSd->begin();
-		if (!microSd->getSongInfo(musicId, filename)) {
+		if (FileManager::getSongInfoTx(musicId, &filename)) {
 			ERROR(F("unable to get song info"));
 		} else {
 			INFO(F("playing song: ") << filename);
 		}
 		microSd->end();
 
-		Folder folder;
-		GameSettings::getDirectory(&folder);
+		INFO(F("playing song: ") << filename);
 
-		char filePath[40];
-		strcat(filePath, folder.text);
-		strcat(filePath, filename);
+		Folder gameFolder;
+		GameSettings::getDirectory(&gameFolder);
 
-		INFO(F("file path: ") << filePath);
-		microSd->begin();
-		Audio::playFile(filePath);
+		INFO(F("file path: ") << filename);
+		Audio::playFile(String(gameFolder.text) + "/" + filename);
 	}
 
 	/// Draws a whole room and begins playing said room's music
@@ -1125,9 +1122,10 @@ namespace Play {
 	}
 
 	void loopCheckForTouch() {
+		return;
 		static uint8_t loopCounter = 0;
 		if (loopCounter++ == 15) {
-			touch->poll();
+			//touch->poll();
 			if (touch->isPressed()) {
 				DEBUG(F("menu from loop"));
 				if (exitingPlayMode()) {
@@ -1158,22 +1156,23 @@ namespace Play {
 	void loopAnimateTiles() {
 		static unsigned long drawStart = 0;
 		static unsigned long waitTime = 0;
-		if (checkTimer(waitTime, AsyncPlayModeAnimation, false)) {
-			drawRoomTileAsync(playerCoords.roomId, false);
-			if (drawCoords.x == 0 and drawCoords.y == 0) {
-				drawStart = millis();
-			} else if (drawCoords.x == 12 and drawCoords.y == 9) {
-				if ((millis() - drawStart) >= 500) { // took longer than 500ms
-					waitTime = 0;
-					display->fillRectangle(312, 0, 8, 8, RED);
-					// INFO(F("frame lagging"));
-				} else { // took less than 500ms
-					display->fillRectangle(312, 0, 8, 8, GREEN);
-					waitTime = 500 - (millis() - drawStart);
-					resetTimer(AsyncPlayModeAnimation);
-				}
+
+		if (drawCoords.x == 0 and drawCoords.y == 0) {
+			if (!checkTimer(waitTime, AsyncPlayModeAnimation, true)) {
+				return; // not ready for animation
 			}
+			if ((millis() - drawStart) >= 500) { // took longer than 500ms
+				waitTime = 0;
+				display->fillRectangle(312, 0, 8, 8, RED);
+				// INFO(F("frame lagging"));
+			} else { // took less than 500ms
+				display->fillRectangle(312, 0, 8, 8, GREEN);
+				waitTime = 500 - (millis() - drawStart);
+			}
+			drawStart = millis();
 		}
+
+		drawRoomTileAsync(playerCoords.roomId, false);
 	}
 
 	unsigned long timings[8];
@@ -1459,7 +1458,7 @@ namespace Play {
 				if (loopCounter++ == 15) {
 					loopCounter = 0;
 
-					touch->poll();
+					//touch->poll();
 					if (!checkTimer(250, BetweenTouches) or !touch->isPressed()) {
 						continue;
 					}
@@ -1583,4 +1582,4 @@ namespace Play {
 		Serial << "=====================================" << endl;
 #endif
 	}
-} // namespace play
+} // namespace Play

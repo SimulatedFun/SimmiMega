@@ -15,6 +15,7 @@
 class RamBlock {
 	public:
 		void initialize();
+		void clear();
 
 		template <typename T>
 		void write(T data, uint16_t address, uint16_t size);

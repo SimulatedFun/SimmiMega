@@ -16,26 +16,54 @@ void Touch::endRead() {
 	_spi->endTransaction();
 }
 
-constexpr uint8_t MaxPointDist = 4;
-tsPoint_t Touch::getTouch() {
-	// Scan two touch points
-	const tsPoint_t pt1 = getRawTouch();
-	const tsPoint_t pt2 = getRawTouch();
+tsPoint_t Touch::getTouch(uint8_t samples = 32, uint8_t goodSamples = 16) {
+	uint8_t pressCounter = 0;
+	uint32_t x = 0, y = 0;
 
-	// If the points are too far apart, discard
-	if (pt1.x - pt2.x < -MaxPointDist || pt1.x - pt2.x > MaxPointDist) {
-		return tsPoint_t{0, 0, 0};
+	// Serial.println("sample start");
+	for (uint8_t i = 0; i < samples; i++) {
+		const tsPoint_t pt = getRawTouch();
+		if (pt.z >= 500) {
+			pressCounter++;
+			x += pt.x;
+			y += pt.y;
+		}
 	}
-	if (pt1.y - pt2.y < -MaxPointDist || pt1.y - pt2.y > MaxPointDist) {
-		return tsPoint_t{0, 0, 0};
+	// Serial.println("sample end");
+
+	if (pressCounter > goodSamples) {
+		x /= pressCounter;
+		y /= pressCounter;
+		// Serial.printf("enough samples: %d %d\n", x, y);
+		return tsPoint_t{(uint16_t) x, (uint16_t) y, 1000};
 	}
 
-	// If the two points are relatively close, average them and return the average point
-	const uint16_t x = (pt1.x + pt2.x) / 2;
-	const uint16_t y = (pt1.y + pt2.y) / 2;
-	const uint16_t z = (pt1.z + pt2.z) / 2;
-	return tsPoint_t{x, y, z};
+	// Serial.printf("pressCounter: %d\n", pressCounter);
+	return tsPoint_t{0, 0, 0};
 }
+
+// constexpr uint8_t MaxPointDist = 4;
+// tsPoint_t Touch::getTouch() {
+//	// Scan two touch points
+//	const tsPoint_t pt1 = getRawTouch();
+//	const tsPoint_t pt2 = getRawTouch();
+//
+//	// If the points are too far apart, discard
+//	if (pt1.x - pt2.x < -MaxPointDist || pt1.x - pt2.x > MaxPointDist) {
+//		return tsPoint_t{0, 0, 0};
+//	}
+//	if (pt1.y - pt2.y < -MaxPointDist || pt1.y - pt2.y > MaxPointDist) {
+//		return tsPoint_t{0, 0, 0};
+//	}
+//
+//	// If the two points are relatively close, average them and return the average point
+//	const uint16_t x = (pt1.x + pt2.x) / 2;
+//	const uint16_t y = (pt1.y + pt2.y) / 2;
+//	const uint16_t z = (pt1.z + pt2.z) / 2;
+//	return tsPoint_t{x, y, z};
+// }
+
+uint16_t lowX = 65535, highX = 0, lowY = 65535, highY = 0;
 
 tsPoint_t Touch::getRawTouch() {
 	tsPoint_t point{0, 0, 0};
@@ -81,6 +109,20 @@ tsPoint_t Touch::getRawTouch() {
 	if (point.z == 4095) {
 		point.z = 0;
 	}
+
+	if (point.x < lowX) {
+		lowX = point.x;
+	}
+	if (point.y < lowY) {
+		lowY = point.y;
+	}
+	if (point.x > highX) {
+		highX = point.x;
+	}
+	if (point.y > highY) {
+		highY = point.y;
+	}
+	//Serial.printf("%5d %5d %5d %5d\n", lowX, lowY, highX, highY);
 
 	return point;
 }
@@ -137,6 +179,12 @@ boolean Touch::getDisplayPoint(tsPoint_t* calibratedPoint, tsPoint_t* rawPoint) 
 						      tsMatrix.Fn) /
 						      tsMatrix.Determinant;
 	// clang-format on
+	if (calibratedPoint->y >= 10000) {
+		calibratedPoint->y = 0;
+	}
+	if (calibratedPoint->x >= 10000) {
+		calibratedPoint->x = 0;
+	}
 	return true;
 }
 
@@ -220,14 +268,26 @@ boolean Touch::setCalibrationMatrix(tsPoint_t* pixelCoord, tsPoint_t* touchCoord
 	return true;
 }
 
+/*
+ * good but missing exit btn mapping
+ * write data: 0 1068
+write data: 1 -484616
+write data: 2 174314152
+write data: 3 -373943
+write data: 4 7554
+write data: 5 84920302
+write data: 6 -5357459
+
+ */
+
 void Touch::loadHardcodedCalibration() {
-	tsMatrix.values[0] = -112005;
-	tsMatrix.values[1] = 1164;
-	tsMatrix.values[2] = 99400964;
-	tsMatrix.values[3] = 203;
-	tsMatrix.values[4] = -87463;
-	tsMatrix.values[5] = 80299539;
-	tsMatrix.values[6] = 289678;
+	tsMatrix.values[0] = -2648;
+	tsMatrix.values[1] = -485920;
+	tsMatrix.values[2] = 190590168;
+	tsMatrix.values[3] = -368482;
+	tsMatrix.values[4] = 5256;
+	tsMatrix.values[5] = 87969762;
+	tsMatrix.values[6] = -5294072;
 	INFO(F("used hardcoded calibration values"));
 }
 
@@ -259,7 +319,7 @@ void Touch::calibrate() {
 		boolean valid = false;
 		tsPoint_t p;
 		while (!valid) {
-			p = getTouch();
+			p = getTouch(255, 128);
 			if (p.z > MINIMUM_PRESSURE and p.z < MAXIMUM_PRESSURE and p.x > 0 and p.y > 0) {
 				valid = true;
 			}
@@ -275,9 +335,22 @@ void Touch::calibrate() {
 
 void Touch::clearQueue() {
 	for (uint8_t i = 0; i < 5; i++) {
-		getTouch();
+		getRawTouch();
 	}
 	touchIsPressed = false;
 	resetTimer(ScreenChangeWait);
 	resetTimer(BetweenTouches);
+}
+
+void Touch::drawMatrix() {
+	Serial.println("drawMatrix");
+	for (uint16_t x = 0; x < 4031; x += 90) {
+		for (uint16_t y = 308; y < 3984; y += 90) {
+			tsPoint_t px{0, 0};
+			tsPoint_t pt{x, y};
+			getDisplayPoint(&px, &pt);
+			//Serial.printf("%d %d\n", px.x, px.y);
+			display->fillRectangle(px.x, px.y, 1, 1, RED);
+		}
+	}
 }

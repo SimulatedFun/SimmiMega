@@ -48,7 +48,7 @@ namespace Glyphs {
 	/// \return glyph width
 	uint8_t drawGlyphTx(uint16_t x, uint16_t y, uint16_t glyphId, uint16_t color, uint8_t size) {
 		if (glyphId >= _RESERVED_SPECIAL_GLYPHS) {
-			ERROR("drawGlyphTx trying to draw a special glyph: " << glyphId);
+			//ERROR("drawGlyphTx trying to draw a special glyph: " << glyphId);
 			return 0;
 		}
 
