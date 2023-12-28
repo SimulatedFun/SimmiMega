@@ -14,7 +14,7 @@ void RamBlock::clear() {
 
 template<typename T>
 void RamBlock::write(T data, uint16_t address, uint16_t byteLength) {
-	if (address + byteLength >= RAM_BYTE_LEN) {
+	if (address + byteLength > RAM_BYTE_LEN) {
 		Serial.printf("trying to write past the max ram bounds: %d\n", address);
 	}
 
@@ -41,7 +41,7 @@ template void RamBlock::write(Folder data, uint16_t, uint16_t);
 
 template<typename T>
 void RamBlock::read(T* data, uint16_t address, uint16_t byteLength) {
-	if (address + byteLength >= RAM_BYTE_LEN) {
+	if (address + byteLength > RAM_BYTE_LEN) {
 		Serial.printf("trying to read past the max ram bounds: %d\n", address);
 	}
 

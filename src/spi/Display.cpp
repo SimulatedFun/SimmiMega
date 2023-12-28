@@ -47,7 +47,7 @@ void Display::initialize() {
 	uint8_t m = (ILI9341_MADCTL_MX | ILI9341_MADCTL_MY | ILI9341_MADCTL_MV | ILI9341_MADCTL_BGR);
 	sendCommand(ILI9341_MADCTL, &m, 1);
 
-	Serial.printf("display initialized\n");
+	INFO("display initialized");
 }
 
 void Display::sendCommand(uint8_t cmd, uint8_t* data, uint8_t dataLen) {

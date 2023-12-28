@@ -29,15 +29,8 @@ constexpr uint8_t VALUES_2 = 1;
 constexpr uint16_t CALIB_MEMORY_START = 0;
 constexpr uint16_t CALIB_TOTAL_STORAGE_SIZE = 29; // calibration uses first 29 values
 
-// Color angles for color picker
-constexpr uint16_t COLOR_MEMORY_START = CALIB_MEMORY_START + CALIB_TOTAL_STORAGE_SIZE;
-constexpr uint16_t COLOR_TOTAL_STORAGE_SIZE = 144; // 12 x 12 bytes
-
-// Font data is stored in eeprom
-constexpr uint16_t FONT_MEMORY_START = COLOR_MEMORY_START + COLOR_TOTAL_STORAGE_SIZE;
-
 /// Game Storage - objects, rooms, dialog, palettes (all written to a game save) ===================
-const uint16_t startAddress = 4000; // TODO temporary to allow for font to expand
+const uint16_t startAddress = CALIB_MEMORY_START + CALIB_TOTAL_STORAGE_SIZE;
 
 constexpr uint16_t objectCount = 84; // final number will be 950
 constexpr uint16_t objectIdSize = VALUES_1024;

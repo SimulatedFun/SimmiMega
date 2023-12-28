@@ -7,6 +7,9 @@
 #include "Glyphs.h"
 #include "globals/ColorMacros.h"
 #include "Text.h"
+#include "Bitmaps/Intro.h"
+#include "DrawBMP.h"
+
 namespace DrawingUtils {
 	void fill(uint16_t color);
 	void dither(uint16_t color, boolean dense = false);
@@ -14,6 +17,7 @@ namespace DrawingUtils {
 	void testRefreshRate();
 	void simplePrint(uint16_t x, uint16_t y, const String& text, uint16_t color, uint8_t scale);
 	void drawTitle(const String& title);
+	void drawSplash();
 } // namespace DrawingUtils
 
 #endif

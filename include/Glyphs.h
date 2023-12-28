@@ -29,21 +29,16 @@
 constexpr uint8_t GLYPH_STRUCT_SIZE = sizeof(GlyphLookup);
 
 // DS font
-constexpr uint16_t NINTENDO_MEMORY_START = (FONT_MEMORY_START);
 constexpr uint16_t NINTENDO_BITMAP_BYTE_LEN = (sizeof(nintendoBitmaps));
 constexpr uint16_t NINTENDO_GLYPH_LOOKUP_BYTE_LEN = (sizeof(nintendoGlyphs));
 constexpr uint16_t NINTENDO_GLYPH_COUNT = (sizeof(nintendoGlyphs) / GLYPH_STRUCT_SIZE);
 constexpr uint16_t NINTENDO_FONT_SIZE = (NINTENDO_BITMAP_BYTE_LEN + NINTENDO_GLYPH_LOOKUP_BYTE_LEN);
 
 // icons for UI, calibration, etc. a separate font will be for in-text symbols
-constexpr uint16_t ICONS_MEMORY_START = (FONT_MEMORY_START + NINTENDO_FONT_SIZE);
 constexpr uint16_t ICONS_BITMAP_BYTE_LEN = (sizeof(ui_iconsBitmaps));
 constexpr uint16_t ICONS_GLYPH_LOOKUP_BYTE_LEN = (sizeof(ui_iconsGlyphs));
 constexpr uint16_t ICONS_GLYPH_COUNT = (sizeof(ui_iconsGlyphs) / GLYPH_STRUCT_SIZE);
 constexpr uint16_t ICONS_FONT_SIZE = (ICONS_BITMAP_BYTE_LEN + ICONS_GLYPH_LOOKUP_BYTE_LEN);
-
-// FONT_MEMORY_END
-constexpr uint16_t FONT_MEMORY_END = (FONT_MEMORY_START + NINTENDO_FONT_SIZE + ICONS_FONT_SIZE);
 
 // region Glyph Addresses
 // system glyphs:
@@ -125,6 +120,6 @@ namespace Glyphs {
 	uint8_t drawGlyphTx(uint16_t x, uint16_t y, uint16_t glyphId, uint16_t color, uint8_t size);
 	void debugFont();
 	void setFont(const GFXfont* font);
-} // namespace glyphs
+} // namespace Glyphs
 
 #endif // glyphs_h

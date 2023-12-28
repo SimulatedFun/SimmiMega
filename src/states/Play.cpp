@@ -574,7 +574,7 @@ namespace Play {
 		DEBUG(F("allocate"));
 		resetGameVariables();
 		DEBUG(F("resetGameVariables"));
-		// showBeginningDialog();
+		showBeginningDialog();
 		DEBUG(F("todo REENABLE showBeginningDialog"));
 		enterRoom(playerCoords.roomId);
 		DEBUG(F("enterRoom"));
@@ -602,7 +602,7 @@ namespace Play {
 	}
 
 	void showBeginningDialog() {
-		INFO(F("showBeginningDialog in"));
+		INFO("showBeginningDialog in");
 		// draw background color
 		Palette pal;
 		RoomHelper::getPaletteId(&pal.id, playerCoords.roomId);
@@ -1125,7 +1125,7 @@ namespace Play {
 		return;
 		static uint8_t loopCounter = 0;
 		if (loopCounter++ == 15) {
-			//touch->poll();
+			// touch->poll();
 			if (touch->isPressed()) {
 				DEBUG(F("menu from loop"));
 				if (exitingPlayMode()) {
@@ -1157,22 +1157,31 @@ namespace Play {
 		static unsigned long drawStart = 0;
 		static unsigned long waitTime = 0;
 
+		// if we're at the beginning, wait until 500ms have passed
 		if (drawCoords.x == 0 and drawCoords.y == 0) {
 			if (!checkTimer(waitTime, AsyncPlayModeAnimation, true)) {
 				return; // not ready for animation
 			}
-			if ((millis() - drawStart) >= 500) { // took longer than 500ms
-				waitTime = 0;
-				display->fillRectangle(312, 0, 8, 8, RED);
-				// INFO(F("frame lagging"));
-			} else { // took less than 500ms
-				display->fillRectangle(312, 0, 8, 8, GREEN);
-				waitTime = 500 - (millis() - drawStart);
-			}
+
+			// restart animation timings start time
 			drawStart = millis();
 		}
 
 		drawRoomTileAsync(playerCoords.roomId, false);
+
+		// when we finish a frame:
+		if (drawCoords.x == 0 and drawCoords.y == 0) {
+			if ((millis() - drawStart) >= 500) { // took longer than 500ms
+				waitTime = 0;
+				display->fillRectangle(312, 0, 8, 8, RED);
+				// INFO(F("frame lagging"));
+				Serial.printf(">500ms new waitTime: %lu\n", waitTime);
+			} else { // took less than 500ms
+				display->fillRectangle(312, 0, 8, 8, GREEN);
+				waitTime = 500 - (millis() - drawStart);
+				Serial.printf("<500ms new waitTime: %lu\n", waitTime);
+			}
+		}
 	}
 
 	unsigned long timings[8];
@@ -1458,7 +1467,7 @@ namespace Play {
 				if (loopCounter++ == 15) {
 					loopCounter = 0;
 
-					//touch->poll();
+					// touch->poll();
 					if (!checkTimer(250, BetweenTouches) or !touch->isPressed()) {
 						continue;
 					}

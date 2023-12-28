@@ -129,13 +129,11 @@ namespace Glyphs {
 		INFO(F("==== Font Storage ===="));
 		INFO(F("GlyphLookup struct size: ") << GLYPH_STRUCT_SIZE);
 		INFO(F("            --           "));
-		INFO(F("nintendo memory first address: ") << NINTENDO_MEMORY_START);
 		INFO(F("nintendo glyph count: ") << NINTENDO_GLYPH_COUNT);
 		INFO(F("nintendo bitmap byte length: ") << NINTENDO_BITMAP_BYTE_LEN);
 		INFO(F("nintendo lookup byte length: ") << NINTENDO_GLYPH_LOOKUP_BYTE_LEN);
 		INFO(F("nintendo total size: ") << NINTENDO_FONT_SIZE);
 		INFO(F("            --           "));
-		INFO(F("icon memory first address: ") << ICONS_MEMORY_START);
 		INFO(F("icon glyph count: ") << ICONS_GLYPH_COUNT);
 		INFO(F("icon bitmap byte length: ") << ICONS_BITMAP_BYTE_LEN);
 		INFO(F("icon lookup byte length: ") << ICONS_GLYPH_LOOKUP_BYTE_LEN);

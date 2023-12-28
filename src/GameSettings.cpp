@@ -23,6 +23,7 @@ namespace GameSettings {
 		Serial.printf("getDirectory: %s\n", dir->text);
 	}
 	void setDirectory(Folder dir) {
+		Serial.printf("setDirectory: %s\n", dir.text);
 		eeprom->write(dir, directoryAddress, directoryMaxLength);
 		ram->write(dir, directoryAddress, directoryMaxLength);
 	}

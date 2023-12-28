@@ -7,6 +7,7 @@
 #include <SPI.h>
 #include "globals/Pinout.h"
 #include "globals/Colors.h"
+#include "globals/SerialDebugging.h"
 
 #define ILI9341_RST_DELAY	  150 ///< delay ms wait for reset finish
 #define ILI9341_SLPIN_DELAY  150 ///< delay ms wait for sleep in finish

@@ -169,15 +169,22 @@ namespace DataMenu {
 		// progress bar inner color
 		display->fillRectangle(xProgress, yProgress, 181, progressHt, RGB565(0xd88b76));
 
-		eeprom->clear(); // clear everything
-		display->fillRectangle(xProgress++, yProgress, 20, progressHt, RGB565(0xf55023));
+		uint32_t address = 0;
+		uint16_t offset = 10;
+		for (uint32_t i = 0; i < EEPROM_BYTE_LEN; i += 1000) {
+			eeprom->clear(address, address + 1000);
+			display->fillRectangle(xProgress, yProgress, offset, progressHt, RGB565(0xf55023));
+			address += 1000;
+			offset += 4;
+		}
+
 		touch->writeEepromCalibration(); // then rewrite calibration to memory
 
-		display->fillRectangle(xProgress++, yProgress, 40, progressHt, RGB565(0xf55023));
+		display->fillRectangle(xProgress, yProgress, 140, progressHt, RGB565(0xf55023));
 
 		ram->clear();
 
-		display->fillRectangle(xProgress++, yProgress, 60, progressHt, RGB565(0xf55023));
+		display->fillRectangle(xProgress, yProgress, 150, progressHt, RGB565(0xf55023));
 
 		GOOD(F("reset game objects and rooms"));
 
@@ -187,7 +194,7 @@ namespace DataMenu {
 			pal.id = i;
 			pal.save();
 		}
-		display->fillRectangle(xProgress++, yProgress, 80, progressHt, RGB565(0xf55023));
+		display->fillRectangle(xProgress, yProgress, 160, progressHt, RGB565(0xf55023));
 		GOOD(F("reset palettes"));
 
 		// clear dialog
@@ -196,7 +203,7 @@ namespace DataMenu {
 			dialog.clear();
 			dialog.save();
 		}
-		display->fillRectangle(xProgress++, yProgress, 100, progressHt, RGB565(0xf55023));
+		display->fillRectangle(xProgress, yProgress, 170, progressHt, RGB565(0xf55023));
 		GOOD(F("cleared dialogs"));
 
 		Title title;

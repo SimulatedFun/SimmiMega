@@ -66,3 +66,17 @@ void DrawingUtils::drawTitle(str title) {
 	text->print();
 	delete text;
 }
+
+void DrawingUtils::drawSplash() {
+	INFO("drawing splash image");
+	display->startWrite();
+	{
+		display->fillRectangleTx(312, 0, 8, 240, BLACK);
+		display->fillRectangleTx(0, 0, 312, 240, RGB565(0x574b67));
+		display->fillRectangleTx(40, 40, 232, 160, RGB565(0x6c5b83));
+	}
+	display->endWrite();
+	drawRGBBitmap(58, 91, intro, 197, 43, 0xf81f);
+	DrawingUtils::simplePrint(87, 150, "Micro Game-Making Machine", WHITE, 1);
+	DrawingUtils::simplePrint(93, 225, "Made by Adam Kehl 2023", RGB565(0x909090), 1);
+}

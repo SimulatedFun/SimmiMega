@@ -1,21 +1,23 @@
 #include "spi/ExtEeprom.h"
 
-void ExtEeprom::initialize() {
+boolean ExtEeprom::initialize() {
 	pinMode(EEPROM_CS, OUTPUT);
 	pinMode(EEPROM_CS, HIGH);
 
-	if (myEEP->init()) {
-		Serial.println("EEPROM connected");
-	} else {
-		Serial.println("EEPROM does not respond");
-		while (1)
-			;
+	if (!myEEP->init()) {
+		return false;
 	}
+
 	myEEP->setPageSize(EEPROM_PAGE_SIZE_64);
+	myEEP->setSPIClockSpeed(EEPROM_SPI_FREQ);
+	myEEP->setMemorySize(EEPROM_KBITS_256);
+	return true;
 }
 
-void ExtEeprom::clear() {
-	myEEP->eraseCompleteEEPROM();
+void ExtEeprom::clear(uint32_t start, uint32_t end) {
+	for (uint32_t i = start; i < end; i++) {
+		myEEP->write(i, 0);
+	}
 }
 
 void ExtEeprom::test() {
@@ -82,7 +84,7 @@ void ExtEeprom::test() {
 
 template<typename T>
 void ExtEeprom::write(T data, u16 address, u16 byteLength) {
-	if (address + byteLength >= EEPROM_BYTE_LEN) {
+	if (address + byteLength > EEPROM_BYTE_LEN) {
 		Serial.printf("trying to write past the max eeprom bounds: %d\n", address);
 	}
 
@@ -100,7 +102,6 @@ template void ExtEeprom::write(uint8_t data, u16, u16);
 template void ExtEeprom::write(uint16_t data, u16, u16);
 template void ExtEeprom::write(uint32_t data, u16, u16);
 template void ExtEeprom::write(uint64_t data, u16, u16);
-template void ExtEeprom::write(uint64_t data[4], u16, u16);
 template void ExtEeprom::write(int16_t data, u16, u16);
 template void ExtEeprom::write(int32_t data, u16, u16);
 template void ExtEeprom::write(Object data, u16, u16);
@@ -113,7 +114,7 @@ template void ExtEeprom::write(Title data, u16, u16);
 
 template<typename T>
 void ExtEeprom::read(T* data, u16 address, u16 byteLength) {
-	if (address + byteLength >= EEPROM_BYTE_LEN) {
+	if (address + byteLength > EEPROM_BYTE_LEN) {
 		Serial.printf("trying to read past the max eeprom bounds: %d\n", address);
 	}
 
@@ -131,7 +132,6 @@ template void ExtEeprom::read(uint8_t* data, u16, u16);
 template void ExtEeprom::read(uint16_t* data, u16, u16);
 template void ExtEeprom::read(uint32_t* data, u16, u16);
 template void ExtEeprom::read(uint64_t* data, u16, u16);
-template void ExtEeprom::read(uint64_t* data[4], u16, u16);
 template void ExtEeprom::read(int16_t* data, u16, u16);
 template void ExtEeprom::read(int32_t* data, u16, u16);
 template void ExtEeprom::read(Object* data, u16, u16);

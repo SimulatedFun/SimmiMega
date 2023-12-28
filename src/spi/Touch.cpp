@@ -4,6 +4,7 @@
 void Touch::initialize() {
 	pinMode(TOUCH_CS, OUTPUT);
 	digitalWrite(TOUCH_CS, HIGH);
+	INFO("touch initialized");
 }
 
 void Touch::startRead() {
@@ -288,7 +289,7 @@ void Touch::loadHardcodedCalibration() {
 	tsMatrix.values[4] = 5256;
 	tsMatrix.values[5] = 87969762;
 	tsMatrix.values[6] = -5294072;
-	INFO(F("used hardcoded calibration values"));
+	INFO("loaded hardcoded calibration");
 }
 
 /// Shows a series of points and waits for touch input to calculate a calibration
@@ -304,12 +305,12 @@ void Touch::calibrate() {
 		const uint16_t yPos = pixelPoints[i].y;
 
 		DrawingUtils::fill(WHITE);
-		delay(500);
+		delay(400);
 
 		display->startWrite();
 		{
 			Glyphs::drawGlyphTx(xPos - 6, yPos + 11, CALIBRATION_MARKER, RED, 1);
-			display->drawHorizontalLineTx(xPos + 3, yPos, ScreenWidth - (xPos + 3), DARK_GREY);
+			display->drawHorizontalLineTx(xPos + 3, yPos, (ScreenWidth - 8) - (xPos + 3), DARK_GREY);
 			display->drawHorizontalLineTx(0, yPos, (xPos - 6), DARK_GREY);
 			display->drawVerticalLineTx(xPos - 2, 0, yPos - 4, DARK_GREY);
 			display->drawVerticalLineTx(xPos - 2, yPos + 5, ScreenHeight - (yPos + 5), DARK_GREY);
@@ -327,6 +328,7 @@ void Touch::calibrate() {
 		tsTsPoints[i].x = p.x;
 		tsTsPoints[i].y = p.y;
 	}
+	DrawingUtils::fill(WHITE);
 
 	// Do matrix calculations for calibration and store to external memory
 	setCalibrationMatrix(&pixelPoints[0], &tsTsPoints[0]);

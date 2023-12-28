@@ -9,6 +9,7 @@
 #include "GameObject.h"
 
 #define EEPROM_BYTE_LEN 32000
+#define EEPROM_SPI_FREQ 4000000
 
 class ExtEeprom {
 	private:
@@ -18,8 +19,8 @@ class ExtEeprom {
 		explicit ExtEeprom(SPIClass* spi) : _spi(spi) {
 			myEEP = new EEPROM_SPI_WE(spi, EEPROM_CS);
 		}
-		void initialize();
-		void clear();
+		boolean initialize();
+		void clear(uint32_t start = 0, uint32_t end = EEPROM_BYTE_LEN);
 		void test();
 
 		template <typename T>
