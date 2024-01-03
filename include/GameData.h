@@ -60,7 +60,7 @@ class Folder {
 		}
 
 		void resetFilename() {
-			strncpy(text, "default", 8);
+			strlcpy(text, "default", 8);
 		}
 };
 
@@ -69,7 +69,7 @@ class Title {
 		char text[titleMaxLength];
 		uint8_t length = 0;
 		void resetTitle() {
-			strlcpy(text.text, "Default Title", 36);
+			strlcpy(text, "Default Title", 36);
 		}
 		boolean isValid() { // todo
 			// check for invalid characters in the string

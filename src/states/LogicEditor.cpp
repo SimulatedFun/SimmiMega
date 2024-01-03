@@ -581,6 +581,10 @@ namespace LogicEditor {
 				INFO(F("deallocate advanced tab"));
 				advancedTab->selected = false;
 				advancedTab->render();
+
+                // quick fix: erase extended ui
+                display->fillRectangle(288, 141, 24, 24, RGB565(0x413650));
+
 				deallocateAdvancedTabUI();
 				break;
 			case ProjectSettingsTab:

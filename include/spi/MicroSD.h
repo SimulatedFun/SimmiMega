@@ -44,6 +44,7 @@ class MicroSD {
 		// Fundamental operations
 		void createDirTx(str path);
 		void readFile(str path);
+		void deleteFile(str path);
 		void listDirTx(str dirname, uint8_t levels = 10);
 		void appendFileTx(const String& path, const String& message);
 };

@@ -15,7 +15,7 @@ namespace EditTextField {
 	boolean callbackDoneEditing = false;
 	boolean saveEdits = false;
 
-	uint8_t index = 0; // current char in the array (cursor)
+	uint16_t index = 0; // current char in the array (cursor)
 
 	/// Main function to call
 	boolean editField(char* inputText, uint8_t length, uint8_t mode) {

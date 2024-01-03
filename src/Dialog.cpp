@@ -6,21 +6,17 @@ void Dialog::load(boolean fromRam) {
 		ERROR(F("dialog ") << dialogId << F(" OOB, cancelled load"));
 		return;
 	}
-	//debugRam = true;
-	//debugMemory = true;
 	const uint16_t address = dialogMemoryStart + (this->dialogId * dialogStructSize);
 	for (uint8_t i = 0; i < dialogMaxLength; i++) {
 		uint8_t buf = 0;
 		eeprom->read(&buf, address + i, 1);
 		buffer[i] = buf;
-		//RAW(buf << " ");
+		RAW(buf << " ");
 		if (buf == GLYPH_END_OF_LINE) {
 			break;
 		}
 	}
-	//RAW("\n");
-	//debugRam = false;
-	//debugMemory = false;
+	RAW("\n");
 	calculateLength();
 	boxCount = getNumBoxes();
 }

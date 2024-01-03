@@ -91,7 +91,7 @@ void MicroSD::appendFileTx(const String& path, const String& message) {
 		file.close();
 		return;
 	}
-	Serial.println("Opened file for appending");
+	//Serial.println("Opened file for appending");
 	if (file.print(message) != 0) {
 		Serial.println("Message appended");
 	} else {
@@ -109,9 +109,9 @@ void renameFile(fs::FS& fs, const String& path1, const String& path2) {
 	}
 }
 
-void deleteFile(fs::FS& fs, const String& path) {
+void MicroSD::deleteFile(const String& path) {
 	Serial.printf("Deleting file: %s\n", path.c_str());
-	if (fs.remove(path)) {
+	if (SD.remove(path)) {
 		Serial.println("File deleted");
 	} else {
 		Serial.println("Delete failed");

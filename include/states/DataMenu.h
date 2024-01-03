@@ -26,10 +26,10 @@ namespace DataMenu {
 
 	sd_err setOrMakeGameDirectory();
 	sd_err saveSettingsToFile(str directory);
-	sd_err saveGameObjectsToFile();
-	sd_err saveRoomsToFile();
-	sd_err savePalettesToFile();
-	sd_err saveDialogToFile();
+	sd_err saveGameObjectsToFile(str directory);
+	sd_err saveRoomsToFile(str directory);
+	sd_err savePalettesToFile(str directory);
+	sd_err saveDialogToFile(str directory);
 
 	boolean checkIfError(sd_err errCode, str msg);
 } // namespace DataMenu

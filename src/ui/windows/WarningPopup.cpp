@@ -168,11 +168,11 @@ namespace WarningBox {
 		currentStep = 0;
 		stepPx = fullWidth / steps;
 
-		// overdraw the text area
-		display->fillRectangle(58, 71, 198, 80, RGB565(0xeac592));
+        // overdraw the text area
+        display->fillRectangle(58, 71, 198, 80, RGB565(0xeac592));
 
-		// draw new smaller text area for the save message
-		display->fillRectangle(58, 84, 198, 54, RGB565(0xffe0b6));
+        // draw new smaller text area for the save message
+        display->fillRectangle(58, 84, 198, 54, RGB565(0xffe0b6));
 
 		// progress bar outline
 		display->drawRectangle(66, 109, 183, 21, RGB565(0x2d1b2e));
@@ -191,6 +191,13 @@ namespace WarningBox {
 	}
 
 	void finishProgressBar(uint16_t color) {
+        // draw new smaller text area for the message
+        display->fillRectangle(58, 84, 198, 54, RGB565(0xffe0b6));
+
+        // progress bar outline
+        display->drawRectangle(66, 109, 183, 21, RGB565(0x2d1b2e));
+
+        // progress bar inner color
 		display->fillRectangle(xStart, yStart, fullWidth, height, color);
-	}
+    }
 } // namespace WarningBox
