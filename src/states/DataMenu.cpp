@@ -69,7 +69,8 @@ namespace DataMenu {
 		drawTextBox(112, 104, 88, 78);
 		drawTextBox(208, 104, 88, 66);
 
-		Text* newProjDesc = new Text("Wipes device\nmemory and\nstarts a new\nproject. Does\nnot affect SD\ncard data.");
+		Text* newProjDesc = new Text(
+				  "Wipes device\nmemory and\nstarts a new\nproject. Does\nnot affect SD\ncard data.");
 		newProjDesc->setPosition(23, 120);
 		newProjDesc->setStyle(1, RGB565(0x5b4a68));
 		newProjDesc->print();
@@ -86,7 +87,7 @@ namespace DataMenu {
 
 		Text* directory = new Text(folder.text, directoryMaxLength);
 		directory->setPosition(119, 175);
-		directory->setStyle(1, RGB565(0x000be3));  // dark blue
+		directory->setStyle(1, RGB565(0x000be3)); // dark blue
 		directory->print();
 		delete directory;
 
@@ -137,7 +138,8 @@ namespace DataMenu {
 
 		Text* confirm = new Text(F("Confirm"));
 		Text* cancel = new Text(F("Cancel"));
-		Text* main = new Text("This will clear all unsaved changes\nmade to the project.\n\nContinue?");
+		Text* main =
+				  new Text("This will clear all unsaved changes\nmade to the project.\n\nContinue?");
 		const boolean confirmation = WarningBox::choose(confirm, cancel, main, redBtn, greyBtn);
 		delete confirm;
 		delete cancel;
@@ -207,7 +209,7 @@ namespace DataMenu {
 		GOOD(F("cleared dialogs"));
 
 		Title title;
-		strlcpy(title.text.text, "Default Title", titleMaxLength);
+		strlcpy(title.text, "Default Title", titleMaxLength);
 		GameSettings::setTitle(title);
 
 		Description desc;
@@ -252,8 +254,6 @@ namespace DataMenu {
 
 		delay(750);
 
-		// todo reset room thumbnails
-
 		// hacky avoids fragmentation
 		oldState = MainMenuState;
 		state = DataManagementState;
@@ -265,13 +265,15 @@ namespace DataMenu {
 
 		Text* confirm = new Text(F("Confirm"));
 		Text* cancel = new Text(F("Cancel"));
-		char text[85] = "Confirm you want to save to SD.\n\nThis will overwrite the directory:\n\"";
+		char text[85] = "Confirm you want to save to SD.\n\nThis will overwrite the directory:\n\"/";
 
+		// add the directory name to the popup text
 		Folder folder;
 		GameSettings::getDirectory(&folder);
-		uint8_t cursor = 69;
+
+		uint8_t cursor = 70;
 		const uint8_t folderLen = GameSettings::getStringLength(folder.text, directoryMaxLength);
-		strlcpy(&text[cursor], folder.text, folderLen + 1); // appends a null term automatically
+		strncpy(&text[cursor], folder.text, folderLen + 1); // appends a null term automatically
 		cursor += folderLen;
 		text[cursor++] = '\"';
 		text[cursor] = '\0';
@@ -283,80 +285,55 @@ namespace DataMenu {
 		delete main;
 
 		if (!confirmation) {
-			INFO(F("canceled save project"));
+			INFO("canceled save project");
 			// hacky avoids fragmentation
 			oldState = MainMenuState;
 			state = DataManagementState;
 			return;
 		}
 
-		// overdraw the text area
-		display->fillRectangle(58, 71, 198, 80, RGB565(0xeac592));
-
-		// draw new smaller text area for the save message
-		display->fillRectangle(58, 84, 198, 54, RGB565(0xffe0b6));
-
+		WarningBox::setupProgressBar(6);
 		DrawingUtils::simplePrint(66, 101, F("Saving..."), BLACK, 1);
 
-		// progress bar outline
-		display->drawRectangle(66, 109, 183, 21, RGB565(0x2d1b2e));
+		// make sure the directory exists first, don't check for errors since it might already exist
 
-		const uint16_t yProgress = 110;
-		const uint16_t progressHt = 19;
-		const uint16_t fullWidth = 181;
-		uint16_t xProgress = 67;
-
-		// progress bar inner color
-		display->fillRectangle(xProgress, yProgress, fullWidth, progressHt, RGB565(0xd4ffc8));
-
-		microSd->begin();
-
-		uint8_t errCode = noSdError;
-
-		errCode = setOrMakeGameDirectory();
-		if (checkIfError(errCode)) {
-			return;
-		}
-		display->fillRectangle(xProgress, yProgress, 25, progressHt, RGB565(0x32e020));
-		xProgress += 25;
-
-		errCode = saveSettingsToFile();
-		if (checkIfError(errCode)) {
-			return;
-		}
-		display->fillRectangle(xProgress, yProgress, 25, progressHt, RGB565(0x32e020));
-		xProgress += 25;
-
-		errCode = saveGameObjectsToFile();
-		if (checkIfError(errCode)) {
-			return;
-		}
-		display->fillRectangle(xProgress, yProgress, 25, progressHt, RGB565(0x32e020));
-		xProgress += 25;
-
-		errCode = saveRoomsToFile();
-		if (checkIfError(errCode)) {
-			return;
-		}
-		display->fillRectangle(xProgress, yProgress, 25, progressHt, RGB565(0x32e020));
-		xProgress += 25;
-
-		errCode = savePalettesToFile();
-		if (checkIfError(errCode)) {
-			return;
-		}
-		display->fillRectangle(xProgress, yProgress, 25, progressHt, RGB565(0x32e020));
-		xProgress += 25;
-
-		errCode = saveDialogToFile();
-		if (checkIfError(errCode)) {
-			return;
-		}
-
+		microSd->createDirTx(String(folder.text, folderLen));
 		microSd->end();
+		WarningBox::stepProgressBar();
 
-		// fill the whole progress bar
-		display->fillRectangle(67, 110, 181, 19, RGB565(0x32e020));
+		sd_err errCode = saveSettingsToFile(String(folder.text, folderLen));
+		if (checkIfError(errCode, "Error saving settings file.")) {
+			return;
+		}
+		WarningBox::stepProgressBar();
+
+		//		errCode = saveGameObjectsToFile();
+		//		if (checkIfError(errCode, "Error saving gameobjects.")) {
+		//			return;
+		//		}
+		//		display->fillRectangle(xProgress, yProgress, 25, progressHt, RGB565(0x32e020));
+		//		xProgress += 25;
+		//
+		//		errCode = saveRoomsToFile();
+		//		if (checkIfError(errCode, "Error saving rooms.")) {
+		//			return;
+		//		}
+		//		display->fillRectangle(xProgress, yProgress, 25, progressHt, RGB565(0x32e020));
+		//		xProgress += 25;
+		//
+		//		errCode = savePalettesToFile();
+		//		if (checkIfError(errCode, "Error saving palettes.")) {
+		//			return;
+		//		}
+		//		display->fillRectangle(xProgress, yProgress, 25, progressHt, RGB565(0x32e020));
+		//		xProgress += 25;
+		//
+		//		errCode = saveDialogToFile();
+		//		if (checkIfError(errCode, "Error saving dialog.")) {
+		//			return;
+		//		}
+
+		WarningBox::finishProgressBar();
 
 		// hacky avoids fragmentation
 		oldState = MainMenuState;
@@ -368,18 +345,18 @@ namespace DataMenu {
 		state = SavedGamesState;
 	}
 
-	boolean checkIfError(uint8_t errCode) {
+	boolean checkIfError(uint8_t errCode, str message) {
 		if (errCode == noSdError) {
 			return false;
 		}
 
 		ERROR(F("save settings failed"));
 		display->fillRectangle(44, 56, 2266, 145, RGB565(0xeac592));
-		DrawingUtils::simplePrint(66, 88, "Error saving game settings to file.\n\nError code:", BLACK, 1);
+		DrawingUtils::simplePrint(66, 88, message, BLACK, 1);
 
 		Text* text = new Text(errCode);
 		text->setStyle(2, BLACK);
-		text->setPosition(66, 158);
+		text->setPosition(66, 193);
 		text->print();
 		delete text;
 
@@ -399,9 +376,9 @@ namespace DataMenu {
 		}
 
 		// todo
-//		if (!SD.chdir()) {
-//			return errNoRoot;
-//		}
+		//		if (!SD.chdir()) {
+		//			return errNoRoot;
+		//		}
 
 		Folder folder;
 		GameSettings::getDirectory(&folder);
@@ -417,52 +394,141 @@ namespace DataMenu {
 		}
 
 		// todo	// open into directory
-//		if (!Storage::setWorkingDirectory(folder.text)) {
-//			ERROR(F("failed to open dir: ") << folder.text);
-//			return errFailOpenDir;
-//		}
+		//		if (!Storage::setWorkingDirectory(folder.text)) {
+		//			ERROR(F("failed to open dir: ") << folder.text);
+		//			return errFailOpenDir;
+		//		}
 
 		return noSdError;
 	}
 
-	sd_err saveSettingsToFile() {
-		if (!microSd->sdTransactionOpen) {
-			return errSdTransactionNotOpen;
-		}
+	sd_err saveSettingsToFile(str directory) {
+		// formulate the contents of the file in a simple buffer, then open the file and save it
+		char buffer[150];
+		uint8_t cursor = 0;
 
-		// write to file, clearing if necessary
-		File file = SD.open("game.dat", FILE_WRITE);
-		// todo truncate file
-		if (!file) {
-			ERROR(F("failed to open game.dat"));
-			return errFailOpenFile;
-		}
+		// helper function to append to buffer
+		auto appendToBuffer = [&](const char* text) {
+			cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
+			Serial.printf("buffer: %s\n", buffer);
+		};
+
+		appendToBuffer("// Game metadata\n");
 
 		Title title;
 		GameSettings::getTitle(&title);
-		file.print(title.text.text);
-		file.print("\n");
+		appendToBuffer(title.text);
+		appendToBuffer("\n");
 
 		Description desc;
 		GameSettings::getDescription(&desc);
-		file.print(desc.text);
-		file.print("\n");
+		appendToBuffer(desc.text);
+		appendToBuffer("\n");
 
 		uint8_t startingDialogId = 0;
 		GameSettings::getStartingDialog(&startingDialogId);
-		file.print(startingDialogId);
-		file.print("\n");
+		char startDialogStr[4];
+		sprintf(startDialogStr, "%d\n", startingDialogId);
+		appendToBuffer(startDialogStr);
 
+		// Append starting coordinates
 		Coordinates c(0, 0, 0);
 		GameSettings::getStartingCoords(&c);
-		file.print(c.x);
-		file.print(", ");
-		file.print(c.y);
-		file.print("\n");
+		char coordStr[10];
+		sprintf(coordStr, "%d, %d, %d", c.x, c.y, c.roomId);
+		appendToBuffer(coordStr);
 
-		file.close();
+		// now open the file, and write the contents
+		microSd->begin();
+		{
+			const String filePath = "/" + directory + "/game.dat";
+			Serial.printf("attempting to save: %s\n", filePath.c_str());
+
+			// Remove existing file if it exists
+			if (SD.remove(filePath)) {
+				Serial.println("removed game.dat file");
+			} else {
+				Serial.println("no game.dat file to remove");
+			}
+
+			// Write to file
+			File file = SD.open(filePath, FILE_WRITE);
+			if (!file) {
+				Serial.printf("failed to open %s", filePath.c_str());
+				return errFailOpenFile;
+			}
+			Serial.println("opened file for writing!");
+
+			file.print(buffer);
+			file.close();
+		}
+		microSd->end();
+
 		return noSdError;
 	}
+
+
+//	sd_err saveSettingsToFile(const String& directory) {
+//		const String filePath = "/" + directory + "/game.dat";
+//
+//		// Remove existing file if it exists
+//		microSd->begin();
+//		if (SD.remove(filePath)) {
+//			Serial.println("removed game.dat file");
+//		} else {
+//			Serial.println("no game.dat file to remove");
+//		}
+//		microSd->end();
+//
+//		microSd->begin();
+//		Serial.println("sd begin");
+//		microSd->appendFileTx(filePath, String("// Game metadata\n"));
+//		Serial.println("appendFileTx done");
+//		microSd->end();
+//
+//		Title title;
+//		GameSettings::getTitle(&title);
+//
+//		microSd->begin();
+//		Serial.println("sd begin");
+//		microSd->appendFileTx(filePath, String(title.text) + "\n");
+//		Serial.println("appendFileTx done");
+//		microSd->end();
+//
+//		Description desc;
+//		GameSettings::getDescription(&desc);
+//
+//		microSd->begin();
+//		Serial.println("sd begin");
+//		microSd->appendFileTx(filePath, String(desc.text) + "\n");
+//		Serial.println("appendFileTx done");
+//		microSd->end();
+//
+//		// why is filePath nulled out?????
+//
+//		uint8_t startingDialogId = 5;
+//		GameSettings::getStartingDialog(&startingDialogId);
+//
+//		microSd->begin();
+//		Serial.println("sd begin");
+//		microSd->appendFileTx(filePath, String(startingDialogId) + "\n");
+//		Serial.println("appendFileTx done");
+//		microSd->end();
+//
+//		Serial.println("after append startingDialogId 0");
+//
+//		// Append starting coordinates
+//		Coordinates c(0, 0, 0);
+//		GameSettings::getStartingCoords(&c);
+//
+//		microSd->begin();
+//		Serial.println("sd begin");
+//		microSd->appendFileTx(filePath, String(c.x) + ", " + String(c.y) + ", " + String(c.roomId) + "\n");
+//		Serial.println("appendFileTx done");
+//		microSd->end();
+//
+//		return noSdError;
+//	}
 
 	uint8_t saveGameObjectsToFile() {
 		if (!microSd->sdTransactionOpen) {
@@ -486,9 +552,9 @@ namespace DataMenu {
 			file.print(i);
 			file.print("\n");
 
-			//microSd->write64Bit(&file, obj.data.frame1);
+			// microSd->write64Bit(&file, obj.data.frame1);
 			file.println();
-			//microSd->write64Bit(&file, obj.data.frame2);
+			// microSd->write64Bit(&file, obj.data.frame2);
 			file.println();
 			for (uint8_t j = 0; j < logicDataStructSize; j++) {
 				file.println(obj.data.logic[j]);

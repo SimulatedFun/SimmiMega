@@ -1,9 +1,11 @@
 #include "spi/MicroSD.h"
 
-void listDir(fs::FS& fs, str dirname, uint8_t levels) {
+// todo reimplement working directory/root so I can port sd code from another project
+
+void MicroSD::listDirTx(const String& dirname, uint8_t levels) {
 	Serial.printf("Listing directory: %s\n", dirname.c_str());
 
-	File root = fs.open(dirname);
+	File root = SD.open(dirname);
 	if (!root) {
 		Serial.println("Failed to open directory");
 		return;
@@ -19,7 +21,7 @@ void listDir(fs::FS& fs, str dirname, uint8_t levels) {
 			Serial.print("  DIR : ");
 			Serial.println(file.name());
 			if (levels != 0) {
-				listDir(fs, file.path(), levels - 1);
+				listDirTx(file.path(), levels - 1);
 			}
 		} else {
 			Serial.print("  FILE: ");
@@ -31,16 +33,16 @@ void listDir(fs::FS& fs, str dirname, uint8_t levels) {
 	}
 }
 
-void createDir(fs::FS& fs, str path) {
+void MicroSD::createDirTx(const String& path) {
 	Serial.printf("Creating Dir: %s\n", path.c_str());
-	if (fs.mkdir(path)) {
+	if (SD.mkdir("/" + path)) {
 		Serial.println("Dir created");
 	} else {
 		Serial.println("mkdir failed");
 	}
 }
 
-void removeDir(fs::FS& fs, str path) {
+void removeDir(fs::FS& fs, const String& path) {
 	Serial.printf("Removing Dir: %s\n", path.c_str());
 	if (fs.rmdir(path)) {
 		Serial.println("Dir removed");
@@ -49,23 +51,22 @@ void removeDir(fs::FS& fs, str path) {
 	}
 }
 
-void readFile(fs::FS& fs, str path) {
+void MicroSD::readFile(const String& path) {
 	Serial.printf("Reading file: %s\n", path.c_str());
 
-	File file = fs.open(path);
+	File file = SD.open(path);
 	if (!file) {
 		Serial.println("Failed to open file for reading");
 		return;
 	}
 
-	Serial.print("Read from file: ");
 	while (file.available() != 0) {
 		Serial.write(file.read());
 	}
 	file.close();
 }
 
-void writeFile(fs::FS& fs, str path, str message) {
+void writeFile(fs::FS& fs, const String& path, const String& message) {
 	Serial.printf("Writing file: %s\n", path.c_str());
 
 	File file = fs.open(path, FILE_WRITE);
@@ -81,14 +82,16 @@ void writeFile(fs::FS& fs, str path, str message) {
 	file.close();
 }
 
-void appendFile(fs::FS& fs, str path, str message) {
-	Serial.printf("Appending to file: %s\n", path.c_str());
+void MicroSD::appendFileTx(const String& path, const String& message) {
+	Serial.printf("Appending to file: %s : %s\n", path.c_str(), message.c_str());
 
-	File file = fs.open(path, FILE_APPEND);
+	File file = SD.open(path, FILE_APPEND);
 	if (!file) {
 		Serial.println("Failed to open file for appending");
+		file.close();
 		return;
 	}
+	Serial.println("Opened file for appending");
 	if (file.print(message) != 0) {
 		Serial.println("Message appended");
 	} else {
@@ -97,7 +100,7 @@ void appendFile(fs::FS& fs, str path, str message) {
 	file.close();
 }
 
-void renameFile(fs::FS& fs, str path1, str path2) {
+void renameFile(fs::FS& fs, const String& path1, const String& path2) {
 	Serial.printf("Renaming file %s to %s\n", path1.c_str(), path2.c_str());
 	if (fs.rename(path1, path2)) {
 		Serial.println("File renamed");
@@ -106,7 +109,7 @@ void renameFile(fs::FS& fs, str path1, str path2) {
 	}
 }
 
-void deleteFile(fs::FS& fs, str path) {
+void deleteFile(fs::FS& fs, const String& path) {
 	Serial.printf("Deleting file: %s\n", path.c_str());
 	if (fs.remove(path)) {
 		Serial.println("File deleted");

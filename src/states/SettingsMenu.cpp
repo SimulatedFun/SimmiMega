@@ -121,8 +121,8 @@ namespace SettingsMenu {
 
 		Title title;
 		GameSettings::getTitle(&title);
-		const uint8_t titleLen = GameSettings::getStringLength(title.text.text, titleMaxLength);
-		titleField->text = new Text(title.text.text, titleLen);
+		const uint8_t titleLen = GameSettings::getStringLength(title.text, titleMaxLength);
+		titleField->text = new Text(title.text, titleLen);
 
 		Description desc;
 		GameSettings::getDescription(&desc);

@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <cstdint>
 #include "globals/Pinout.h"
 #include "globals/DataBounds.h"
 #include "globals/Typedefs.h"
@@ -39,6 +40,12 @@ class MicroSD {
 		sd_err initialize(); // sets up spi, freq, etc. Call once.
 		sd_err begin(); // opens sd transaction
 		void end(); // closes sd transaction
+
+		// Fundamental operations
+		void createDirTx(str path);
+		void readFile(str path);
+		void listDirTx(str dirname, uint8_t levels = 10);
+		void appendFileTx(const String& path, const String& message);
 };
 extern MicroSD* microSd;
 

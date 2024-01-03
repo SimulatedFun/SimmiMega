@@ -156,4 +156,41 @@ namespace WarningBox {
 		delete exit;
 		touch->clearQueue();
 	}
+
+	const uint16_t xStart = 67;
+	const uint16_t yStart = 110;
+	const uint16_t fullWidth = 181;
+	const uint16_t height = 19;
+	uint16_t stepPx = 0;
+	uint16_t currentStep = 0;
+
+	void setupProgressBar(uint16_t steps, uint16_t barBg) {
+		currentStep = 0;
+		stepPx = fullWidth / steps;
+
+		// overdraw the text area
+		display->fillRectangle(58, 71, 198, 80, RGB565(0xeac592));
+
+		// draw new smaller text area for the save message
+		display->fillRectangle(58, 84, 198, 54, RGB565(0xffe0b6));
+
+		// progress bar outline
+		display->drawRectangle(66, 109, 183, 21, RGB565(0x2d1b2e));
+
+		// progress bar inner color
+		display->fillRectangle(xStart, yStart, fullWidth, height, barBg);
+	}
+
+	void stepProgressBar(uint16_t barInner) {
+		currentStep++;
+		uint16_t currWidth = currentStep * stepPx;
+		if (currWidth >= fullWidth) {
+			currWidth = fullWidth;
+		}
+		display->fillRectangle(xStart, yStart, currWidth, height, barInner);
+	}
+
+	void finishProgressBar(uint16_t color) {
+		display->fillRectangle(xStart, yStart, fullWidth, height, color);
+	}
 } // namespace WarningBox

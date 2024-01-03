@@ -11,9 +11,9 @@ class Folder {
 		Folder() {
 			resetFilename();
 		}
-		char text[8];
+		char text[directoryMaxLength];
 		void concat() {
-			text[7] = '\0';
+			text[directoryMaxLength - 1] = '\0';
 		}
 		boolean isValid() {
 			// check for invalid characters in the string
@@ -51,7 +51,7 @@ class Folder {
 		}
 
 		void setTo(char* src, uint8_t len) {
-			if (len > 8 or len == 0) {
+			if (len > directoryMaxLength or len == 0) {
 				Serial.printf("bad len for file name: %d\n", len);
 				resetFilename();
 				return;
@@ -64,20 +64,17 @@ class Folder {
 		}
 };
 
-union titleText {
-		char text[titleMaxLength];
-		uint8_t glyphs[titleMaxLength];
-};
 class Title {
 	public:
-		titleText text;
+		char text[titleMaxLength];
+		uint8_t length = 0;
 		void resetTitle() {
 			strlcpy(text.text, "Default Title", 36);
 		}
 		boolean isValid() { // todo
 			// check for invalid characters in the string
 			for (uint32_t i = 0; i < titleMaxLength; i++) {
-				const char c = text.text[i];
+				const char c = text[i];
 
 				//INFO(F("title char is valid? ") << (uint8_t) c);
 
@@ -121,9 +118,10 @@ class Title {
 };
 // todo make into classes
 
-union Description {
+class Description {
+	public:
 		char text[descriptionMaxLength];
-		uint8_t glyphs[descriptionMaxLength];
+		uint8_t length = 0;
 };
 
 #endif

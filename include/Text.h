@@ -23,7 +23,7 @@ class Text {
 		explicit Text(uint8_t number);
 		explicit Text(const char* text, size_t len);
 		explicit Text(char* text, size_t len);
-		explicit Text(Title title) : Text (title.text.text, titleMaxLength) {}
+		explicit Text(Title title) : Text (title.text, titleMaxLength) {}
 		explicit Text(Description desc) : Text (desc.text, descriptionMaxLength) {}
 		explicit Text(Folder folder) : Text (folder.text, directoryMaxLength) {}
 		~Text();

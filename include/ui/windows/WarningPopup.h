@@ -20,6 +20,10 @@ namespace WarningBox {
 
 	void callbackMakeChoice(boolean inChoice);
 	void callbackExit(RoundButton&);
+
+	void setupProgressBar(uint16_t steps, uint16_t barBg = RGB565(0xd4ffc8));
+	void stepProgressBar(uint16_t barInner = RGB565(0x32e020));
+	void finishProgressBar(uint16_t color = RGB565(0x32e020));
 } // namespace WarningBox
 
 #endif
