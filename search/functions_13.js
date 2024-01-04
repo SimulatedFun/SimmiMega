@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_7etext_664',['~Text',['../classText.html#a2d49e5c280e205125b149f7777ae30c7',1,'Text']]]
+  ['validatedata_2302',['validateData',['../dd/ded/namespaceSettingsMenu.html#a744ebc3261f6e77a33319b8b60a48427',1,'SettingsMenu']]]
 ];

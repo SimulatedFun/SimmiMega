@@ -1,14 +1,19 @@
 var searchData=
 [
-  ['calibration_5fmarker_671',['CALIBRATION_MARKER',['../Glyphs_8h.html#aca7cbc32db7c1d0475338cd29dd1b5af',1,'Glyphs.h']]],
-  ['characters_672',['characters',['../classText.html#a3beaa4319a2d4891aac88a5d11c46ea9',1,'Text']]],
-  ['checkmark_5foutline_673',['CHECKMARK_OUTLINE',['../Glyphs_8h.html#a09147a57215830ba055f82a6099f999b',1,'Glyphs.h']]],
-  ['checkmark_5fwhite_674',['CHECKMARK_WHITE',['../Glyphs_8h.html#ad4718778c5f40a95b4dc9992fa0b8ff2',1,'Glyphs.h']]],
-  ['closedset_675',['closedSet',['../AStar_8h.html#ad9376ec634794bdcebea82586667bd0c',1,'AStar.h']]],
-  ['cmd_676',['cmd',['../Commands_8cpp.html#a89624d26d48cec2f81d1cdae9d0a63f5',1,'Commands.cpp']]],
-  ['color_677',['color',['../classPalette.html#a3cd9ad29e06ae7a3f7accbabe5c66438',1,'Palette::color()'],['../classText.html#a91d635c5085bce874d174427ff015bc7',1,'Text::color()']]],
-  ['copy_5foutline_678',['COPY_OUTLINE',['../Glyphs_8h.html#a91efdb67540bc7d06ac73c92bc7140e5',1,'Glyphs.h']]],
-  ['copy_5fshadow_679',['COPY_SHADOW',['../Glyphs_8h.html#a4225d85b57b094a1db1ca69725d66b3d',1,'Glyphs.h']]],
-  ['copy_5fwhite_680',['COPY_WHITE',['../Glyphs_8h.html#a97e0317fef9f1c14016445fe3b135245',1,'Glyphs.h']]],
-  ['currentfont_681',['currentFont',['../main_8cpp.html#ad2f7e4535b966c6a9f902c3c4a10ca41',1,'main.cpp']]]
+  ['background_2343',['background',['../d0/da2/structColor.html#a202ffc8855b44d6940c79c39e1a6d476',1,'Color::background()'],['../d9/d01/namespacePaletteEditor.html#af8e095269bd7d016306031498e50b75e',1,'PaletteEditor::background()']]],
+  ['backspace_2344',['backspace',['../dc/dd2/classKeyboard.html#ab3aaa454fb63ae4723df1409b24ff220',1,'Keyboard']]],
+  ['backspacekey_2345',['BackspaceKey',['../d0/df8/Keyboard_8h.html#a65fb9aa2fec98e4a13a69042b9750bc1',1,'Keyboard.h']]],
+  ['bgcolor_2346',['bgColor',['../d0/d5c/structBtnColor.html#a110d2bcf5ac0e0d5f834e6a9a09c70dd',1,'BtnColor::bgColor()'],['../db/df2/ui_2selection-grid_2Dialog_8cpp.html#ad0dd805e826b1660f83fbc4c07f929b6',1,'bgColor():&#160;Dialog.cpp']]],
+  ['bitmap_2347',['bitmap',['../d5/df4/structGFXfont.html#a867b14d604450addbeaf62ae1e4799a7',1,'GFXfont']]],
+  ['bitmapaddress_2348',['bitmapAddress',['../df/d9f/structGlyphLookup.html#a722428960c8efb2751f3c4ff8282fb1a',1,'GlyphLookup']]],
+  ['block_2349',['block',['../dd/dae/RamBlock_8cpp.html#a466b4aaccabbe656dc1213d5bf4d6a11',1,'RamBlock.cpp']]],
+  ['blockheight_2350',['blockHeight',['../d0/dfd/ValueButton_8cpp.html#abba1b5eb0d501825c10eed4285bbf167',1,'ValueButton.cpp']]],
+  ['bn_2351',['Bn',['../de/d02/uniontsMatrix__t.html#aad0d3fb68be9378dc88c714ac170b16a',1,'tsMatrix_t']]],
+  ['bootcommandlength_2352',['bootCommandLength',['../d0/de6/Display_8h.html#ac41758b9f5a5ce15336463658ad29e0f',1,'Display.h']]],
+  ['bottomright_2353',['bottomRight',['../d6/d53/MenuIcons_8h.html#a1b6bac31dd2d5ac1c6e7dedc53ebcc96',1,'MenuIcons.h']]],
+  ['boxcount_2354',['boxCount',['../dc/d06/classDialog.html#a51d30bf3605013e8b92429f20703093b',1,'Dialog']]],
+  ['brightness_2355',['brightness',['../d9/d01/namespacePaletteEditor.html#a9ff213fd80bb2630cadc8fa435cfe1f0',1,'PaletteEditor']]],
+  ['buffer_2356',['buffer',['../dc/d06/classDialog.html#a9fdbac948ca70f13eb57262f4047c95e',1,'Dialog']]],
+  ['bus_2357',['bus',['../df/d0a/main_8cpp.html#abd3b51fc8b63bba81a02c8867d76b016',1,'main.cpp']]],
+  ['buttons_2358',['buttons',['../d9/d48/namespaceMainMenu.html#a783722c891bb629cd62cfcbf79fed1db',1,'MainMenu']]]
 ];

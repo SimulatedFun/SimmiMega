@@ -1,0 +1,25 @@
+var Typedefs_8h =
+[
+    [ "ScreenPosition", "df/d38/structScreenPosition.html", "df/d38/structScreenPosition" ],
+    [ "Object", "de/de7/structObject.html", "de/de7/structObject" ],
+    [ "def", "d2/dce/Typedefs_8h.html#a64d516b4117c9d3d79afc82f5e4cf4fc", null ],
+    [ "boo", "d2/dce/Typedefs_8h.html#a6b18ef89fe4f0b47c62d0eaad726af48", null ],
+    [ "frame", "d2/dce/Typedefs_8h.html#a0d634947c2777618384c4a5c95e9ea43", null ],
+    [ "i16", "d2/dce/Typedefs_8h.html#a977685259fe8059c48e92450967d46a8", null ],
+    [ "i32", "d2/dce/Typedefs_8h.html#aec41e5f8e4b7aef2540e84268692fa84", null ],
+    [ "i8", "d2/dce/Typedefs_8h.html#a196513547113c3f96a078ee3e658a6ef", null ],
+    [ "MovementType", "d2/dce/Typedefs_8h.html#a043222d128136ffbcb1f77d05a951ab9", null ],
+    [ "str", "d2/dce/Typedefs_8h.html#afb63d816af0d9b36bec49cf9af2478e5", null ],
+    [ "u16", "d2/dce/Typedefs_8h.html#a6dbf9516e516c901604625282c174aa4", null ],
+    [ "u32", "d2/dce/Typedefs_8h.html#a70c1fcc1a4e96af8f6580f708657cd41", null ],
+    [ "u64", "d2/dce/Typedefs_8h.html#a1af9f95651e921615e75917a6dd1b574", null ],
+    [ "u8", "d2/dce/Typedefs_8h.html#a987e4d6cf789cb59dbb390728271e4d6", null ],
+    [ "eraserTool", "d2/dce/Typedefs_8h.html#a8169c7d4d01d03855255a309054251b8", null ],
+    [ "first_frame", "d2/dce/Typedefs_8h.html#aa379b4d6a8c11cb8df0205ca7443a024", null ],
+    [ "logicDataStructSize", "d2/dce/Typedefs_8h.html#ab65d98554cb4734ce257e333e026d5ce", null ],
+    [ "movementStill", "d2/dce/Typedefs_8h.html#a3a6b389f686fef3ab6d2e4a066050de1", null ],
+    [ "movementTarget", "d2/dce/Typedefs_8h.html#a76d5a68e726ca421024e44d6fafffb22", null ],
+    [ "movementWander", "d2/dce/Typedefs_8h.html#ad271e3a854494ac1ae2ba2780e464715", null ],
+    [ "pencilTool", "d2/dce/Typedefs_8h.html#a08a1c12e5119fc3c568841b23b642c92", null ],
+    [ "second_frame", "d2/dce/Typedefs_8h.html#aee6f9a6527ea25d7c2a7f66f59ff6f56", null ]
+];

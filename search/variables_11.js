@@ -1,11 +1,24 @@
 var searchData=
 [
-  ['setlength_785',['setLength',['../namespaceAStar.html#ad63c23708502a6200f492a279a0d780d',1,'AStar']]],
-  ['shadowcolor_786',['shadowColor',['../classText.html#ab0fd30763618c99e4750f0a58d2b26c9',1,'Text']]],
-  ['showshadow_787',['showShadow',['../classText.html#a7884dc19752b99e588533400077424a0',1,'Text']]],
-  ['sixbitmax_788',['sixBitMax',['../AStar_8h.html#ad18da42fc09f5ceede0492ade889b55f',1,'AStar.h']]],
-  ['sprite_5fcolor_5fpalette_789',['SPRITE_COLOR_PALETTE',['../classGameObject.html#aa60a0764fc334f8deafe2c9fc4c1af9f',1,'GameObject']]],
-  ['sprite_5fis_5fanimated_790',['SPRITE_IS_ANIMATED',['../classGameObject.html#ad730564ca4527929d7e313ec52b09f03',1,'GameObject']]],
-  ['sprite_5fstarts_5fon_5fframe_5ftwo_791',['SPRITE_STARTS_ON_FRAME_TWO',['../classGameObject.html#a21e02b0d4c8a67ee8919dd3750ebf881',1,'GameObject']]],
-  ['state_792',['state',['../main_8cpp.html#a876b486d3a5241a126bd5751c5f70f79',1,'main.cpp']]]
+  ['ram_2694',['ram',['../df/d0a/main_8cpp.html#ad312635269e9d79af0a2de34c96222ca',1,'ram():&#160;main.cpp'],['../d0/dde/RamBlock_8h.html#ad312635269e9d79af0a2de34c96222ca',1,'ram():&#160;main.cpp']]],
+  ['ram_5feeprom_5fbyte_5fcount_2695',['RAM_EEPROM_BYTE_COUNT',['../d8/d0d/DataBounds_8h.html#a3fe5f406be8bc4de74548c5b8b815ebc',1,'DataBounds.h']]],
+  ['raw_2696',['raw',['../d7/d9b/classTouch.html#a3a7ee926f2b732f45da2ee8107fd1de8',1,'Touch']]],
+  ['redbtn_2697',['redBtn',['../da/d2b/SimpleButton_8h.html#a37cf54505e4eb249046584b1ac451cb2',1,'SimpleButton.h']]],
+  ['redrawfunction_2698',['redrawFunction',['../d5/dc9/classDropdownDialog.html#acf35cd33ac8202019b5e087a19708110',1,'DropdownDialog::redrawFunction()'],['../df/d2b/classDropdownFlagUpdate.html#a2b248686b99bcf56f8d3995a7c13d04d',1,'DropdownFlagUpdate::redrawFunction()'],['../d5/d85/classDropdownTeleport.html#a51c641445c1eff45579ad9987e816d67',1,'DropdownTeleport::redrawFunction()']]],
+  ['right_5farrow_5foutline_2699',['RIGHT_ARROW_OUTLINE',['../d9/d4b/Glyphs_8h.html#ad397519afa0eba0edc24f8c6be88fd7c',1,'Glyphs.h']]],
+  ['right_5farrow_5fwhite_2700',['RIGHT_ARROW_WHITE',['../d9/d4b/Glyphs_8h.html#a4d3c4e96e88986239101c28d0a9644ea',1,'Glyphs.h']]],
+  ['room_2701',['room',['../dd/ded/namespaceSettingsMenu.html#a65103f3ff4af7dd77701e3d116328bdf',1,'SettingsMenu']]],
+  ['roomcount_2702',['roomCount',['../d8/d0d/DataBounds_8h.html#a6a87c826100eb6baf3da337a59b40992',1,'DataBounds.h']]],
+  ['roomheight_2703',['roomHeight',['../d4/d8a/Play_8h.html#a6af19c1f2a557a57af293769835a92e0',1,'Play.h']]],
+  ['roomid_2704',['roomId',['../d8/d49/classRoomSelector.html#a3652a943a3ec359d8546b37e7dd4768d',1,'RoomSelector::roomId()'],['../df/d16/classRoomEditGrid.html#a49633e3018ebe4db033ed57698008d3c',1,'RoomEditGrid::roomId()'],['../d7/d9b/classXYSelectionGrid.html#afa165da196684514626a97e785159eb5',1,'XYSelectionGrid::roomId()'],['../dd/d43/classCoordinates.html#ad3bc2bb21ada19c4db2d5547c736649a',1,'Coordinates::roomId()'],['../de/dce/namespaceChooseXY.html#a21c3c608e8b5afd43c128a0b16eda62f',1,'ChooseXY::roomId()']]],
+  ['roomidsize_2705',['roomIdSize',['../d8/d0d/DataBounds_8h.html#a513bd86cfb31bb1c4010b8561d7483be',1,'DataBounds.h']]],
+  ['roommemorystart_2706',['roomMemoryStart',['../d8/d0d/DataBounds_8h.html#a3fbeed35af9b96b917354c29b8c7c228',1,'DataBounds.h']]],
+  ['roommusicaddr_2707',['roomMusicAddr',['../d8/d0d/DataBounds_8h.html#a07e738d356cab36909cc7f979c838f06',1,'DataBounds.h']]],
+  ['roompalette_2708',['roomPalette',['../d4/dd1/namespacePlay.html#a9d48fca1fd709e3925e94be1b8156a9f',1,'Play']]],
+  ['roompaletteaddr_2709',['roomPaletteAddr',['../d8/d0d/DataBounds_8h.html#aac1e7f0d5159ea9bbfffa4f5b842d2d5',1,'DataBounds.h']]],
+  ['roomplayeraddr_2710',['roomPlayerAddr',['../d8/d0d/DataBounds_8h.html#a48f6895ba38bb0327ab4db107e734f80',1,'DataBounds.h']]],
+  ['roomselector_2711',['roomSelector',['../d5/d85/classDropdownTeleport.html#aa54c7ef58f337632d3bb389241c3d055',1,'DropdownTeleport']]],
+  ['roomstructsize_2712',['roomStructSize',['../d8/d0d/DataBounds_8h.html#a5ede8a2dc96cb7c05f5ea6ada9dbfb15',1,'DataBounds.h']]],
+  ['roomtotalstoragesize_2713',['roomTotalStorageSize',['../d8/d0d/DataBounds_8h.html#a358e2cfc5b1ab2496fa76f4040af06a7',1,'DataBounds.h']]],
+  ['roomwidth_2714',['roomWidth',['../d4/d8a/Play_8h.html#a0b62e28e8df8758fc9b36c52af38e05c',1,'Play.h']]]
 ];
