@@ -110,7 +110,6 @@ namespace ChoosePalette {
 
 	void pick(boolean includeZerothPalette, uint16_t* paletteId, boolean* cancelled) {
 		showZeroth = includeZerothPalette;
-
 		setup();
 
 		while (!callbackSelected and !callbackCancelled) {
@@ -119,12 +118,12 @@ namespace ChoosePalette {
 
 		if (callbackCancelled) {
 			*cancelled = true;
-			return;
+            INFO("closed choose palette window");
 		}
 
 		deallocate();
-		INFO(F("ChoosePalette::pick() returns ") << callbackPaletteId);
 		touch->clearQueue();
+        INFO(F("ChoosePalette::pick() returns ") << callbackPaletteId);
 
 		*paletteId = callbackPaletteId;
 	}

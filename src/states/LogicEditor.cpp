@@ -39,12 +39,15 @@ namespace LogicEditor {
 	/// Loop() is called right after this function by the state machine
 	void setup() {
 		LEAK(F("enter logic edit"));
-		const uint8_t gameObjectId = ChooseObject::pick();
-		// if no obj is picked, return to main menu
-		if (gameObjectId == _NO_GAMEOBJECT) {
-			state = MainMenuState;
-			return;
-		}
+
+        boolean cancelled = false;
+        uint16_t gameObjectId = 0;
+		ChooseObject::pick(false, &gameObjectId, &cancelled);
+
+        if (cancelled) {
+            state = MainMenuState;
+            return;
+        }
 
 		// Load in game object information to populate logic editor
 		gameObject = new GameObject(gameObjectId);
@@ -940,9 +943,15 @@ namespace LogicEditor {
 	void callbackChangeDisplaceObjOnUpdate(boolean) {
 		deallocatePersistentUI();
 		deallocateAdvancedTabUI();
-		const uint8_t gameObjectId = ChooseObject::pick();
-		gameObject->set_updateReplacesWithGameObjectId(gameObjectId);
-		gameObject->save();
+
+        boolean cancelled = false;
+        uint16_t gameObjectId = 0;
+		ChooseObject::pick(true, &gameObjectId, &cancelled);
+        if (!cancelled) {
+            gameObject->set_updateReplacesWithGameObjectId(gameObjectId);
+            gameObject->save();
+        }
+
 		createPersistentUI();
 		createAdvancedTabUI();
 		advancedTab->selected = true;

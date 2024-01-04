@@ -12,7 +12,7 @@
 namespace ChooseObject {
 	/// pick() handles drawing UI, waiting for a selection, deallocating, and
 	/// returning the selected game object ID. Can also return 0 (no game object ID)
-	uint16_t pick();
+	void pick(boolean includeZerothObject, uint16_t* objectId, boolean* cancelled);
 
 	/// binds to the tray element for selecting a game object from the tray
 	void callbackObjectTray(unsigned int selectedObjId);

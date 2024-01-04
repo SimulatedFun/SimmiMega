@@ -9,6 +9,18 @@ void ObjectSelectionGrid::render() {
 			const u16 yPos = 35 + 1 + (y * 26);
 			u16 id = y * 12 + x;
 			id += (*currentPage) * objectsPerTab;
+
+            // if not showing the zeroth obj, offset all ids by 1
+            if (!showZeroth) {
+                id++;
+            }
+
+            // if obj OOB, fill with bg color and skip
+            if (id >= objectCount) {
+                display->fillRectangle(xPos, yPos, 24, 24, RGB565(0x574b67));
+                continue;
+            }
+
 			GameObject* obj = new GameObject(id);
 			obj->load();
 			drawGameObject(obj, pal, xPos, yPos, 3, first_frame, true);
@@ -24,5 +36,11 @@ void ObjectSelectionGrid::handlePress() {
 	INFO("col: " << col << ", row: " << row);
 	const u8 index = row * 12 + col;
 	INFO(F("selected gameobject id: ") << index);
+
+    // skip press event if id is OOB
+    if (index >= objectCount) {
+        return;
+    }
+
 	callback.function(index);
 }

@@ -8,7 +8,6 @@
 #include "ui/RoundButton.h"
 
 const uint8_t dialogsPerTab = 8;
-const uint8_t dialogPreviewHeight = 21;
 class DialogSelectionGrid : public UIElement {
 	public:
 		uint8_t* currentPage = nullptr;

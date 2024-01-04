@@ -530,7 +530,10 @@ namespace Play {
 		}
 
 		if (newPos.x == playerCoords.x and newPos.y == playerCoords.y) {
-			INFO(F("collision triggered by targeting object"));
+
+//          INFO(F("collision triggered by targeting object"));
+
+
 			const Coordinates pos(object->x, object->y, playerCoords.roomId);
 			const GameObject obj = getObjectAtCoord(pos, true, false);
 			boolean unused = false;
@@ -1159,29 +1162,37 @@ namespace Play {
 
 		// if we're at the beginning, wait until 500ms have passed
 		if (drawCoords.x == 0 and drawCoords.y == 0) {
-			if (!checkTimer(waitTime, AsyncPlayModeAnimation, true)) {
+            // restart animation timings start time
+            drawStart = millis();
+
+			if (!checkTimer(500, AsyncPlayModeAnimation, true)) {
 				return; // not ready for animation
 			}
-
-			// restart animation timings start time
-			drawStart = millis();
 		}
 
 		drawRoomTileAsync(playerCoords.roomId, false);
 
 		// when we finish a frame:
 		if (drawCoords.x == 0 and drawCoords.y == 0) {
-			if ((millis() - drawStart) >= 500) { // took longer than 500ms
-				waitTime = 0;
-				display->fillRectangle(312, 0, 8, 8, RED);
-				// INFO(F("frame lagging"));
-				Serial.printf(">500ms new waitTime: %lu\n", waitTime);
-			} else { // took less than 500ms
-				display->fillRectangle(312, 0, 8, 8, GREEN);
-				waitTime = 500 - (millis() - drawStart);
-				Serial.printf("<500ms new waitTime: %lu\n", waitTime);
-			}
-		}
+            Serial.printf("frame took %lu ms\n", (millis() - drawStart));
+            if (500 < (millis() - drawStart)) {
+                waitTime = 0;
+            } else {
+                waitTime =  500 - (millis() - drawStart);
+            }
+            Serial.printf("we would wait %lu ms\n", waitTime);
+        }
+//			if ((millis() - drawStart) >= 500) { // took longer than 500ms
+//				waitTime = 0;
+//				display->fillRectangle(312, 0, 8, 8, RED);
+//				// INFO(F("frame lagging"));
+//				Serial.printf(">500ms new waitTime: %lu\n", waitTime);
+//			} else { // took less than 500ms
+//				display->fillRectangle(312, 0, 8, 8, GREEN);
+//				waitTime = 500 - (millis() - drawStart);
+//				Serial.printf("<500ms new waitTime: %lu\n", waitTime);
+//			}
+//		}
 	}
 
 	unsigned long timings[8];

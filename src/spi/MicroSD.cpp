@@ -112,8 +112,9 @@ sd_err MicroSD::initialize() {
 	digitalWrite(SD_CS, HIGH);
 
 	// attempt an SD transaction open/close
-	const sd_err err = begin();
-	end();
+    sd_err err = noSdError;
+    //	err = begin();
+    //	end();
 
 	return err;
 }

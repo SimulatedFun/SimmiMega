@@ -173,8 +173,12 @@ namespace RoomEditor {
 	void callbackChoosePlayer(boolean) {
 		deallocate();
 
-		const uint8_t objId = ChooseObject::pick();
-		RoomHelper::setPlayerGameObjectId(objId, editRoomId);
+        boolean cancelled = false;
+        uint16_t gameObjectId = 0;
+        ChooseObject::pick(false, &gameObjectId, &cancelled);
+        if (!cancelled) {
+            RoomHelper::setPlayerGameObjectId(gameObjectId, editRoomId);
+        }
 
 		loadData();
 		setupUI();

@@ -13,6 +13,7 @@ const uint8_t objectsPerTab = 84;
 class ObjectSelectionGrid : public UIElement {
 	public:
 		uint8_t* currentPage = nullptr;
+        boolean showZeroth = false;
 		void render() override;
 		void handlePress() override;
 		ObjectSelectionGrid() {

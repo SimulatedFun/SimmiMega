@@ -3,7 +3,7 @@
 // region Key Positions
 // clang-format off
 constexpr uint8_t normalKeyCount = 45;
-const PROGMEM KeyPosition positions[normalKeyCount] {
+const KeyPosition positions[normalKeyCount] {
 	// first row
 	{5 + 25*0, 130, '1', GlyphKey, '/', GlyphKey, GLYPH_COLOR_1, ColorKey},
 	{5 + 25*1, 130, '2', GlyphKey, '@', GlyphKey, GLYPH_COLOR_2, ColorKey},
@@ -61,7 +61,7 @@ const PROGMEM KeyPosition positions[normalKeyCount] {
 };
 
 constexpr uint8_t directoryModeKeyCount = 38;
-const PROGMEM KeyPosition directoryKeyboardLayout[directoryModeKeyCount] {
+const KeyPosition directoryKeyboardLayout[directoryModeKeyCount] {
 	// first row
 	{5 + 25*0, 130, '1', GlyphKey, '1', GlyphKey, ' ', GlyphKey},
 	{5 + 25*1, 130, '2', GlyphKey, '2', GlyphKey, ' ', GlyphKey},
@@ -125,7 +125,7 @@ void Keyboard::handlePress() {
 
 	for (uint8_t i = 0; i < count; i++) {
 		KeyPosition pos;
-		memcpy_P(&pos, &start[i], sizeof(KeyPosition));
+		memcpy(&pos, &start[i], sizeof(KeyPosition));
 		INFO("keyposition: (" << pos.x << ", " << pos.y << "), value: " << pos.value);
 		setKeyData(pos);
 		if (UIHelper::isWithinTouchBounds(key)) {
@@ -165,7 +165,7 @@ void Keyboard::setKeyData(KeyPosition pos) {
 			}
 
 			break;
-		case SymbolKeyboard:
+		case SymbolKeyboard: // todo add colors and symbols
 			key->glyphIdValue = pos.secondaryValue;
 			key->type = pos.secondaryType;
 			break;
@@ -180,7 +180,7 @@ void Keyboard::renderKeys() {
 	uint8_t count = 0;
 	const KeyPosition* start = nullptr;
 
-	if (mode == NormalKeyboard) {
+	if (mode == NormalKeyboard or mode == SymbolKeyboard) {
 		start = positions;
 		count = normalKeyCount;
 	} else if (mode == DirectoryMode) {
@@ -190,7 +190,7 @@ void Keyboard::renderKeys() {
 
 	for (uint8_t i = 0; i < count; i++) {
 		KeyPosition pos;
-		memcpy_P(&pos, &start[i], sizeof(KeyPosition));
+		memcpy(&pos, &start[i], sizeof(KeyPosition));
 		setKeyData(pos);
 		key->render();
 	}

@@ -1,6 +1,5 @@
 #include "main.h"
-// todo all editors should not exit to main menu - should go back to choose window
-// todo stop loading previews in the choose menus past bounds
+
 // todo edit title, description in settings menu
 // todo fix start position choose in settings menu
 // todo show icon/bmp in settings

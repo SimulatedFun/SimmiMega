@@ -52,6 +52,11 @@ class Dialog {
 			buffer[0] = GLYPH_END_OF_LINE;
 		}
 		void drawPreview(uint16_t xOff, uint16_t yOff, uint16_t width, uint8_t scale) {
+            if (dialogId == 0) {
+                DrawingUtils::simplePrint(xOff, yOff, F("(no dialog)"), RGB565(0x919191), scale);
+                return;
+            }
+
 			if (length == 0) {
 				DrawingUtils::simplePrint(xOff, yOff, F("(empty dialog)"), RGB565(0x919191), scale);
 				return;

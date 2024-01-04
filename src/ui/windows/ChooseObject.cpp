@@ -3,16 +3,21 @@
 namespace ChooseObject {
 	ObjectSelectionGrid* tray;
 	RoundButton* exit;
-	constexpr uint8_t maxTabCount = 4;
+	constexpr uint8_t maxTabCount = 1;
 	NumberTabElement* tabs[maxTabCount];
 	uint8_t currentTab = 0;
+    boolean showZeroth = true;
 
 	boolean callbackSelected = false;
+	boolean callbackCancelled = false;
 	uint16_t callbackGameObjectId = 0;
 
 	void callbackObjectTray(unsigned int selectedObjId) {
-		callbackSelected = true;
+        callbackSelected = true;
 		callbackGameObjectId = selectedObjId + (currentTab * objectsPerTab);
+        if (!tray->showZeroth) {
+            callbackGameObjectId++;
+        }
 	}
 
 	void callbackExit(RoundButton&) {
@@ -64,6 +69,7 @@ namespace ChooseObject {
 		tray->setPosition(0, 35);
 		tray->callback.bind(&callbackObjectTray);
 		tray->setPageRef(&currentTab);
+        tray->showZeroth = showZeroth;
 		UIHelper::registerUI(tray);
 
 		for (uint8_t i = 0; i < maxTabCount; i++) {
@@ -113,20 +119,28 @@ namespace ChooseObject {
 		touch->clearQueue(); // do before draw so you can touch faster
 		draw();
 		callbackSelected = false;
+        callbackCancelled = false;
+        callbackGameObjectId = 0;
 	}
 
-	uint16_t pick() {
-		setup();
+	void pick(boolean includeZerothObject, uint16_t* objectId, boolean* cancelled) {
+		showZeroth = includeZerothObject;
+        setup();
 
-		while (!callbackSelected) {
+		while (!callbackSelected and !callbackCancelled) {
 			UIHelper::loop();
 		}
 
+        if (callbackCancelled) {
+            *cancelled = true;
+            INFO("closed choose object window");
+        }
+
 		deallocate();
-		INFO(F("ChooseObject::pick() returns ") << callbackGameObjectId);
-		UIHelper::clearActive();
 		touch->clearQueue();
-		return callbackGameObjectId;
+        INFO(F("ChooseObject::pick() returns ") << callbackGameObjectId);
+
+        *objectId = callbackGameObjectId;
 	}
 
 	void deallocate() {

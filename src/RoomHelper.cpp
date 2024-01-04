@@ -1,5 +1,5 @@
 #include "RoomHelper.h"
-void RoomHelper::getGameObjectId(uint16_t* gameObjectId, Coordinates coord) {
+void RoomHelper::getGameObjectId(uint16_t* gameObjectId, Coordinates coord, boolean fromRam) {
 	const uint16_t address = roomMemoryStart + (coord.roomId * roomStructSize);
 	int index = (coord.y * 13 + coord.x) * 10;
 
@@ -9,9 +9,17 @@ void RoomHelper::getGameObjectId(uint16_t* gameObjectId, Coordinates coord) {
 	int bit_offset = index % 8;
 
 	unsigned char byte1 = 0;
-	eeprom->read(&byte1, address + byte_index, 1); // todo handle memory vs ram
+    if (fromRam) {
+        ram->read(&byte1, address + byte_index, 1);
+    } else {
+        eeprom->read(&byte1, address + byte_index, 1);
+    }
 	unsigned char byte2 = 0;
-	eeprom->read(&byte2, address + byte_index + 1, 1); // todo handle memory vs ram
+    if (fromRam) {
+        ram->read(&byte2, address + byte_index + 1, 1);
+    } else {
+        eeprom->read(&byte2, address + byte_index + 1, 1);
+    }
 
 	unsigned int low_byte = byte1 >> bit_offset;
 	unsigned int high_byte = byte2 << (8 - bit_offset);
@@ -46,10 +54,14 @@ void RoomHelper::setGameObjectId(uint16_t gameObjectId, Coordinates coord) {
 	ram->write(byte1, address + byte_index, 1);
 	ram->write(byte2, address + byte_index + 1, 1);
 }
-// todo use ram in play mode for speed
-void RoomHelper::getPaletteId(uint8_t* paletteId, uint8_t roomId) {
+
+void RoomHelper::getPaletteId(uint8_t* paletteId, uint8_t roomId, boolean fromRam) {
 	const uint16_t address = roomMemoryStart + (roomId * roomStructSize) + roomPaletteAddr;
-	eeprom->read(paletteId, address, 1);
+    if (fromRam) {
+        ram->read(paletteId, address, 1);
+    } else {
+        eeprom->read(paletteId, address, 1);
+    }
 	if (*paletteId >= paletteCount) {
 		Serial.printf("palette id OOB: %d\n", *paletteId);
 		*paletteId = _NO_PALETTE;
@@ -65,10 +77,14 @@ void RoomHelper::setPaletteId(uint8_t paletteId, uint8_t roomId) {
 	eeprom->write(paletteId, address, 1);
 	ram->write(paletteId, address, 1);
 }
-// todo use ram in play mode for speed
-void RoomHelper::getPlayerGameObjectId(uint16_t* playerId, uint8_t roomId) {
+
+void RoomHelper::getPlayerGameObjectId(uint16_t* playerId, uint8_t roomId, boolean fromRam) {
 	const uint16_t address = roomMemoryStart + (roomId * roomStructSize) + roomPlayerAddr;
-	eeprom->read(playerId, address, 2);
+    if (fromRam) {
+        ram->read(playerId, address, 2);
+    } else {
+        eeprom->read(playerId, address, 2);
+    }
 	if (*playerId >= objectCount) {
 		Serial.printf("player gameobj id OOB: %d for roomId %d\n", *playerId, roomId);
 		*playerId = _NO_GAMEOBJECT;
@@ -83,10 +99,14 @@ void RoomHelper::setPlayerGameObjectId(uint16_t playerId, uint8_t roomId) {
 	eeprom->write(playerId, address, 2);
 	ram->write(playerId, address, 2);
 }
-// todo use ram in play mode for speed
-void RoomHelper::getMusicId(uint8_t* musicId, uint8_t roomId) {
+
+void RoomHelper::getMusicId(uint8_t* musicId, uint8_t roomId, boolean fromRam) {
 	const uint16_t address = roomMemoryStart + (roomId * roomStructSize) + roomMusicAddr;
-	eeprom->read(musicId, address, 1);
+    if (fromRam) {
+        ram->read(musicId, address, 1);
+    } else {
+	    eeprom->read(musicId, address, 1);
+    }
 	if (*musicId >= musicCount) {
 		Serial.printf("bgm track OOB: %d\n", *musicId);
 		*musicId = _NO_MUSIC;

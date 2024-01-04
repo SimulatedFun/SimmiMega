@@ -19,14 +19,16 @@ namespace SpriteEditor {
 
 	/// Resets variables, opens the choose object screen, and starts up the sprite editor
 	void setup() {
-		// pick a gameobject to edit the sprites for
-		const uint8_t selectedObjId = ChooseObject::pick();
-		// if exit pressed, return to main menu
-		if (selectedObjId == _NO_GAMEOBJECT) {
-			state = MainMenuState;
-			return;
-		}
-		gameObject = new GameObject(selectedObjId);
+        // pick a gameobject to edit the sprites for
+        boolean cancelled = false;
+        uint16_t gameObjectId = 0;
+        ChooseObject::pick(false, &gameObjectId, &cancelled);
+        if (cancelled) {
+            state = MainMenuState;
+            return;
+        }
+
+		gameObject = new GameObject(gameObjectId);
 		gameObject->load(false);
 
 		selectedTool = pencilTool;

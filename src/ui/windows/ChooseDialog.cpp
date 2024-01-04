@@ -4,7 +4,7 @@
 namespace ChooseDialog {
 	DialogSelectionGrid* tray;
 	RoundButton* exit;
-	constexpr uint8_t maxTabCount = 2; // todo have this auto-calculated
+	constexpr uint8_t maxTabCount = 2;
 	NumberTabElement* tabs[maxTabCount];
 	uint8_t currentTab = 0;
 	boolean showZeroth = true;
@@ -15,7 +15,7 @@ namespace ChooseDialog {
 
 	void callbackDialogTray(unsigned int row) {
 		callbackDialogId = row + (currentTab * dialogsPerTab);
-		if (!tray->showZeroth) { // offset if we're not zero indexed anymore
+		if (!tray->showZeroth) { // offset if we're not zero indexed
 			callbackDialogId++;
 		}
 		if (callbackDialogId >= dialogCount) { // if trying to select dialog out of bounds
@@ -31,27 +31,28 @@ namespace ChooseDialog {
 	}
 
 	/// When changing tabs in the tray
-	void callbackChangeTab(uint8_t number) {
-		if (number == 0 or number > maxTabCount) {
-			ERROR(F("change tab to invalid number!"));
+	void callbackChangeTab(uint8_t tabNumber) {
+		if (tabNumber == 0 or tabNumber > maxTabCount) {
+			ERROR(F("change tab to invalid tabNumber!"));
 			return;
 		}
 
-		const uint8_t selectedIndex = number - 1;
+		const uint8_t newTabNumber = tabNumber - 1;
 
-		if (currentTab == selectedIndex) {
+		if (currentTab == newTabNumber) {
 			INFO(F("no change to tab"));
 			return;
 		}
 
-		currentTab = selectedIndex;
-		INFO(F("changed tab to ") << number);
+		currentTab = newTabNumber;
+		INFO(F("changed tab to ") << tabNumber);
 
+        // press the newly selected tab, un-press any of the other tabs
 		for (uint8_t i = 0; i < maxTabCount; i++) {
 			if (tabs[i] == nullptr) {
 				continue;
 			}
-			if (i == selectedIndex) {
+			if (i == newTabNumber) {
 				tabs[i]->selected = true;
 				tabs[i]->render();
 			} else {
@@ -112,8 +113,8 @@ namespace ChooseDialog {
 		callbackDialogId = 0;
 	}
 
-	void pick(boolean inShowZeroth, uint16_t* dialogId, boolean* cancelled) {
-		showZeroth = inShowZeroth;
+	void pick(boolean inShowZerothDialog, uint16_t* dialogId, boolean* cancelled) {
+		showZeroth = inShowZerothDialog;
 		setup();
 
 		while (!callbackSelected and !callbackCancelled) {
@@ -122,13 +123,12 @@ namespace ChooseDialog {
 
 		if (callbackCancelled) {
 			*cancelled = true;
-			return;
+            INFO("closed choose dialog window");
 		}
 
 		deallocate();
-		INFO(F("ChooseDialog::pick() returns ") << callbackDialogId);
-		UIHelper::clearActive();
 		touch->clearQueue();
+        INFO(F("ChooseDialog::pick() returns ") << callbackDialogId);
 
 		*dialogId = callbackDialogId;
 	}

@@ -21,7 +21,7 @@ namespace ChooseDialog {
 	void callbackExit(RoundButton& btn);
 
 	/// Binds to the navigational elements at the bottom of the choose flag screen
-	void callbackChangeTab(uint8_t num);
+	void callbackChangeTab(uint8_t tabNumber);
 	void deallocate();
 
 	void setup();

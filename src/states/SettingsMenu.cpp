@@ -94,8 +94,8 @@ namespace SettingsMenu {
 		Folder folder;
 		GameSettings::getDirectory(&folder);
 		if (!Validate::isValidDirectoryName(folder.text)) {
-			Text* msg = new Text(F("Invalid directory name:\n\n1. Directory name must be at least one character long\n2. Can contain letters, numbers or - _ or spaces\n3. Cannot start with a special character"));
-			Text* btn = new Text(F("Okay"));
+			Text* msg = new Text("Invalid directory name.\n\nDirectory name must be DOS 8.3-compliant.\n(At least 1 char long, only letters, numbers, -, _, or spaces)");
+			Text* btn = new Text("Okay");
 			WarningBox::showMessage(msg, btn, greyBtn);
 			delete msg;
 			delete btn;
@@ -214,7 +214,7 @@ namespace SettingsMenu {
 
         uint16_t dialogId = 0;
         boolean cancelled = false;
-		ChooseDialog::pick(false, &dialogId, &cancelled);
+		ChooseDialog::pick(true, &dialogId, &cancelled);
 		if (!cancelled) {
 			GameSettings::setStartingDialog(dialogId);
 		}
@@ -231,13 +231,6 @@ namespace SettingsMenu {
 		GameSettings::getStartingCoords(&coords);
 
 		coords.roomId = ChooseRoom::pick();
-		const uint8_t roomId = ChooseRoom::pick();
-		if (roomId == _NO_ROOM) {
-			oldState = MainMenuState;
-			state = SettingsEditorState;
-			return;
-		}
-		coords.roomId = roomId;
 		GameSettings::setStartingCoords(coords);
 
 		// hacky avoid heap frag
@@ -251,7 +244,10 @@ namespace SettingsMenu {
 		Coordinates coords;
 		GameSettings::getStartingCoords(&coords);
 
-		coords = ChooseXY::pick(coords.roomId);
+        Coordinates xy = ChooseXY::pick(coords.roomId);
+
+        coords.x = xy.x;
+        coords.y = xy.y;
 		GameSettings::setStartingCoords(coords);
 
 		// hacky avoid heap frag

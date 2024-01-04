@@ -2,8 +2,6 @@
 
 /// Draws a minimap version of each room for the user to select from
 void RoomSelectionGrid::render() {
-	Palette* palette = new Palette();
-
 	// for each room (64 total displayed in the room tray),
 	// draw a preview of each room for the user to select from
 	for (uint8_t rmId_x = 0; rmId_x < 6; rmId_x++) {
@@ -12,41 +10,37 @@ void RoomSelectionGrid::render() {
 			const uint16_t xPos = (rmId_x * 13) * 3 + x;
 			const uint16_t yPos = (rmId_y * 10) * 3 + y;
 
-			uint8_t data[130] = {0};
-			Coordinates coords;
-			GameObject obj(0);
-			uint8_t iterator = 0;
+			uint8_t data[130] = {0}; // temporary preview area buffer
+            uint8_t iterator = 0;
 
 			for (uint8_t y = 0; y < 10; y++) {
 				for (uint8_t x = 0; x < 13; x++) {
-					coords = Coordinates(x, y, roomId);
-					RoomHelper::getGameObjectId(&obj.id, coords);
+                    GameObject obj(0);
+					RoomHelper::getGameObjectId(&obj.id, Coordinates{x, y, roomId}, true);
 					obj.load();
 
 					uint8_t depth = PALETTE_BACKGROUND;
-					if (countSetBits(obj.data.frame1) >= 32) {
-						if (obj.isHighlighted()) {
-							depth = PALETTE_HIGHLIGHT;
-						} else {
-							depth = PALETTE_FOREGROUND;
-						}
-					} else if (countSetBits(obj.data.frame1) >= 16) {
-						depth = PALETTE_FOREGROUND;
-					}
+                    if (countSetBits(obj.data.frame1) >= 16) {
+                        depth = PALETTE_FOREGROUND;
+                        if (obj.isHighlighted() and countSetBits(obj.data.frame1) >= 32) {
+                            depth = PALETTE_HIGHLIGHT;
+                        }
+                    }
 					data[iterator++] = depth;
 				}
 			}
 
-			RoomHelper::getPaletteId(&palette->id, roomId);
-			palette->load();
+            Palette palette;
+			RoomHelper::getPaletteId(&palette.id, roomId, true);
+			palette.load();
 
 			// draws the room preview with a dashed outline
 			display->startWrite();
 			{
 				for (uint8_t y = 0; y < 10; y++) {
 					for (uint8_t x = 0; x < 13; x++) {
-						const uint8_t roomIndex = y * 13 + x;
-						const uint16_t color = palette->getColorByIndex(data[roomIndex]);
+						const uint8_t index = y * 13 + x;
+						const uint16_t color = palette.getColorByIndex(data[index]);
 						display->fillRectangleTx(xPos + (x * 3), yPos + (y * 3), 3, 3, color);
 					}
 				}
@@ -55,8 +49,6 @@ void RoomSelectionGrid::render() {
 			display->endWrite();
 		}
 	}
-
-	delete palette;
 }
 
 void RoomSelectionGrid::handlePress() {

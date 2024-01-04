@@ -1,6 +1,9 @@
 #include "spi/Touch.h"
 #include "DrawingUtils.h"
 
+// TODO Find a long-term fix for low accuracy near bottom of screen versus low sensitivity near top right of screen
+//  could have diff requirements based on screen location? ie take lowest 25% quantile of collection of points near bottoms screen
+
 void Touch::initialize() {
 	pinMode(TOUCH_CS, OUTPUT);
 	digitalWrite(TOUCH_CS, HIGH);
@@ -17,10 +20,12 @@ void Touch::endRead() {
 	_spi->endTransaction();
 }
 
+// todo fix screen change wait
+
 tsPoint_t Touch::getTouch(uint8_t samples = 48, uint8_t goodSamples = 30) {
-	if (!checkTimer(200, ScreenChangeWait, false)) {
-		return tsPoint_t{0, 0, 0};
-	}
+//	if (!checkTimer(200, ScreenChangeWait, false)) {
+//		return tsPoint_t{0, 0, 0};
+//	}
 	uint8_t pressCounter = 0;
 	uint32_t x = 0, y = 0;
 

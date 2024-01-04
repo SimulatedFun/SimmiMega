@@ -9,6 +9,7 @@ class Commands {
 	public:
 		static void check();
 		static void help();
+        static void showSettings();
 };
 
 

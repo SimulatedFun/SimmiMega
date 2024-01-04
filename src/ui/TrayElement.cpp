@@ -24,23 +24,36 @@ void RoomTraySelectGrid::render() {
 }
 
 void RoomTraySelectGrid::drawObjectInTray(uint8_t index) {
-	const uint16_t x = index % objectsPerTrayRow;
-	const uint16_t y = index / objectsPerTrayRow;
+	const uint16_t x = (index % objectsPerTrayRow) * 16 + 4;
+	const uint16_t y = (index / objectsPerTrayRow) * 16 + 169;
 	const uint16_t gameObjectId = index + (currentTab * objectsPerTray);
+
+    // don't try and draw any objects OOB
+    // draw plain bg instead
+    if (gameObjectId >= objectCount) {
+        display->fillRectangle(x, y, 16, 16, RGB565(0x2d1b2e));
+        return;
+    }
 
 	GameObject obj(gameObjectId);
 	obj.load();
-	drawGameObject(&obj, palette, 4 + x * 16, 169 + y * 16, 2, first_frame, true);
+	drawGameObject(&obj, palette, x, y, 2, first_frame, true);
 }
 
 void RoomTraySelectGrid::handlePress() {
 	const uint8_t col = getRelativeX() / 16;
 	const uint8_t row = getRelativeY() / 16;
 	const uint8_t index = row * objectsPerTrayRow + col;
+    const uint16_t gameObjectId = index + (currentTab * objectsPerTray);
+
+    // don't allow the user to select a game object OOB
+    if (gameObjectId >= objectCount) {
+        return;
+    }
+
 	// un-draw prior selection
 	drawObjectInTray(highlightedGameObjectId - (currentTab * objectsPerTray));
 
-	const uint16_t gameObjectId = index + (currentTab * objectsPerTray);
 	highlightedGameObjectId = gameObjectId;
 	INFO(F("selected obj from tray: ") << highlightedGameObjectId);
 	if (callback.function != nullptr) {

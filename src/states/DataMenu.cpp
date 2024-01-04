@@ -352,38 +352,6 @@ namespace DataMenu {
 		return true;
 	}
 
-	sd_err setOrMakeGameDirectory() {
-		if (!microSd->sdTransactionOpen) {
-			return errSdTransactionNotOpen;
-		}
-
-		// todo
-		//		if (!SD.chdir()) {
-		//			return errNoRoot;
-		//		}
-
-		Folder folder;
-		GameSettings::getDirectory(&folder);
-		INFO(F("directory: ") << folder.text);
-
-		// create the directory
-		if (!SD.exists(folder.text)) {
-			ERROR(F("dir does not exist, making dir: ") << folder.text);
-			if (!SD.mkdir(folder.text)) {
-				ERROR(F("failed to create dir: ") << folder.text);
-				return errFailMakeDir;
-			}
-		}
-
-		// todo	// open into directory
-		//		if (!Storage::setWorkingDirectory(folder.text)) {
-		//			ERROR(F("failed to open dir: ") << folder.text);
-		//			return errFailOpenDir;
-		//		}
-
-		return noSdError;
-	}
-
 	sd_err saveSettingsToFile(const String& directory) {
 		const String filePath = "/" + directory + "/game.dat";
 		Serial.printf("attempting to save: %s\n", filePath.c_str());
@@ -398,7 +366,6 @@ namespace DataMenu {
 		// helper function to append to buffer
 		auto appendToBuffer = [&](const char* text) {
 			cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
-			Serial.printf("buffer: %s\n", buffer);
 		};
 
 		appendToBuffer("// Game metadata\n");
@@ -450,9 +417,6 @@ namespace DataMenu {
 		return noSdError;
 	}
 
-	constexpr uint16_t SpriteDataLen = 20; // 2^64 is 20 digits
-	constexpr uint16_t LogicDataLen = 4;	// 2^11 is 4 digits
-
 	uint8_t saveGameObjectsToFile(const String& directory) {
 		// create the file path string
 		const String filePath = "/" + directory + "/objects.dat";
@@ -467,8 +431,28 @@ namespace DataMenu {
 		// helper function to append to buffer
 		auto appendToBuffer = [&](const char* text) {
 			cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
-			// Serial.printf("buffer: %s\n", buffer);
 		};
+
+        // top of file information about the format
+        appendToBuffer("// File stores gameobject data:\n"
+                       "// - two 64-bit sprite lines (8x8 bit array)\n"
+                       "// - an 11-bit (expandable) logic number for flags like \"is animated,\" \"is solid,\" etc.\n"
+                       "// Flag details in manual.");
+        microSd->begin();
+        {
+            // Write to file
+            File file = SD.open(filePath, FILE_APPEND);
+            if (!file) {
+                Serial.printf("failed to open %s", filePath.c_str());
+                microSd->end();
+                return errFailOpenFile;
+            }
+
+            file.print(buffer);
+            file.close();
+        }
+        microSd->end();
+        WarningBox::stepProgressBar();
 
 		for (uint16_t objectId = 0; objectId < objectCount; objectId++) {
 			// clear the buffer and reset cursor
@@ -485,8 +469,7 @@ namespace DataMenu {
 			}
 
 			char notation[21];
-			sprintf(notation, "// GameObject %d\n",
-					  objectId); // Biggest string is "// GameObject 16384\n\0"
+			sprintf(notation, "// GameObject %d\n", objectId); // Biggest string is "// GameObject 16384\n\0"
 			appendToBuffer(notation);
 
 			char frame1[22];
@@ -540,8 +523,27 @@ namespace DataMenu {
 		// helper function to append to buffer
 		auto appendToBuffer = [&](const char* text) {
 			cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
-			// Serial.printf("buffer: %s\n", buffer);
 		};
+
+        // top of file information about the format
+        appendToBuffer("// File contains data for 36 rooms (0-35), each with a 10x13 array of gameobject IDs.\n"
+                       "// IDs are 16-bit, stored as 10-bit in EEPROM.\n"
+                       "// Below each array are player ID, paletteID, and BGM track ID.    ");
+        microSd->begin();
+        {
+            // Write to file
+            File file = SD.open(filePath, FILE_APPEND);
+            if (!file) {
+                Serial.printf("failed to open %s", filePath.c_str());
+                microSd->end();
+                return errFailOpenFile;
+            }
+
+            file.print(buffer);
+            file.close();
+        }
+        microSd->end();
+        WarningBox::stepProgressBar();
 
 		// writing code to handle game object IDs up to 16384
 		for (uint8_t roomId = 0; roomId < roomCount; roomId++) {
@@ -588,8 +590,7 @@ namespace DataMenu {
 			RoomHelper::getMusicId(&musicId, roomId);
 
 			char extra[18];
-			sprintf(extra, "%hu, %d, %d\n\n", playerId, paletteId,
-					  musicId); // Biggest string is "16384, 128, 128\n\n\0"
+			sprintf(extra, "%hu, %d, %d\n\n", playerId, paletteId, musicId); // Biggest string is "16384, 128, 128\n\n\0"
 			appendToBuffer(extra);
 
 			microSd->begin();
@@ -675,11 +676,10 @@ namespace DataMenu {
 		// helper function to append to buffer
 		auto appendToBuffer = [&](const char* text) {
 			cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
-			// Serial.printf("buffer: %s\n", buffer);
 		};
 
 		for (uint16_t dialogId = 0; dialogId < dialogCount; dialogId++) {
-			Serial.printf("starting to store dialog %d in buffer\n", dialogId);
+			//Serial.printf("starting to store dialog %d in buffer\n", dialogId);
 			// clear the buffer and reset cursor
 			for (uint16_t i = 0; i < sizeof(buffer); i++) {
 				buffer[i] = 0;
@@ -709,7 +709,7 @@ namespace DataMenu {
 				}
 			}
 
-			Serial.printf("buffer: %s\n", buffer);
+			//Serial.printf("buffer: %s\n", buffer);
 
 			microSd->begin();
 			{
