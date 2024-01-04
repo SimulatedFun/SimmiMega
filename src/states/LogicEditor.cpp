@@ -539,7 +539,8 @@ namespace LogicEditor {
 		exit->render();
 		gameObject->save();
 		deallocate();
-		state = MainMenuState;
+		oldState = MainMenuState;
+        state = LogicEditorState;
 		INFO(F("exiting the logic editor state"));
 	}
 
@@ -796,8 +797,12 @@ namespace LogicEditor {
 		deallocatePersistentUI();
 		deallocateCollisionTabUI();
 
-		const uint8_t dialogId = ChooseDialog::pick();
-		if (dialogId != _NO_DIALOG) {
+
+        uint16_t dialogId = 0;
+        boolean cancelled = false;
+		ChooseDialog::pick(true, &dialogId, &cancelled);
+
+		if (!cancelled) {
 			gameObject->set_touchShowsDialogId(dialogId);
 			gameObject->save();
 		}

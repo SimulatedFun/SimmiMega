@@ -36,7 +36,6 @@ namespace RoomEditor {
 	void setup() {
 		editRoomId = ChooseRoom::pick();
 		if (editRoomId == _NO_ROOM) {
-			oldState = RoomEditorState;
 			state = MainMenuState;
 			return;
 		}
@@ -252,7 +251,8 @@ namespace RoomEditor {
 	// region Callbacks
 	void callbackExit(RoundButton&) {
 		// no saving necessary since the place object callback saves to ram and eeprom
-		state = MainMenuState;
+		oldState = MainMenuState;
+        state = RoomEditorState;
 		FileManager::saveRoomThumbnailData(editRoomId);
 		deallocate();
 	}

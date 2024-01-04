@@ -17,14 +17,14 @@ void Touch::endRead() {
 	_spi->endTransaction();
 }
 
-tsPoint_t Touch::getTouch(uint8_t samples = 32, uint8_t goodSamples = 16) {
+tsPoint_t Touch::getTouch(uint8_t samples = 48, uint8_t goodSamples = 30) {
 	uint8_t pressCounter = 0;
 	uint32_t x = 0, y = 0;
 
 	// Serial.println("sample start");
 	for (uint8_t i = 0; i < samples; i++) {
 		const tsPoint_t pt = getRawTouch();
-		if (pt.z >= 500) {
+		if (pt.z >= 400) {
 			pressCounter++;
 			x += pt.x;
 			y += pt.y;

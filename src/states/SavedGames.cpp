@@ -98,10 +98,7 @@
 //	void setup() {
 //		// todo count games and set the tab counter and max games vars
 //		microSd->begin();
-//		const sd_err countCode = microSd->countGameSaves(&numGames);
-//		if (countCode != noSdError) {
-//			ERROR(F("failed count game saves"));
-//		}
+//        numGames = FileManager::countGameSavesTx();
 //		microSd->end();
 //
 //		currentTab = 0;

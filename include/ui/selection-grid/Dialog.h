@@ -12,6 +12,7 @@ const uint8_t dialogPreviewHeight = 21;
 class DialogSelectionGrid : public UIElement {
 	public:
 		uint8_t* currentPage = nullptr;
+        boolean showZeroth = false;
 		void render() override;
 		void handlePress() override;
 		DialogSelectionGrid() {

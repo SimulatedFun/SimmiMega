@@ -160,7 +160,8 @@ namespace SpriteEditor {
 		exit->render();
 		gameObject->save();
 		deallocate();
-		state = MainMenuState;
+		oldState = MainMenuState;
+        state = SpriteEditorState;
 		INFO(F("exiting the sprite editor state"));
 	}
 

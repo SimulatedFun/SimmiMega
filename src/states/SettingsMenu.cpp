@@ -212,8 +212,10 @@ namespace SettingsMenu {
 	void callbackDialog(boolean) {
 		deallocate();
 
-		const uint8_t dialogId = ChooseDialog::pick();
-		if (dialogId != _NO_DIALOG) {
+        uint16_t dialogId = 0;
+        boolean cancelled = false;
+		ChooseDialog::pick(false, &dialogId, &cancelled);
+		if (!cancelled) {
 			GameSettings::setStartingDialog(dialogId);
 		}
 

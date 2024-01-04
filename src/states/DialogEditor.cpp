@@ -14,11 +14,14 @@ namespace DialogEditor {
 	void setup() {
 		INFO(F("enter write dialog"));
 
-		const uint8_t chosenDialogId = ChooseDialog::pick();
-		if (chosenDialogId == _NO_DIALOG) {
-			state = MainMenuState;
-			return;
-		}
+        boolean cancelled = false;
+		uint16_t chosenDialogId = 0;
+        ChooseDialog::pick(false, &chosenDialogId, &cancelled);
+        if (cancelled) {
+            // go back to the dialog selection screen
+            state = MainMenuState;
+            return;
+        }
 
 		dialog = new Dialog();
 		dialog->dialogId = chosenDialogId;
@@ -212,7 +215,8 @@ namespace DialogEditor {
 		exit->depressed = true;
 		exit->render();
 		dialog->save();
-		state = MainMenuState;
+		oldState = MainMenuState;
+        state = DialogEditorState;
 		deallocate();
 	}
 

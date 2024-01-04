@@ -82,7 +82,8 @@ namespace PaletteEditor {
 	void callbackExit(RoundButton&) {
 		palette->save();
 		deallocate();
-		state = MainMenuState;
+		oldState = MainMenuState;
+        state = PaletteEditorState; // go back to choose palette screen
 	}
 
 	void callbackSelectBrightness(uint8_t inBrightness) {

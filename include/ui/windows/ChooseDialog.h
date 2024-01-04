@@ -12,7 +12,7 @@
 namespace ChooseDialog {
 	/// pick() handles drawing UI, waiting for a selection, deallocating, and
 	/// returning the selected flag ID. Can also return 0 (no flag selected)
-	uint16_t pick();
+	void pick(boolean showZeroth, uint16_t* flagId, boolean* cancelled);
 
 	/// binds to the tray element for selecting a flag from the tray
 	void callbackDialogTray(unsigned int selectedDialogId);

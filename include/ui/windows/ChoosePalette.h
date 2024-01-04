@@ -15,7 +15,7 @@ namespace ChoosePalette {
 	void draw();
 	void setupUI();
 
-	uint16_t pick();
+	void pick(boolean showZeroth, uint16_t* flagId, boolean* cancelled);
 	void deallocate();
 
 	void callbackExit(RoundButton&);

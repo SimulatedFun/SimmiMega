@@ -4,21 +4,30 @@
 namespace ChooseDialog {
 	DialogSelectionGrid* tray;
 	RoundButton* exit;
-	constexpr uint8_t maxTabCount = 4;
+	constexpr uint8_t maxTabCount = 2; // todo have this auto-calculated
 	NumberTabElement* tabs[maxTabCount];
 	uint8_t currentTab = 0;
+    boolean showZeroth = true;
 
 	boolean callbackSelected = false;
-	uint16_t callbackDialogId = _NO_DIALOG;
+    boolean callbackCancelled = false;
+	uint16_t callbackDialogId = 0;
 
-	void callbackDialogTray(unsigned int selectedDialogId) {
-		callbackSelected = true;
-		callbackDialogId = selectedDialogId + (currentTab * dialogsPerTab);
-	}
+	void callbackDialogTray(unsigned int row) {
+        callbackDialogId = row + (currentTab * dialogsPerTab);
+        if (!tray->showZeroth) { // offset if we're not zero indexed anymore
+            callbackDialogId++;
+        }
+        if (callbackDialogId >= dialogCount) { // if trying to select dialog out of bounds
+            callbackDialogId = 0;
+            callbackSelected = false;
+            return;
+        }
+        callbackSelected = true;
+    }
 
 	void callbackExit(RoundButton&) {
-		callbackSelected = true;
-		callbackDialogId = _NO_DIALOG;
+        callbackCancelled = true;
 	}
 
 	/// When changing tabs in the tray
@@ -67,6 +76,7 @@ namespace ChooseDialog {
 		tray->setPosition(0, 48);
 		tray->callback.bind(&callbackDialogTray);
 		tray->setPageRef(&currentTab);
+        tray->showZeroth = showZeroth;
 		UIHelper::registerUI(tray);
 
 		for (uint8_t i = 0; i < maxTabCount; i++) {
@@ -98,20 +108,29 @@ namespace ChooseDialog {
 		touch->clearQueue(); // do before draw so you can touch faster
 		draw();
 		callbackSelected = false;
+        callbackCancelled = false;
+        callbackDialogId = 0;
 	}
 
-	uint16_t pick() {
-		setup();
+	void pick(boolean inShowZeroth, uint16_t* dialogId, boolean* cancelled) {
+        showZeroth = inShowZeroth;
+        setup();
 
-		while (!callbackSelected) {
+		while (!callbackSelected and !callbackCancelled) {
 			UIHelper::loop();
 		}
+
+        if (callbackCancelled) {
+            *cancelled = true;
+            return;
+        }
 
 		deallocate();
 		INFO(F("ChooseDialog::pick() returns ") << callbackDialogId);
 		UIHelper::clearActive();
 		touch->clearQueue();
-		return callbackDialogId;
+
+        *dialogId = callbackDialogId;
 	}
 
 	void deallocate() {

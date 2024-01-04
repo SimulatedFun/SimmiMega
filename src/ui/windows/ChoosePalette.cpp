@@ -6,9 +6,11 @@ namespace ChoosePalette {
 	constexpr uint8_t maxTabCount = 2;
 	NumberTabElement* tabs[maxTabCount];
 	uint8_t currentTab = 0;
+    boolean showZeroth = true;
 
 	boolean callbackSelected = false;
-	uint8_t callbackPaletteId = _NO_PALETTE;
+	boolean callbackCancelled = false;
+	uint8_t callbackPaletteId = 0;
 
 	void setup() {
 		currentTab = 0;
@@ -101,10 +103,11 @@ namespace ChoosePalette {
 		tray->render();
 	}
 
-	uint16_t pick() {
+	void pick(boolean inShowZeroth, uint16_t* paletteId, boolean* cancelled) {
+        showZeroth = inShowZeroth;
 		setup();
 
-		while (!callbackSelected) {
+		while (!callbackSelected and !callbackCancelled) {
 			UIHelper::loop();
 		}
 
