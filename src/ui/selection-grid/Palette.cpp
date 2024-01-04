@@ -13,13 +13,22 @@ void PaletteSelectionGrid::handlePress() {
 
 void PaletteSelectionGrid::render() {
 	Palette palette;
-
 	for (uint8_t i = 0; i < palettesPerTab; i++) {
-		palette.id = i + (*currentPage * palettesPerTab);
-		palette.load();
+		if (showZeroth) {
+			palette.id = i + (*currentPage * palettesPerTab);
+		} else {
+			palette.id = i + (*currentPage * palettesPerTab) + 1;
+		}
 
 		const uint16_t xPos = x + 1 + (i % 4) * 78;
 		const uint16_t yPos = y + 1 + (i / 4) * 45;
+
+		if (palette.id >= paletteCount) {
+			display->fillRectangle(xPos, yPos, 75 + 1, 42 + 1, RGB565(0x574b67));
+			continue;
+		}
+
+		palette.load();
 
 		display->startWrite();
 		{

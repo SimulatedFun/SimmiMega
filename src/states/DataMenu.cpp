@@ -6,9 +6,8 @@ namespace DataMenu {
 	RoundButton* exit;
 
 	void setup() {
-		LEAK(F("data menu setup"));
+		LEAK("data menu setup");
 		setupUI();
-
 		draw();
 		touch->clearQueue();
 	}
@@ -69,12 +68,13 @@ namespace DataMenu {
 		drawTextBox(112, 104, 88, 78);
 		drawTextBox(208, 104, 88, 66);
 
-		Text* newProjDesc = new Text("Wipes device\nmemory and\nstarts a new\nproject. "
-                                     "Does\nnot affect SD\ncard data.");
-		newProjDesc->setPosition(23, 120);
-		newProjDesc->setStyle(1, RGB565(0x5b4a68));
-		newProjDesc->print();
-		delete newProjDesc;
+		Text* newProject;
+		newProject = new Text("Wipes device\nmemory and\nstarts a new\nproject. "
+									 "Does\nnot affect SD\ncard data.");
+		newProject->setPosition(23, 120);
+		newProject->setStyle(1, RGB565(0x5b4a68));
+		newProject->print();
+		delete newProject;
 
 		Text* saveProjectDesc = new Text("Saves to SD.\nOverwrites the\ncontents of\ndirectory:");
 		saveProjectDesc->setPosition(119, 120);
@@ -82,7 +82,7 @@ namespace DataMenu {
 		saveProjectDesc->print();
 		delete saveProjectDesc;
 
-        // draw game project's directory in this same text box
+		// print current project's directory in this same text box
 		Folder folder;
 		GameSettings::getDirectory(&folder);
 		Text* directory = new Text(folder.text, directoryMaxLength);
@@ -139,7 +139,7 @@ namespace DataMenu {
 		Text* confirm = new Text(F("Confirm"));
 		Text* cancel = new Text(F("Cancel"));
 		Text* main = new Text("This will clear all unsaved changes\nmade to the project. "
-                              "Consider saving\nto SD first.\n\nContinue anyways?");
+									 "Consider saving\nto SD first.\n\nContinue anyways?");
 		const boolean confirmation = WarningBox::choose(confirm, cancel, main, redBtn, greyBtn);
 		delete confirm;
 		delete cancel;
@@ -159,25 +159,25 @@ namespace DataMenu {
 		// draw new smaller text area for the delete message
 		display->fillRectangle(58, 84, 198, 54, RGB565(0xffe0b6));
 
-        WarningBox::setupProgressBar(36, RGB565(0xd88b76));
+		WarningBox::setupProgressBar(36, RGB565(0xd88b76));
 		DrawingUtils::simplePrint(66, 101, "Deleting...", BLACK, 1);
 
 		uint32_t address = 0;
 		uint16_t offset = 10;
 		for (uint32_t i = 0; i < EEPROM_BYTE_LEN; i += 1000) {
 			eeprom->clear(address, address + 1000);
-            WarningBox::stepProgressBar(RGB565(0xf55023));
+			WarningBox::stepProgressBar(RGB565(0xf55023));
 			address += 1000;
 			offset += 4;
 		}
 
 		touch->writeEepromCalibration(); // then rewrite calibration to memory
 
-        WarningBox::stepProgressBar(RGB565(0xf55023));
+		WarningBox::stepProgressBar(RGB565(0xf55023));
 
 		ram->clear();
 
-        WarningBox::stepProgressBar(RGB565(0xf55023));
+		WarningBox::stepProgressBar(RGB565(0xf55023));
 
 		GOOD(F("reset game objects and rooms"));
 
@@ -187,7 +187,7 @@ namespace DataMenu {
 			pal.id = i;
 			pal.save();
 		}
-        WarningBox::stepProgressBar(RGB565(0xf55023));
+		WarningBox::stepProgressBar(RGB565(0xf55023));
 		GOOD(F("reset palettes"));
 
 		// clear dialog
@@ -196,7 +196,7 @@ namespace DataMenu {
 			dialog.clear();
 			dialog.save();
 		}
-        WarningBox::stepProgressBar(RGB565(0xf55023));
+		WarningBox::stepProgressBar(RGB565(0xf55023));
 		GOOD(F("cleared dialogs"));
 
 		Title title;
@@ -211,7 +211,7 @@ namespace DataMenu {
 		strcpy(folder.text, "default");
 		GameSettings::setDirectory(folder);
 
-        WarningBox::stepProgressBar(RGB565(0xf55023));
+		WarningBox::stepProgressBar(RGB565(0xf55023));
 
 		const Coordinates coords{6, 5, 0}; // center-ish of room 0
 		GameSettings::setStartingCoords(coords);
@@ -227,9 +227,9 @@ namespace DataMenu {
 		dialog->save();
 		delete dialog;
 
-        WarningBox::finishProgressBar(RGB565(0x21d253));
+		WarningBox::finishProgressBar(RGB565(0x21d253));
 
-        DrawingUtils::simplePrint(66, 101, "Done!", BLACK, 1);
+		DrawingUtils::simplePrint(66, 101, "Done!", BLACK, 1);
 
 		delay(750);
 
@@ -271,15 +271,14 @@ namespace DataMenu {
 			return;
 		}
 
-        WarningBox::setupProgressBar(181);
-		DrawingUtils::simplePrint(66, 101, F("Saving..."), BLACK, 1);
+		WarningBox::setupProgressBar(181, RGB565(0xd4ffc8));
+		DrawingUtils::simplePrint(66, 101, F("Saving Project..."), BLACK, 1);
+
+		const String directory = String(folder.text, folderLen);
 
 		// make sure the directory exists first, don't check for errors since it might already exist
-
-        String directory = String(folder.text, folderLen);
-
-        microSd->begin();
-        microSd->createDirTx(directory);
+		microSd->begin();
+		microSd->createDirTx(directory);
 		microSd->end();
 		WarningBox::stepProgressBar();
 
@@ -287,38 +286,36 @@ namespace DataMenu {
 		if (checkIfError(errCode, "Error saving settings file.")) {
 			return;
 		}
-        Serial.println("saved settings to file");
+		Serial.println("saved settings to file");
 		WarningBox::stepProgressBar();
 
-        errCode = saveGameObjectsToFile(directory);
-        if (checkIfError(errCode, "Error saving gameobjects.")) {
-            return;
-        }
-        Serial.println("saved game objects to file");
-        WarningBox::stepProgressBar();
+		errCode = saveGameObjectsToFile(directory);
+		if (checkIfError(errCode, "Error saving gameobjects.")) {
+			return;
+		}
+		Serial.println("saved game objects to file");
+		WarningBox::stepProgressBar();
 
-        errCode = saveRoomsToFile(directory);
-        if (checkIfError(errCode, "Error saving rooms.")) {
-            return;
-        }
-        WarningBox::stepProgressBar();
+		errCode = saveRoomsToFile(directory);
+		if (checkIfError(errCode, "Error saving rooms.")) {
+			return;
+		}
+		WarningBox::stepProgressBar();
 
-        errCode = savePalettesToFile(directory);
-        if (checkIfError(errCode, "Error saving palettes.")) {
-            return;
-        }
-        WarningBox::stepProgressBar();
+		errCode = savePalettesToFile(directory);
+		if (checkIfError(errCode, "Error saving palettes.")) {
+			return;
+		}
+		WarningBox::stepProgressBar();
 
-        errCode = saveDialogToFile(directory);
-        if (checkIfError(errCode, "Error saving dialog.")) {
-            return;
-        }
+		errCode = saveDialogToFile(directory);
+		if (checkIfError(errCode, "Error saving dialog.")) {
+			return;
+		}
 
 		WarningBox::finishProgressBar();
-
-        DrawingUtils::simplePrint(66, 101, "Done!", BLACK, 1);
-
-        delay(750);
+		DrawingUtils::simplePrint(66, 101, "Done!", BLACK, 1);
+		delay(750);
 
 		// hacky avoids fragmentation
 		oldState = MainMenuState;
@@ -388,6 +385,12 @@ namespace DataMenu {
 	}
 
 	sd_err saveSettingsToFile(const String& directory) {
+		const String filePath = "/" + directory + "/game.dat";
+		Serial.printf("attempting to save: %s\n", filePath.c_str());
+
+		microSd->deleteFile(filePath);
+		WarningBox::stepProgressBar();
+
 		// formulate the contents of the file in a simple buffer, then open the file and save it
 		char buffer[150];
 		uint8_t cursor = 0;
@@ -399,26 +402,26 @@ namespace DataMenu {
 		};
 
 		appendToBuffer("// Game metadata\n");
-        WarningBox::stepProgressBar();
+		WarningBox::stepProgressBar();
 
 		Title title;
 		GameSettings::getTitle(&title);
 		appendToBuffer(title.text);
 		appendToBuffer("\n");
-        WarningBox::stepProgressBar();
+		WarningBox::stepProgressBar();
 
 		Description desc;
 		GameSettings::getDescription(&desc);
 		appendToBuffer(desc.text);
 		appendToBuffer("\n");
-        WarningBox::stepProgressBar();
+		WarningBox::stepProgressBar();
 
 		uint8_t startingDialogId = 0;
 		GameSettings::getStartingDialog(&startingDialogId);
 		char startDialogStr[4];
 		sprintf(startDialogStr, "%d\n", startingDialogId);
 		appendToBuffer(startDialogStr);
-        WarningBox::stepProgressBar();
+		WarningBox::stepProgressBar();
 
 		// Append starting coordinates
 		Coordinates c(0, 0, 0);
@@ -426,345 +429,304 @@ namespace DataMenu {
 		char coordStr[10];
 		sprintf(coordStr, "%d, %d, %d", c.x, c.y, c.roomId);
 		appendToBuffer(coordStr);
-        WarningBox::stepProgressBar();
+		WarningBox::stepProgressBar();
 
 		// now open the file, and write the contents
 		microSd->begin();
 		{
-			const String filePath = "/" + directory + "/game.dat";
-			Serial.printf("attempting to save: %s\n", filePath.c_str());
-
-			// Remove existing file if it exists
-			if (SD.remove(filePath)) {
-				Serial.println("removed game.dat file");
-			} else {
-				Serial.println("no game.dat file to remove");
-			}
-
-			// Write to file
 			File file = SD.open(filePath, FILE_WRITE);
 			if (!file) {
 				Serial.printf("failed to open %s", filePath.c_str());
+				microSd->end();
 				return errFailOpenFile;
 			}
-			//Serial.println("opened file for writing!");
 
 			file.print(buffer);
 			file.close();
 		}
 		microSd->end();
-        WarningBox::stepProgressBar();
+		WarningBox::stepProgressBar();
 
 		return noSdError;
 	}
 
-    constexpr uint16_t SpriteDataLen = 20; // 2^64 is 20 digits
-    constexpr uint16_t LogicDataLen = 4; // 2^11 is 4 digits
+	constexpr uint16_t SpriteDataLen = 20; // 2^64 is 20 digits
+	constexpr uint16_t LogicDataLen = 4;	// 2^11 is 4 digits
 
 	uint8_t saveGameObjectsToFile(const String& directory) {
-        // create the file path string
-        const String filePath = "/" + directory + "/objects.dat";
-        Serial.printf("attempting to save: %s\n", filePath.c_str());
+		// create the file path string
+		const String filePath = "/" + directory + "/objects.dat";
+		Serial.printf("attempting to save: %s\n", filePath.c_str());
 
-        // remove the objects.dat file if it exists
-        microSd->begin();
-        {
-            if (SD.remove(filePath)) {
-                Serial.println("removed objects.dat file");
-            } else {
-                Serial.println("no objects.dat file to remove");
-            }
-        }
-        microSd->end();
-        WarningBox::stepProgressBar();
+		microSd->deleteFile(filePath);
+		WarningBox::stepProgressBar();
 
-        char buffer[100]; // minimum is 44 (20, 20, and 4 chars to represent a full game object)
-        uint8_t cursor = 0;
+		char buffer[100]; // minimum is 44 (20, 20, and 4 chars to represent a full game object)
+		uint8_t cursor = 0;
 
-        // helper function to append to buffer
-        auto appendToBuffer = [&](const char* text) {
-            cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
-            //Serial.printf("buffer: %s\n", buffer);
-        };
+		// helper function to append to buffer
+		auto appendToBuffer = [&](const char* text) {
+			cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
+			// Serial.printf("buffer: %s\n", buffer);
+		};
 
-        for (uint16_t objectId = 0; objectId < objectCount; objectId++) {
-            // clear the buffer and reset cursor
-            for (uint16_t i = 0; i < 100; i++) {
-                buffer[i] = 0;
-            }
-            cursor = 0;
+		for (uint16_t objectId = 0; objectId < objectCount; objectId++) {
+			// clear the buffer and reset cursor
+			for (uint16_t i = 0; i < 100; i++) {
+				buffer[i] = 0;
+			}
+			cursor = 0;
 
-            GameObject obj(objectId);
-            obj.load();
+			GameObject obj(objectId);
+			obj.load();
 
-            for (uint16_t i = 0; i < 100; i++) {
-                buffer[i] = 0;
-            }
+			for (uint16_t i = 0; i < 100; i++) {
+				buffer[i] = 0;
+			}
 
-            char notation[21];
-            sprintf(notation, "// GameObject %d\n", objectId); // Biggest string is "// GameObject 16384\n\0"
-            appendToBuffer(notation);
+			char notation[21];
+			sprintf(notation, "// GameObject %d\n",
+					  objectId); // Biggest string is "// GameObject 16384\n\0"
+			appendToBuffer(notation);
 
-            char frame1[22];
-            sprintf(frame1, "%llu\n", obj.data.frame1); // Biggest string is "18446744073709551616\n\0"
-            appendToBuffer(frame1);
+			char frame1[22];
+			sprintf(frame1, "%llu\n", obj.data.frame1); // Biggest string is "18446744073709551616\n\0"
+			appendToBuffer(frame1);
 
-            char frame2[22];
-            sprintf(frame2, "%llu\n", obj.data.frame2);
-            appendToBuffer(frame2);
+			char frame2[22];
+			sprintf(frame2, "%llu\n", obj.data.frame2);
+			appendToBuffer(frame2);
 
-            for (uint16_t i = 0; i < logicDataStructSize - 1; i++) {
-                char logic[6];
-                sprintf(logic, "%d, ", obj.data.logic[i]); // Biggest string is "255, \0"
-                appendToBuffer(logic);
-            }
-            char logic[8];
-            sprintf(logic, "%d\n\n", obj.data.logic[logicDataStructSize - 1]);
-            appendToBuffer(logic);
+			for (uint16_t i = 0; i < logicDataStructSize - 1; i++) {
+				char logic[6];
+				sprintf(logic, "%d, ", obj.data.logic[i]); // Biggest string is "255, \0"
+				appendToBuffer(logic);
+			}
+			char logic[8];
+			sprintf(logic, "%d\n\n", obj.data.logic[logicDataStructSize - 1]);
+			appendToBuffer(logic);
 
-            microSd->begin();
-            {
-                // Write to file
-                File file = SD.open(filePath, FILE_APPEND);
-                if (!file) {
-                    Serial.printf("failed to open %s", filePath.c_str());
-                    microSd->end();
-                    return errFailOpenFile;
-                }
-                //Serial.println("opened file for writing!");
+			microSd->begin();
+			{
+				File file = SD.open(filePath, FILE_APPEND);
+				if (!file) {
+					Serial.printf("failed to open %s", filePath.c_str());
+					microSd->end();
+					return errFailOpenFile;
+				}
 
-                file.print(buffer);
-                file.close();
-            }
-            microSd->end();
+				file.print(buffer);
+				file.close();
+			}
+			microSd->end();
 
-            WarningBox::stepProgressBar();
-        }
+			WarningBox::stepProgressBar();
+		}
 
 		return noSdError;
 	}
 
-	uint8_t saveRoomsToFile(const String& directory) {
-        // create the file path string
-        const String filePath = "/" + directory + "/rooms.dat";
-        Serial.printf("attempting to save: %s\n", filePath.c_str());
+	sd_err saveRoomsToFile(const String& directory) {
+		// create the file path string
+		const String filePath = "/" + directory + "/rooms.dat";
+		Serial.printf("attempting to save: %s\n", filePath.c_str());
 
-        // remove the rooms.dat file if it exists
-        microSd->begin();
-        {
-            if (SD.remove(filePath)) {
-                Serial.println("removed rooms.dat file");
-            } else {
-                Serial.println("no rooms.dat file to remove");
-            }
-        }
-        microSd->end();
-        WarningBox::stepProgressBar();
+		microSd->deleteFile(filePath);
+		WarningBox::stepProgressBar();
 
-        char buffer[1100];
-        uint16_t cursor = 0;
+		char buffer[1100];
+		uint16_t cursor = 0;
 
-        // helper function to append to buffer
-        auto appendToBuffer = [&](const char *text) {
-            cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
-            //Serial.printf("buffer: %s\n", buffer);
-        };
+		// helper function to append to buffer
+		auto appendToBuffer = [&](const char* text) {
+			cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
+			// Serial.printf("buffer: %s\n", buffer);
+		};
 
-        // writing code to handle game object IDs up to 16384
-        for (uint8_t roomId = 0; roomId < roomCount; roomId++) {
-            // a room is 13x10 so a line might look like: 16384, 16384, ...
-            // 7 chars * 12 + 5 + newline = 90
-            // min is 90 per line, but just in case we'll do 100
+		// writing code to handle game object IDs up to 16384
+		for (uint8_t roomId = 0; roomId < roomCount; roomId++) {
+			// a room is 13x10 so a line might look like: 16384, 16384, ...
+			// 7 chars * 12 + 5 + newline = 90
+			// min is 90 per line, but just in case we'll do 100
 
-            // clear the buffer and reset cursor
-            for (uint16_t i = 0; i < 1100; i++) {
-                buffer[i] = 0;
-            }
-            cursor = 0;
+			// clear the buffer and reset cursor
+			for (uint16_t i = 0; i < 1100; i++) {
+				buffer[i] = 0;
+			}
+			cursor = 0;
 
-            char notation[12];
-            sprintf(notation, "// Room %d\n", roomId); // Biggest string is "// Room 36\n\0"
-            appendToBuffer(notation);
+			char notation[12];
+			sprintf(notation, "// Room %d\n", roomId); // Biggest string is "// Room 36\n\0"
+			appendToBuffer(notation);
 
 
-            uint16_t gid = 0;
-            Coordinates coordinates;
-            coordinates.roomId = roomId;
-            char num[7];
-            for (uint8_t y = 0; y < 10; y++) {
-                for (uint8_t x = 0; x < 13; x++) {
-                    coordinates.x = x;
-                    coordinates.y = y;
-                    RoomHelper::getGameObjectId(&gid, coordinates);
-                    if (x == 12) {
-                        sprintf(num, "%d\n", gid);
-                    } else {
-                        sprintf(num, "%d, ", gid);
-                    }
-                    appendToBuffer(num);
-                }
-            }
+			uint16_t gid = 0;
+			Coordinates coordinates;
+			coordinates.roomId = roomId;
+			char num[7];
+			for (uint8_t y = 0; y < 10; y++) {
+				for (uint8_t x = 0; x < 13; x++) {
+					coordinates.x = x;
+					coordinates.y = y;
+					RoomHelper::getGameObjectId(&gid, coordinates);
+					if (x == 12) {
+						sprintf(num, "%d\n", gid);
+					} else {
+						sprintf(num, "%d, ", gid);
+					}
+					appendToBuffer(num);
+				}
+			}
 
-            uint16_t playerId = _NO_GAMEOBJECT;
-            RoomHelper::getPlayerGameObjectId(&playerId, roomId);
+			uint16_t playerId = _NO_GAMEOBJECT;
+			RoomHelper::getPlayerGameObjectId(&playerId, roomId);
 
-            uint8_t paletteId = _NO_PALETTE;
-            RoomHelper::getPaletteId(&paletteId, roomId);
+			uint8_t paletteId = _NO_PALETTE;
+			RoomHelper::getPaletteId(&paletteId, roomId);
 
-            uint8_t musicId = _NO_MUSIC;
-            RoomHelper::getMusicId(&musicId, roomId);
+			uint8_t musicId = _NO_MUSIC;
+			RoomHelper::getMusicId(&musicId, roomId);
 
-            char extra[18];
-            sprintf(extra, "%hu, %d, %d\n\n", playerId, paletteId, musicId); // Biggest string is "16384, 128, 128\n\n\0"
-            appendToBuffer(extra);
+			char extra[18];
+			sprintf(extra, "%hu, %d, %d\n\n", playerId, paletteId,
+					  musicId); // Biggest string is "16384, 128, 128\n\n\0"
+			appendToBuffer(extra);
 
-            microSd->begin();
-            {
-                // Write to file
-                File file = SD.open(filePath, FILE_APPEND);
-                if (!file) {
-                    Serial.printf("failed to open %s", filePath.c_str());
-                    microSd->end();
-                    return errFailOpenFile;
-                }
-                //Serial.println("opened file for writing!");
+			microSd->begin();
+			{
+				// Write to file
+				File file = SD.open(filePath, FILE_APPEND);
+				if (!file) {
+					Serial.printf("failed to open %s", filePath.c_str());
+					microSd->end();
+					return errFailOpenFile;
+				}
 
-                file.print(buffer);
-                file.close();
-            }
-            microSd->end();
+				file.print(buffer);
+				file.close();
+			}
+			microSd->end();
 
-            WarningBox::stepProgressBar();
-        }
-        return noSdError;
-    }
+			WarningBox::stepProgressBar();
+		}
+		return noSdError;
+	}
 
 	uint8_t savePalettesToFile(const String& directory) {
-        // create the file path string
-        const String filePath = "/" + directory + "/palettes.dat";
-        Serial.printf("attempting to save: %s\n", filePath.c_str());
+		// create the file path string
+		const String filePath = "/" + directory + "/palettes.dat";
+		Serial.printf("attempting to save: %s\n", filePath.c_str());
 
-        // remove the palettes.dat file if it exists
-        microSd->begin();
-        {
-            if (SD.remove(filePath)) {
-                Serial.println("removed palettes.dat file");
-            } else {
-                Serial.println("no palettes.dat file to remove");
-            }
-        }
-        microSd->end();
-        WarningBox::stepProgressBar();
+		// remove the palettes.dat file if it exists
+		microSd->deleteFile(filePath);
+		WarningBox::stepProgressBar();
 
-        for (uint8_t paletteId = 0; paletteId < paletteCount; paletteId++) {
-            Palette p;
-            p.id = paletteId;
-            p.load();
+		for (uint8_t paletteId = 0; paletteId < paletteCount; paletteId++) {
+			Palette p;
+			p.id = paletteId;
+			p.load();
 
-            char buffer[38];
-            sprintf(buffer, "// Palette %d\n%d, %d, %d\n\n", paletteId, p.getHighlight(), p.getForeground(),
-                    p.getBackground()); // Biggest string is "// Room 36\n\0"
+			char buffer[38];
+			sprintf(buffer, "// Palette %d\n%d, %d, %d\n\n", paletteId, p.getHighlight(),
+					  p.getForeground(),
+					  p.getBackground()); // Biggest string is "// Room 36\n\0"
 
-            microSd->begin();
-            {
-                // Write to file
-                File file = SD.open(filePath, FILE_APPEND);
-                if (!file) {
-                    Serial.printf("failed to open %s", filePath.c_str());
-                    microSd->end();
-                    return errFailOpenFile;
-                }
-                //Serial.println("opened file for writing!");
+			microSd->begin();
+			{
+				// Write to file
+				File file = SD.open(filePath, FILE_APPEND);
+				if (!file) {
+					Serial.printf("failed to open %s", filePath.c_str());
+					microSd->end();
+					return errFailOpenFile;
+				}
 
-                file.print(buffer);
-                file.close();
-            }
-            microSd->end();
+				file.print(buffer);
+				file.close();
+			}
+			microSd->end();
 
-            WarningBox::stepProgressBar();
-        }
+			WarningBox::stepProgressBar();
+		}
 
 		return noSdError;
 	}
 
 	uint8_t saveDialogToFile(const String& directory) {
-        // create the file path string
-        const String filePath = "/" + directory + "/dialog.dat";
-        Serial.printf("attempting to save: %s\n", filePath.c_str());
+		// create the file path string
+		const String filePath = "/" + directory + "/dialog.dat";
+		Serial.printf("attempting to save: %s\n", filePath.c_str());
 
-        // remove the dialog.dat file if it exists
-        microSd->begin();
-        {
-            if (SD.remove(filePath)) {
-                Serial.println("removed dialog.dat file");
-            } else {
-                Serial.println("no dialog.dat file to remove");
-            }
-        }
-        microSd->end();
-        WarningBox::stepProgressBar();
+		// remove the dialog.dat file if it exists
+		microSd->begin();
+		{
+			if (SD.remove(filePath)) {
+				Serial.println("removed dialog.dat file");
+			} else {
+				Serial.println("no dialog.dat file to remove");
+			}
+		}
+		microSd->end();
+		WarningBox::stepProgressBar();
 
-        char buffer[dialogMaxLength + 2*dialogMaxLength + 20];
-        uint16_t cursor = 0;
+		char buffer[dialogMaxLength + 2 * dialogMaxLength + 20];
+		uint16_t cursor = 0;
 
-        // helper function to append to buffer
-        auto appendToBuffer = [&](const char *text) {
-            cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
-            //Serial.printf("buffer: %s\n", buffer);
-        };
-
+		// helper function to append to buffer
+		auto appendToBuffer = [&](const char* text) {
+			cursor += strlcpy(&buffer[cursor], text, sizeof(buffer) - cursor);
+			// Serial.printf("buffer: %s\n", buffer);
+		};
 
 		for (uint16_t dialogId = 0; dialogId < dialogCount; dialogId++) {
-            Serial.printf("starting to store dialog %d in buffer\n", dialogId);
-            // clear the buffer and reset cursor
-            for (uint16_t i = 0; i < sizeof(buffer); i++) {
-                buffer[i] = 0;
-            }
-            cursor = 0;
+			Serial.printf("starting to store dialog %d in buffer\n", dialogId);
+			// clear the buffer and reset cursor
+			for (uint16_t i = 0; i < sizeof(buffer); i++) {
+				buffer[i] = 0;
+			}
+			cursor = 0;
 
 			Dialog dialog(dialogId);
 			dialog.load();
 
-            char header[17]; // "// Dialog 16384n0"
-            sprintf(header, "// Dialog %hu\n", dialogId);
-            appendToBuffer(header);
+			char header[17]; // "// Dialog 16384n0"
+			sprintf(header, "// Dialog %hu\n", dialogId);
+			appendToBuffer(header);
 
-            // print dialog chars to a csv-like file
+			// print dialog chars to a csv-like file
 			for (uint16_t j = 0; j < dialogMaxLength; j++) {
-                uint8_t c = dialog.buffer[j];
+				const uint8_t c = dialog.buffer[j];
 
-                char letter[6]; // "128, \0"
-                if (j == dialogMaxLength - 1 or c == GLYPH_END_OF_LINE) { // last char for this dialog
-                    sprintf(letter, "%u\n\n", c);
-                } else {
-                    sprintf(letter, "%u, ", c);
-                }
+				char letter[6];														 // "128, \0"
+				if (j == dialogMaxLength - 1 or c == GLYPH_END_OF_LINE) { // last char for this dialog
+					sprintf(letter, "%u\n\n", c);
+				} else {
+					sprintf(letter, "%u, ", c);
+				}
 				appendToBuffer(letter);
-                if (c == GLYPH_END_OF_LINE) {
-                    break;
-                }
+				if (c == GLYPH_END_OF_LINE) {
+					break;
+				}
 			}
 
-            Serial.printf("buffer: %s\n", buffer);
+			Serial.printf("buffer: %s\n", buffer);
 
+			microSd->begin();
+			{
+				// Write to file
+				File file = SD.open(filePath, FILE_APPEND);
+				if (!file) {
+					Serial.printf("failed to open %s", filePath.c_str());
+					microSd->end();
+					return errFailOpenFile;
+				}
 
-            microSd->begin();
-            {
-                // Write to file
-                File file = SD.open(filePath, FILE_APPEND);
-                if (!file) {
-                    Serial.printf("failed to open %s", filePath.c_str());
-                    microSd->end();
-                    return errFailOpenFile;
-                }
-                //Serial.println("opened file for writing!");
+				file.print(buffer);
+				file.close();
+			}
+			microSd->end();
 
-                file.print(buffer);
-                file.close();
-            }
-            microSd->end();
-
-            WarningBox::stepProgressBar();
+			WarningBox::stepProgressBar();
 		}
 
 		return noSdError;

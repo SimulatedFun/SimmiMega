@@ -43,10 +43,53 @@ class MicroSD {
 
 		// Fundamental operations
 		void createDirTx(str path);
-		void readFile(str path);
-		void deleteFile(str path);
-		void listDirTx(str dirname, uint8_t levels = 10);
-		void appendFileTx(const String& path, const String& message);
+		void createDir(str path) {
+			begin();
+			createDirTx(path);
+			end();
+		}
+
+		void removeDirTx(str path);
+		void removeDir(str path) {
+			begin();
+			removeDirTx(path);
+			end();
+		}
+
+		void readFileTx(str path);
+		void readFile(str path) {
+			begin();
+			readFileTx(path);
+			end();
+		}
+
+		void deleteFileTx(str path);
+		void deleteFile(str path) {
+			begin();
+			deleteFileTx(path);
+			end();
+		}
+
+		void listDirTx(str directory, uint8_t levels = 10);
+		void listDir(str directory, uint8_t levels = 10) {
+			begin();
+			listDirTx(directory, levels);
+			end();
+		}
+
+		void appendFileTx(str path, str message);
+		void appendFile(str path, str message) {
+			begin();
+			appendFileTx(path, message);
+			end();
+		}
+
+		void renameFileTx(str path1, str path2);
+		void renameFile(str path1, str path2) {
+			begin();
+			renameFileTx(path1, path2);
+			end();
+		}
 };
 extern MicroSD* microSd;
 

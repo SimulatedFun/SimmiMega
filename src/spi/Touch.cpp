@@ -18,6 +18,9 @@ void Touch::endRead() {
 }
 
 tsPoint_t Touch::getTouch(uint8_t samples = 48, uint8_t goodSamples = 30) {
+	if (!checkTimer(200, ScreenChangeWait, false)) {
+		return tsPoint_t{0, 0, 0};
+	}
 	uint8_t pressCounter = 0;
 	uint32_t x = 0, y = 0;
 

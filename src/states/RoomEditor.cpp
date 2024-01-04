@@ -122,8 +122,13 @@ namespace RoomEditor {
 	void callbackChoosePalette(boolean) {
 		deallocate();
 
-		const uint8_t paletteId = ChoosePalette::pick();
-		RoomHelper::setPaletteId(paletteId, editRoomId);
+		boolean cancelled = false;
+		uint16_t paletteId = 0;
+		ChoosePalette::pick(true, &paletteId, &cancelled);
+
+		if (!cancelled) {
+			RoomHelper::setPaletteId(paletteId, editRoomId);
+		}
 
 		loadData();
 		setupUI();

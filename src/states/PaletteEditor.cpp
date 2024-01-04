@@ -15,8 +15,11 @@ namespace PaletteEditor {
 	void setup() {
 		INFO(F("enter palette editor"));
 
-		const uint8_t paletteId = ChoosePalette::pick();
-		if (paletteId == _NO_PALETTE) {
+		boolean cancelled = false;
+		uint16_t paletteId = 0;
+		ChoosePalette::pick(false, &paletteId, &cancelled);
+
+		if (cancelled) {
 			state = MainMenuState;
 			return;
 		}

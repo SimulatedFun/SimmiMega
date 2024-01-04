@@ -8,6 +8,7 @@
 #include "globals/Pinout.h"
 #include "globals/Colors.h"
 #include "globals/SerialDebugging.h"
+#include "globals/Typedefs.h"
 
 #define ILI9341_RST_DELAY	  150 ///< delay ms wait for reset finish
 #define ILI9341_SLPIN_DELAY  150 ///< delay ms wait for sleep in finish
@@ -160,29 +161,29 @@ class Display {
 			endWrite();
 		}
 
-		void drawLineTx(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
-		void drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color) {
+		void drawLineTx(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
+		void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
 			startWrite();
 			drawLineTx(x0, y0, x1, y1, color);
 			endWrite();
 		}
 
-		void drawHorizontalLineTx(int16_t x, int16_t y, int16_t w, uint16_t color);
-		void drawHorizontalLine(int16_t x, int16_t y, int16_t w, uint16_t color) {
+		void drawHorizontalLineTx(uint16_t x, uint16_t y, uint16_t w, uint16_t color);
+		void drawHorizontalLine(uint16_t x, uint16_t y, uint16_t w, uint16_t color) {
 			startWrite();
 			drawHorizontalLineTx(x, y, w, color);
 			endWrite();
 		}
 
-		void drawVerticalLineTx(int16_t x, int16_t y, int16_t h, uint16_t color);
-		void drawVerticalLine(int16_t x, int16_t y, int16_t h, uint16_t color) {
+		void drawVerticalLineTx(uint16_t x, uint16_t y, uint16_t h, uint16_t color);
+		void drawVerticalLine(uint16_t x, uint16_t y, uint16_t h, uint16_t color) {
 			startWrite();
 			drawVerticalLineTx(x, y, h, color);
 			endWrite();
 		}
 
-		void drawPixelTx(int16_t x, int16_t y, uint16_t color);
-		void drawPixel(int16_t x, int16_t y, uint16_t color) {
+		void drawPixelTx(uint16_t x, uint16_t y, uint16_t color);
+		void drawPixel(uint16_t x, uint16_t y, uint16_t color) {
 			startWrite();
 			drawPixelTx(x, y, color);
 			endWrite();

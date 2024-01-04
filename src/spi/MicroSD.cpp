@@ -42,16 +42,16 @@ void MicroSD::createDirTx(const String& path) {
 	}
 }
 
-void removeDir(fs::FS& fs, const String& path) {
+void MicroSD::removeDirTx(const String& path) {
 	Serial.printf("Removing Dir: %s\n", path.c_str());
-	if (fs.rmdir(path)) {
+	if (SD.rmdir(path)) {
 		Serial.println("Dir removed");
 	} else {
 		Serial.println("rmdir failed");
 	}
 }
 
-void MicroSD::readFile(const String& path) {
+void MicroSD::readFileTx(const String& path) {
 	Serial.printf("Reading file: %s\n", path.c_str());
 
 	File file = SD.open(path);
@@ -66,22 +66,6 @@ void MicroSD::readFile(const String& path) {
 	file.close();
 }
 
-void writeFile(fs::FS& fs, const String& path, const String& message) {
-	Serial.printf("Writing file: %s\n", path.c_str());
-
-	File file = fs.open(path, FILE_WRITE);
-	if (!file) {
-		Serial.println("Failed to open file for writing");
-		return;
-	}
-	if (file.print(message) != 0) {
-		Serial.println("File written");
-	} else {
-		Serial.println("Write failed");
-	}
-	file.close();
-}
-
 void MicroSD::appendFileTx(const String& path, const String& message) {
 	Serial.printf("Appending to file: %s : %s\n", path.c_str(), message.c_str());
 
@@ -91,7 +75,7 @@ void MicroSD::appendFileTx(const String& path, const String& message) {
 		file.close();
 		return;
 	}
-	//Serial.println("Opened file for appending");
+
 	if (file.print(message) != 0) {
 		Serial.println("Message appended");
 	} else {
@@ -100,16 +84,16 @@ void MicroSD::appendFileTx(const String& path, const String& message) {
 	file.close();
 }
 
-void renameFile(fs::FS& fs, const String& path1, const String& path2) {
+void MicroSD::renameFileTx(const String& path1, const String& path2) {
 	Serial.printf("Renaming file %s to %s\n", path1.c_str(), path2.c_str());
-	if (fs.rename(path1, path2)) {
+	if (SD.rename(path1, path2)) {
 		Serial.println("File renamed");
 	} else {
 		Serial.println("Rename failed");
 	}
 }
 
-void MicroSD::deleteFile(const String& path) {
+void MicroSD::deleteFileTx(const String& path) {
 	Serial.printf("Deleting file: %s\n", path.c_str());
 	if (SD.remove(path)) {
 		Serial.println("File deleted");
@@ -153,7 +137,7 @@ sd_err MicroSD::begin() {
 			return noSdError;
 		}
 		Serial.printf("SD init failed. Trying %d more times.", SD_RETRY_COUNT - i);
-		delay(1000);
+		delay(750);
 	}
 
 	end();

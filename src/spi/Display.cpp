@@ -1,5 +1,13 @@
 #include "spi/Display.h"
 
+namespace { // anonymous namespace limits to only use in this file
+	inline void swap_int16_t(u16* a, u16* b) {
+		u16 const t = *a;
+		*a = *b;
+		*b = t;
+	}
+}
+
 void Display::startWrite() {
 	_spi->beginTransaction(SPISettings(SPI_TFT_FREQUENCY, MSBFIRST, SPI_MODE0));
 	digitalWrite(TFT_CS, LOW);
@@ -10,7 +18,7 @@ void Display::endWrite() {
 	_spi->endTransaction();
 }
 
-void Display::writeCommand(uint8_t cmd) {
+void Display::writeCommand(u8 cmd) {
 	digitalWrite(TFT_DC, LOW);
 	_spi->write(cmd);
 	digitalWrite(TFT_DC, HIGH);
@@ -31,75 +39,66 @@ void Display::initialize() {
 	delay(150);
 
 	// Processes all needed commands for boot-up from the tftCommands array
-	uint16_t addressOffset = 0;
-	uint8_t commands[15];
+	u16 addressOffset = 0;
+	u8 commands[15];
 	while (addressOffset < bootCommandLength) {
-		const uint8_t cmd = pgm_read_byte_near(tftBootCommands + addressOffset);
+		const u8 cmd = pgm_read_byte_near(tftBootCommands + addressOffset);
 		addressOffset++;
-		const uint8_t numArgs = pgm_read_byte_near(tftBootCommands + addressOffset);
+		const u8 numArgs = pgm_read_byte_near(tftBootCommands + addressOffset);
 		addressOffset++;
-		for (uint8_t i = 0; i < numArgs; i++) {
+		for (u8 i = 0; i < numArgs; i++) {
 			commands[i] = pgm_read_byte_near(tftBootCommands + addressOffset++);
 		}
 		sendCommand(cmd, commands, numArgs);
 	}
 
-	uint8_t m = (ILI9341_MADCTL_MX | ILI9341_MADCTL_MY | ILI9341_MADCTL_MV | ILI9341_MADCTL_BGR);
+	u8 m = (ILI9341_MADCTL_MX | ILI9341_MADCTL_MY | ILI9341_MADCTL_MV | ILI9341_MADCTL_BGR);
 	sendCommand(ILI9341_MADCTL, &m, 1);
 
 	INFO("display initialized");
 }
 
-void Display::sendCommand(uint8_t cmd, uint8_t* data, uint8_t dataLen) {
+void Display::sendCommand(u8 cmd, u8* data, u8 dataLen) {
 	startWrite();
 	writeCommand(cmd);
 	_spi->writeBytes(data, dataLen); // send the data bytes
 	endWrite();
 }
 
-void Display::fillRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
+void Display::fillRectangleTx(u16 x, u16 y, u16 w, u16 h, u16 color) {
 	setAddrWindowTx(x, y, w, h);
 	for (uint32_t i = 0; i < w * h; i++) {
 		_spi->write16(color);
 	}
 }
 
-void Display::drawRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
+void Display::drawRectangleTx(u16 x, u16 y, u16 w, u16 h, u16 color) {
 	drawHorizontalLineTx(x, y, w, color);
 	drawHorizontalLineTx(x, y + h - 1, w, color);
 	drawVerticalLineTx(x, y, h, color);
 	drawVerticalLineTx(x + w - 1, y, h, color);
 }
 
-void Display::drawVerticalLineTx(int16_t x, int16_t y, int16_t h, uint16_t color) {
+void Display::drawVerticalLineTx(u16 x, u16 y, u16 h, u16 color) {
 	drawLineTx(x, y, x, y + h - 1, color);
 }
 
-#ifndef _swap_int16_t
-#define _swap_int16_t(a, b)                                                                        \
-	{                                                                                               \
-		const int16_t t = a;                                                                         \
-		a = b;                                                                                       \
-		b = t;                                                                                       \
-	}
-#endif
-
-void Display::drawLineTx(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color) {
+void Display::drawLineTx(u16 x0, u16 y0, u16 x1, u16 y1, u16 color) {
 	const boolean steep = abs(y1 - y0) > abs(x1 - x0);
 	if (steep) {
-		_swap_int16_t(x0, y0);
-		_swap_int16_t(x1, y1);
+		swap_int16_t(&x0, &y0);
+		swap_int16_t(&x1, &y1);
 	}
 	if (x0 > x1) {
-		_swap_int16_t(x0, x1);
-		_swap_int16_t(y0, y1);
+		swap_int16_t(&x0, &x1);
+		swap_int16_t(&y0, &y1);
 	}
 
-	const int16_t dx = (int16_t) (x1 - x0);
-	const int16_t dy = (int16_t) abs(y1 - y0);
+	const i16 dx = (i16) (x1 - x0);
+	const i16 dy = (i16) abs(y1 - y0);
 
-	int16_t err = (int16_t) (dx / 2);
-	int16_t ystep;
+	i16 err = (i16) (dx / 2);
+	i16 ystep;
 
 	if (y0 < y1) {
 		ystep = 1;
@@ -121,31 +120,29 @@ void Display::drawLineTx(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_
 	}
 }
 
-void Display::drawPixelTx(int16_t x, int16_t y, uint16_t color) {
-	if ((x < 0) || (y < 0)) {
+void Display::drawPixelTx(u16 x, u16 y, u16 color) {
+	if (x < 0 or y < 0) {
 		return;
 	}
-
-	if ((x >= ScreenWidth) || (y >= ScreenHeight)) {
+	if (x >= ScreenWidth or y >= ScreenHeight) {
 		return;
 	}
 	setAddrWindowTx(x, y, 1, 1);
 	_spi->write16(color);
 }
 
-void Display::setAddrWindowTx(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h) {
-	static uint16_t old_x1 = 0xffff, old_x2 = 0xffff;
-	static uint16_t old_y1 = 0xffff, old_y2 = 0xffff;
-
-	const uint16_t x2 = (x1 + w - 1), y2 = (y1 + h - 1);
-	if (x1 != old_x1 || x2 != old_x2) {
+void Display::setAddrWindowTx(u16 x1, u16 y1, u16 w, u16 h) {
+	static u16 old_x1 = 0xffff, old_x2 = 0xffff;
+	static u16 old_y1 = 0xffff, old_y2 = 0xffff;
+	const u16 x2 = (x1 + w - 1), y2 = (y1 + h - 1);
+	if (x1 != old_x1 or x2 != old_x2) {
 		writeCommand(ILI9341_CASET); // Column address set
 		_spi->write16(x1);
 		_spi->write16(x2);
 		old_x1 = x1;
 		old_x2 = x2;
 	}
-	if (y1 != old_y1 || y2 != old_y2) {
+	if (y1 != old_y1 or y2 != old_y2) {
 		writeCommand(ILI9341_PASET); // Row address set
 		_spi->write16(y1);
 		_spi->write16(y2);
@@ -155,11 +152,11 @@ void Display::setAddrWindowTx(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h) 
 	writeCommand(ILI9341_RAMWR); // Write to RAM
 }
 
-void Display::drawHorizontalLineTx(int16_t x, int16_t y, int16_t w, uint16_t color) {
+void Display::drawHorizontalLineTx(u16 x, u16 y, u16 w, u16 color) {
 	drawLineTx(x, y, x + w - 1, y, color);
 }
 
-void Display::writeColorTx(uint16_t color, uint32_t len) {
+void Display::writeColorTx(u16 color, uint32_t len) {
 	if (len == 0) {
 		return; // Avoid 0-byte transfers
 	}
@@ -168,9 +165,9 @@ void Display::writeColorTx(uint16_t color, uint32_t len) {
 	}
 }
 
-void Display::drawDottedRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
+void Display::drawDottedRectangleTx(u16 x, u16 y, u16 w, u16 h, u16 color) {
 	// vertical lines
-	for (uint16_t i = 0; i < h; i++) {
+	for (u16 i = 0; i < h; i++) {
 		if (i % 3 == 0) {
 			drawPixelTx(x, y + i, color);
 			drawPixelTx(x + w, y + i, color);
@@ -178,7 +175,7 @@ void Display::drawDottedRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t
 	}
 
 	// horizontal lines
-	for (uint16_t i = 0; i < w; i++) {
+	for (u16 i = 0; i < w; i++) {
 		if ((i + 1) % 3 == 0) {
 			drawPixelTx(x + i, y, color);
 			drawPixelTx(x + i, y + h, color);

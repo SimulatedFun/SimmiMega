@@ -11,7 +11,7 @@ const uint8_t palettesPerTab = 16;
 class PaletteSelectionGrid : public UIElement {
 	public:
 		uint8_t* currentPage = nullptr;
-        boolean showZeroth = false;
+		boolean showZeroth = false;
 		void render() override;
 		void handlePress() override;
 		PaletteSelectionGrid() {

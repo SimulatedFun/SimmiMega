@@ -6,7 +6,7 @@ namespace ChoosePalette {
 	constexpr uint8_t maxTabCount = 2;
 	NumberTabElement* tabs[maxTabCount];
 	uint8_t currentTab = 0;
-    boolean showZeroth = true;
+	boolean showZeroth = true;
 
 	boolean callbackSelected = false;
 	boolean callbackCancelled = false;
@@ -18,6 +18,8 @@ namespace ChoosePalette {
 		touch->clearQueue(); // do before draw so you can touch faster
 		draw();
 		callbackSelected = false;
+		callbackCancelled = false;
+		callbackPaletteId = 0;
 	}
 
 	void setupUI() {
@@ -32,6 +34,7 @@ namespace ChoosePalette {
 		tray->setPosition(0, 36);
 		tray->callback.bind(&callbackPaletteTray);
 		tray->setPageRef(&currentTab);
+		tray->showZeroth = showZeroth;
 		UIHelper::registerUI(tray);
 
 		for (uint8_t i = 0; i < maxTabCount; i++) {
@@ -64,11 +67,13 @@ namespace ChoosePalette {
 	void callbackPaletteTray(uint8_t selectedPaletteId) {
 		callbackSelected = true;
 		callbackPaletteId = selectedPaletteId + (currentTab * palettesPerTab);
+		if (!tray->showZeroth) {
+			callbackPaletteId++;
+		}
 	}
 
 	void callbackExit(RoundButton&) {
-		callbackSelected = true;
-		callbackPaletteId = _NO_PALETTE;
+		callbackCancelled = true;
 	}
 
 	/// When changing tabs in the tray
@@ -103,18 +108,25 @@ namespace ChoosePalette {
 		tray->render();
 	}
 
-	void pick(boolean inShowZeroth, uint16_t* paletteId, boolean* cancelled) {
-        showZeroth = inShowZeroth;
+	void pick(boolean includeZerothPalette, uint16_t* paletteId, boolean* cancelled) {
+		showZeroth = includeZerothPalette;
+
 		setup();
 
 		while (!callbackSelected and !callbackCancelled) {
 			UIHelper::loop();
 		}
 
+		if (callbackCancelled) {
+			*cancelled = true;
+			return;
+		}
+
 		deallocate();
 		INFO(F("ChoosePalette::pick() returns ") << callbackPaletteId);
 		touch->clearQueue();
-		return callbackPaletteId;
+
+		*paletteId = callbackPaletteId;
 	}
 
 	void deallocate() {
@@ -125,4 +137,4 @@ namespace ChoosePalette {
 		delete tray;
 		delete exit;
 	}
-}
+} // namespace ChoosePalette
