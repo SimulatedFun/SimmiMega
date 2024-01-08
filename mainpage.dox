@@ -1,0 +1,86 @@
+/*! \mainpage Game Console System Documentation
+
+    \section overview_sec Component Overview
+
+    - Power Switch
+    - Battery and Management System
+    - Voltage Regulator
+    - Audio Jack and i2S Audio Chip
+    - MicroSD Slot
+    - Audio Volume Control
+    - Display Screen
+    - Touchscreen Components: Digitizer and Controller
+    - External EEPROM
+    - Control Buttons
+
+    \section schematic_sec Component Schematics and Bill of Materials (BOM)
+
+    - Comprehensive Schematic Diagram (*insert schematic image here*)
+
+    \section troubleshooting_sec Troubleshooting Guide
+
+    \subsection touchscreen_calibration Touchscreen Calibration
+    - Manual Recalibration Procedure:
+      - Standard Method: Navigate to `Settings > System > Recalibrate`.
+      - Alternative Method: Hold the down directional button while powering on the device to initiate recalibration.
+    - Common Issues:
+      - Insensitivity or Over-sensitivity
+      - Presence of Dead Zones
+    - Potential Solution: Check for loose connections in the digitizer, common in lower-quality screens.
+
+    \subsection microsd_compatibility MicroSD Card Compatibility
+    - Required Specification: Minimum 1GB, formatted in FAT32.
+
+    \subsection battery_charging Battery and Charging
+    - Charging Method: USB-C port.
+    - Charge Indicator: Displayed on the screen's top-right corner.
+
+    \section game_config_sec Game Configuration Settings
+
+    \subsection startup_dialog Startup Dialog Configuration
+    - Display Settings: Central screen placement upon game launch.
+
+    \subsection player_position Initial Player Position Settings
+    - Configurable Start Location: Specify room and coordinates (X/Y axis).
+
+    \subsection audio_settings Audio Settings (Under Revision)
+    - Current Format: U8, PCM at 16kHz.
+    - Conversion Tool: [Audio Format Converter](https://audio.online-convert.com/convert/mp3-to-wav)
+    - Recommended Settings:
+      - Bit Resolution: 8-bit
+      - Audio Frequency: 16kHz
+      - Audio Channels: Mono
+      - PCM Format: U8
+      - Naming Convention: "01_name.wav", "02_name.wav", etc., for track referencing.
+
+    \section gameplay_mechanics Gameplay Mechanics
+
+    \subsection player_movement Player Movement
+    - Controls: Use directional buttons for navigation.
+    - Room Traversal: Exiting the screen edges leads to adjacent rooms.
+    - Object Interaction: Players can pass through certain objects, while others may block or trigger events.
+
+    \subsection flags_object_interaction Flags and Object Interaction
+    - Collision Events: Objects may alter game flags upon collision.
+    - Object Responses: Variations in appearance, solidity, state, or animation based on flag states.
+
+    \subsection room_configuration Room Configuration
+    - Structure: 13x10 object array for player exploration.
+
+    \section edit_mode_features Edit Mode Features
+
+    \subsection sprite_editor Sprite Editor
+    - Animation Frame Editing: Pencil for drawing, eraser for corrections, trash bin for clearing, copy and paste for duplication.
+    - Color Palette: Lightbulb icon toggles between highlight and background color sets.
+
+    \subsection logic_editor Logic Editor
+    - Functionalities: Visual, Pathfinding, Collision, Flags, Updates, Advanced settings.
+
+    \subsection additional_editors Additional Editors
+    - Room and Dialog Editors
+    - Palette Configuration
+
+    \subsection data_management Data Management
+    - Game and System Settings
+
+*/
