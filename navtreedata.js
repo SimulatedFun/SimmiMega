@@ -25,6 +25,31 @@
 var NAVTREE =
 [
   [ "SimmiMega", "index.html", [
+    [ "Game Console System Documentation", "index.html", [
+      [ "Component Overview", "index.html#overview_sec", null ],
+      [ "Component Schematics and Bill of Materials (BOM)", "index.html#schematic_sec", null ],
+      [ "Troubleshooting Guide", "index.html#troubleshooting_sec", [
+        [ "Touchscreen Calibration", "index.html#touchscreen_calibration", null ],
+        [ "MicroSD Card Compatibility", "index.html#microsd_compatibility", null ],
+        [ "Battery and Charging", "index.html#battery_charging", null ]
+      ] ],
+      [ "Game Configuration Settings", "index.html#game_config_sec", [
+        [ "Startup Dialog Configuration", "index.html#startup_dialog", null ],
+        [ "Initial Player Position Settings", "index.html#player_position", null ],
+        [ "Audio Settings (Under Revision)", "index.html#audio_settings", null ]
+      ] ],
+      [ "Gameplay Mechanics", "index.html#gameplay_mechanics", [
+        [ "Player Movement", "index.html#player_movement", null ],
+        [ "Flags and Object Interaction", "index.html#flags_object_interaction", null ],
+        [ "Room Configuration", "index.html#room_configuration", null ]
+      ] ],
+      [ "Edit Mode Features", "index.html#edit_mode_features", [
+        [ "Sprite Editor", "index.html#sprite_editor", null ],
+        [ "Logic Editor", "index.html#logic_editor", null ],
+        [ "Additional Editors", "index.html#additional_editors", null ],
+        [ "Data Management", "index.html#data_management", null ]
+      ] ]
+    ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [

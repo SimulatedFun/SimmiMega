@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SimmiMega: Main Page</title>
+<title>SimmiMega: Game Console System Documentation</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -82,11 +82,129 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </iframe>
 </div>
 
-<div class="header">
+<div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">SimmiMega Documentation</div>  </div>
+<div class="title">Game Console System Documentation </div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><h1><a class="anchor" id="overview_sec"></a>
+Component Overview</h1>
+<ul>
+<li>Power Switch</li>
+<li>Battery and Management System</li>
+<li>Voltage Regulator</li>
+<li><a class="el" href="d7/ddb/classAudio.html">Audio</a> Jack and i2S <a class="el" href="d7/ddb/classAudio.html">Audio</a> Chip</li>
+<li><a class="el" href="dd/d94/classMicroSD.html">MicroSD</a> Slot</li>
+<li><a class="el" href="d7/ddb/classAudio.html">Audio</a> Volume Control</li>
+<li><a class="el" href="d6/dd6/classDisplay.html">Display</a> Screen</li>
+<li>Touchscreen Components: Digitizer and Controller</li>
+<li>External EEPROM</li>
+<li>Control Buttons</li>
+</ul>
+<h1><a class="anchor" id="schematic_sec"></a>
+Component Schematics and Bill of Materials (BOM)</h1>
+<ul>
+<li>Comprehensive Schematic Diagram (<em>insert schematic image here</em>)</li>
+</ul>
+<h1><a class="anchor" id="troubleshooting_sec"></a>
+Troubleshooting Guide</h1>
+<h2><a class="anchor" id="touchscreen_calibration"></a>
+Touchscreen Calibration</h2>
+<ul>
+<li>Manual Recalibration Procedure:<ul>
+<li>Standard Method: Navigate to <code>Settings &gt; System &gt; Recalibrate</code>.</li>
+<li>Alternative Method: Hold the down directional button while powering on the device to initiate recalibration.</li>
+</ul>
+</li>
+<li>Common Issues:<ul>
+<li>Insensitivity or Over-sensitivity</li>
+<li>Presence of Dead Zones</li>
+</ul>
+</li>
+<li>Potential Solution: Check for loose connections in the digitizer, common in lower-quality screens.</li>
+</ul>
+<h2><a class="anchor" id="microsd_compatibility"></a>
+MicroSD Card Compatibility</h2>
+<ul>
+<li>Required Specification: Minimum 1GB, formatted in FAT32.</li>
+</ul>
+<h2><a class="anchor" id="battery_charging"></a>
+Battery and Charging</h2>
+<ul>
+<li>Charging Method: USB-C port.</li>
+<li>Charge Indicator: Displayed on the screen's top-right corner.</li>
+</ul>
+<h1><a class="anchor" id="game_config_sec"></a>
+Game Configuration Settings</h1>
+<h2><a class="anchor" id="startup_dialog"></a>
+Startup Dialog Configuration</h2>
+<ul>
+<li><a class="el" href="d6/dd6/classDisplay.html">Display</a> Settings: Central screen placement upon game launch.</li>
+</ul>
+<h2><a class="anchor" id="player_position"></a>
+Initial Player Position Settings</h2>
+<ul>
+<li>Configurable Start Location: Specify room and coordinates (X/Y axis).</li>
+</ul>
+<h2><a class="anchor" id="audio_settings"></a>
+Audio Settings (Under Revision)</h2>
+<ul>
+<li>Current Format: U8, PCM at 16kHz.</li>
+<li>Conversion Tool: <a href="https://audio.online-convert.com/convert/mp3-to-wav">Audio Format Converter</a></li>
+<li>Recommended Settings:<ul>
+<li>Bit Resolution: 8-bit</li>
+<li><a class="el" href="d7/ddb/classAudio.html">Audio</a> Frequency: 16kHz</li>
+<li><a class="el" href="d7/ddb/classAudio.html">Audio</a> Channels: Mono</li>
+<li>PCM Format: U8</li>
+<li>Naming Convention: "01_name.wav", "02_name.wav", etc., for track referencing.</li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="gameplay_mechanics"></a>
+Gameplay Mechanics</h1>
+<h2><a class="anchor" id="player_movement"></a>
+Player Movement</h2>
+<ul>
+<li>Controls: Use directional buttons for navigation.</li>
+<li>Room Traversal: Exiting the screen edges leads to adjacent rooms.</li>
+<li><a class="el" href="de/de7/structObject.html">Object</a> Interaction: Players can pass through certain objects, while others may block or trigger events.</li>
+</ul>
+<h2><a class="anchor" id="flags_object_interaction"></a>
+Flags and Object Interaction</h2>
+<ul>
+<li>Collision Events: Objects may alter game flags upon collision.</li>
+<li><a class="el" href="de/de7/structObject.html">Object</a> Responses: Variations in appearance, solidity, state, or animation based on flag states.</li>
+</ul>
+<h2><a class="anchor" id="room_configuration"></a>
+Room Configuration</h2>
+<ul>
+<li>Structure: 13x10 object array for player exploration.</li>
+</ul>
+<h1><a class="anchor" id="edit_mode_features"></a>
+Edit Mode Features</h1>
+<h2><a class="anchor" id="sprite_editor"></a>
+Sprite Editor</h2>
+<ul>
+<li>Animation Frame Editing: Pencil for drawing, eraser for corrections, trash bin for clearing, copy and paste for duplication.</li>
+<li><a class="el" href="d0/da2/structColor.html">Color</a> <a class="el" href="de/dad/classPalette.html">Palette</a>: Lightbulb icon toggles between highlight and background color sets.</li>
+</ul>
+<h2><a class="anchor" id="logic_editor"></a>
+Logic Editor</h2>
+<ul>
+<li>Functionalities: Visual, Pathfinding, Collision, Flags, Updates, Advanced settings.</li>
+</ul>
+<h2><a class="anchor" id="additional_editors"></a>
+Additional Editors</h2>
+<ul>
+<li>Room and <a class="el" href="dc/d06/classDialog.html">Dialog</a> Editors</li>
+<li><a class="el" href="de/dad/classPalette.html">Palette</a> Configuration</li>
+</ul>
+<h2><a class="anchor" id="data_management"></a>
+Data Management</h2>
+<ul>
+<li>Game and System Settings </li>
+</ul>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
