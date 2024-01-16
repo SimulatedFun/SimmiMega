@@ -6,23 +6,22 @@ namespace ChooseObject {
 	constexpr uint8_t maxTabCount = 1;
 	NumberTabElement* tabs[maxTabCount];
 	uint8_t currentTab = 0;
-    boolean showZeroth = true;
+	boolean showZeroth = true;
 
 	boolean callbackSelected = false;
 	boolean callbackCancelled = false;
 	uint16_t callbackGameObjectId = 0;
 
 	void callbackObjectTray(unsigned int selectedObjId) {
-        callbackSelected = true;
+		callbackSelected = true;
 		callbackGameObjectId = selectedObjId + (currentTab * objectsPerTab);
-        if (!tray->showZeroth) {
-            callbackGameObjectId++;
-        }
+		if (!tray->showZeroth) {
+			callbackGameObjectId++;
+		}
 	}
 
 	void callbackExit(RoundButton&) {
-		callbackSelected = true;
-		callbackGameObjectId = _NO_GAMEOBJECT;
+		callbackCancelled = true;
 	}
 
 	/// When changing tabs in the tray
@@ -69,7 +68,7 @@ namespace ChooseObject {
 		tray->setPosition(0, 35);
 		tray->callback.bind(&callbackObjectTray);
 		tray->setPageRef(&currentTab);
-        tray->showZeroth = showZeroth;
+		tray->showZeroth = showZeroth;
 		UIHelper::registerUI(tray);
 
 		for (uint8_t i = 0; i < maxTabCount; i++) {
@@ -119,28 +118,28 @@ namespace ChooseObject {
 		touch->clearQueue(); // do before draw so you can touch faster
 		draw();
 		callbackSelected = false;
-        callbackCancelled = false;
-        callbackGameObjectId = 0;
+		callbackCancelled = false;
+		callbackGameObjectId = 0;
 	}
 
 	void pick(boolean includeZerothObject, uint16_t* objectId, boolean* cancelled) {
 		showZeroth = includeZerothObject;
-        setup();
+		setup();
 
 		while (!callbackSelected and !callbackCancelled) {
 			UIHelper::loop();
 		}
 
-        if (callbackCancelled) {
-            *cancelled = true;
-            INFO("closed choose object window");
-        }
+		if (callbackCancelled) {
+			*cancelled = true;
+			INFO("closed choose object window");
+		}
 
 		deallocate();
 		touch->clearQueue();
-        INFO(F("ChooseObject::pick() returns ") << callbackGameObjectId);
+		INFO(F("ChooseObject::pick() returns ") << callbackGameObjectId);
 
-        *objectId = callbackGameObjectId;
+		*objectId = callbackGameObjectId;
 	}
 
 	void deallocate() {

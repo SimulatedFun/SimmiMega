@@ -6,10 +6,19 @@
 
 #include <Arduino.h>
 
-boolean checkTimer(uint16_t ms, uint8_t id, boolean autoReset = false);
-void resetTimer(uint8_t id);
+/// Asynchronous timer
+/// \param timeMs amount of time in milliseconds since last timer reset
+/// \param timerId which timer to check
+/// \param autoReset if the timer should auto reset once it has gone off
+/// \return if there has been ms time since last timer reset
+/// \note Remember to reset after condition is true if autoReset is turned off
+boolean checkTimer(uint16_t timeMs, uint8_t timerId, boolean autoReset = false);
 
-enum AsyncId: uint8_t {
+/// Resets an async timer by timerId
+/// \param timerId which timer to reset
+void resetTimer(uint8_t timerId);
+
+enum TimerId : uint8_t {
 	// Waiting between touchscreen presses (debounce)
 	BetweenTouches,
 

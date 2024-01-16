@@ -35,8 +35,9 @@ void FlagSelectionGrid::render() {
 }
 
 void FlagSelectionGrid::handlePress() {
-	const uint8_t col = getRelativeX() / 26; // 0 through 11
-	const uint8_t row = getRelativeY() / 26; // 0 through 6
+	const tsPoint_t pt = getRelativePoint();
+	const uint8_t col = pt.x / 26; // 0 through 11
+	const uint8_t row = pt.y / 26; // 0 through 6
 	INFO("col: " << col << ", row: " << row);
 	const uint8_t index = row * 12 + col;
 	INFO(F("selected flag id: ") << index);

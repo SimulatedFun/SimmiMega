@@ -65,7 +65,7 @@ void setup() {
 	// touch->calibrate();
 	// touch->readEepromCalibration();
 	touch->loadHardcodedCalibration();
-	syncEepromAndRam();
+	System::syncEepromAndRam();
 
 	microSd = new MicroSD(bus);
 	// todo handle sd card not being present since it's not necessary for game engine operation
@@ -96,54 +96,43 @@ void loop() {
 	Commands::check();
 
 	// If the state changes, it runs the setup function, else it loops inside each namespace
-	static boolean stateChange;
-	stateChange = (state != oldState);
+	static boolean stateChanged;
+	stateChanged = (state != oldState);
 	oldState = state;
 
 	switch (state) {
 		case PlayState:
-			stateChange ? Play::setup() : Play::loop();
+			stateChanged ? Play::setup() : Play::loop();
 			break;
 		case MainMenuState:
-			stateChange ? MainMenu::setup() : MainMenu::loop();
+			stateChanged ? MainMenu::setup() : MainMenu::loop();
 			break;
 		case SpriteEditorState:
-			stateChange ? SpriteEditor::setup() : SpriteEditor::loop();
+			stateChanged ? SpriteEditor::setup() : SpriteEditor::loop();
 			break;
 		case RoomEditorState:
-			stateChange ? RoomEditor::setup() : RoomEditor::loop();
+			stateChanged ? RoomEditor::setup() : RoomEditor::loop();
 			break;
 		case LogicEditorState:
-			stateChange ? LogicEditor::setup() : LogicEditor::loop();
+			stateChanged ? LogicEditor::setup() : LogicEditor::loop();
 			break;
 		case DialogEditorState:
-			stateChange ? DialogEditor::setup() : DialogEditor::loop();
+			stateChanged ? DialogEditor::setup() : DialogEditor::loop();
 			break;
 		case PaletteEditorState:
-			stateChange ? PaletteEditor::setup() : PaletteEditor::loop();
+			stateChanged ? PaletteEditor::setup() : PaletteEditor::loop();
 			break;
 		case SettingsEditorState:
-			stateChange ? SettingsMenu::setup() : SettingsMenu::loop();
+			stateChanged ? SettingsMenu::setup() : SettingsMenu::loop();
 			break;
 		case DataManagementState:
-			stateChange ? DataMenu::setup() : DataMenu::loop();
+			stateChanged ? DataMenu::setup() : DataMenu::loop();
 			break;
 			//		case SavedGamesState:
 			//			stateChange ? SavedGames::setup() : SavedGames::loop();
 			//			break;
 		default:
-			state = MainMenuState;
-			oldState = OffState; // forces rerun of state change to main menu
+			ESP.restart();
 			break;
 	}
-}
-
-/// Loads entire game from external eeprom into ram block
-void syncEepromAndRam() {
-	uint64_t buffer = 0;
-	for (uint32_t i = 0; i < RAM_EEPROM_BYTE_COUNT / 8; i++) {
-		eeprom->read(&buffer, i * 8, 8);
-		ram->write(buffer, i * 8, 8);
-	}
-	GOOD(F("synced eeprom and ram"));
 }

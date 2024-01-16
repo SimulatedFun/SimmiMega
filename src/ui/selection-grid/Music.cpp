@@ -60,7 +60,8 @@ void MusicSelectionGrid::unPressLastPlay() {
 }
 
 void MusicSelectionGrid::handlePress() {
-	const uint8_t index = getRelativeY() / trackHeight;
+	const tsPoint_t pt = getRelativePoint();
+	const uint8_t index = pt.y / trackHeight;
 	const uint8_t trackId = index + (*currentPage * tracksPerTab);
 
 	for (uint8_t i = 0; i < tracksPerTab; i++) {

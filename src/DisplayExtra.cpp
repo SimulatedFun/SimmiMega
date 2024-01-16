@@ -43,8 +43,8 @@ void drawGameObject(GameObject* obj, Palette* p, uint16_t x, uint16_t y, uint8_t
 		for (int row = 0; row < 8; row++) {
 			for (int col = 0; col < 8; col++) {
 				const uint8_t index = row * 8 + col;
-				const boolean isPixelFilled = testBit(*thisFrame, index);
-				const boolean pixelChangesBetweenFrames = (testBit(*thisFrame, index) != testBit(*nextFrame, index));
+				const boolean isPixelFilled = Bits::testBit(*thisFrame, index);
+				const boolean pixelChangesBetweenFrames = (Bits::testBit(*thisFrame, index) != Bits::testBit(*nextFrame, index));
 				const uint16_t xPosition = x + col * scale;
 				const uint16_t yPosition = y + row * scale;
 

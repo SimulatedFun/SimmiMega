@@ -42,7 +42,7 @@ namespace Play {
 	// "flags" or variables/conditions that can be changed by the player when
 	// interacting with objects. flags can trigger other objects to become displaced,
 	// change frame, change solidity etc.
-	boolean flag[flagCount]; // todo minimize the ram space of this by using bitfields/testbits
+	boolean flag[flagCount]; // todo minimize the ram space of this by using bitfields/Bits::testBits
 
 	// The object that represents the player sprite - can change per-room
 	// only the sprite is used, logic is not used

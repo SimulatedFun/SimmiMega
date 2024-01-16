@@ -1,11 +1,10 @@
 #include "ui/selection-grid/Palette.h"
 
 void PaletteSelectionGrid::handlePress() {
-	INFO(getRelativeX());
-	INFO(getRelativeY());
-	const uint8_t col = getRelativeX() / 78;
-	const uint8_t row = getRelativeY() / 45;
-	INFO("col: " << col << ", row: " << row);
+	const tsPoint_t pt = getRelativePoint();
+	const uint8_t col = pt.x / 78;
+	const uint8_t row = pt.y / 45;
+	INFO("(" << pt.x << ", " << pt.x << ") col: " << col << ", row: " << row);
 	const uint8_t index = row * 4 + col;
 	INFO(F("selected palette id: ") << index);
 	callback.function(index);

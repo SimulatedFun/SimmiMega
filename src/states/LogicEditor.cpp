@@ -40,14 +40,14 @@ namespace LogicEditor {
 	void setup() {
 		LEAK(F("enter logic edit"));
 
-        boolean cancelled = false;
-        uint16_t gameObjectId = 0;
+		boolean cancelled = false;
+		uint16_t gameObjectId = 0;
 		ChooseObject::pick(false, &gameObjectId, &cancelled);
 
-        if (cancelled) {
-            state = MainMenuState;
-            return;
-        }
+		if (cancelled) {
+			state = MainMenuState;
+			return;
+		}
 
 		// Load in game object information to populate logic editor
 		gameObject = new GameObject(gameObjectId);
@@ -543,7 +543,7 @@ namespace LogicEditor {
 		gameObject->save();
 		deallocate();
 		oldState = MainMenuState;
-        state = LogicEditorState;
+		state = LogicEditorState;
 		INFO(F("exiting the logic editor state"));
 	}
 
@@ -586,8 +586,8 @@ namespace LogicEditor {
 				advancedTab->selected = false;
 				advancedTab->render();
 
-                // quick fix: erase extended ui
-                display->fillRectangle(288, 141, 24, 24, RGB565(0x413650));
+				// quick fix: erase extended ui
+				display->fillRectangle(288, 141, 24, 24, RGB565(0x413650));
 
 				deallocateAdvancedTabUI();
 				break;
@@ -801,8 +801,8 @@ namespace LogicEditor {
 		deallocateCollisionTabUI();
 
 
-        uint16_t dialogId = 0;
-        boolean cancelled = false;
+		uint16_t dialogId = 0;
+		boolean cancelled = false;
 		ChooseDialog::pick(true, &dialogId, &cancelled);
 
 		if (!cancelled) {
@@ -944,13 +944,13 @@ namespace LogicEditor {
 		deallocatePersistentUI();
 		deallocateAdvancedTabUI();
 
-        boolean cancelled = false;
-        uint16_t gameObjectId = 0;
+		boolean cancelled = false;
+		uint16_t gameObjectId = 0;
 		ChooseObject::pick(true, &gameObjectId, &cancelled);
-        if (!cancelled) {
-            gameObject->set_updateReplacesWithGameObjectId(gameObjectId);
-            gameObject->save();
-        }
+		if (!cancelled) {
+			gameObject->set_updateReplacesWithGameObjectId(gameObjectId);
+			gameObject->save();
+		}
 
 		createPersistentUI();
 		createAdvancedTabUI();

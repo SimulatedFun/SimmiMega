@@ -1,16 +1,18 @@
 #include "ui/TrayElement.h"
 
 void SpriteEditGrid::handlePress() {
-	const uint8_t col = getRelativeX() / 29;
-	const uint8_t row = getRelativeY() / 29;
+	const tsPoint_t pt = getRelativePoint();
+	const uint8_t col = pt.x / 29;
+	const uint8_t row = pt.y / 29;
 	const uint8_t index = row * 8 + col; // 0 through 64
 	DEBUG(F("draw pixel index: ") << index);
 	callback.function(index);
 }
 
 void RoomEditGrid::handlePress() {
-	const uint8_t col = getRelativeX() / 16;
-	const uint8_t row = getRelativeY() / 16;
+	const tsPoint_t pt = getRelativePoint();
+	const uint8_t col = pt.x / 16;
+	const uint8_t row = pt.y / 16;
 	const uint8_t index = row * 13 + col;
 	DEBUG(F("room index: ") << index);
 	callback.function(index);
@@ -41,8 +43,9 @@ void RoomTraySelectGrid::drawObjectInTray(uint8_t index) {
 }
 
 void RoomTraySelectGrid::handlePress() {
-	const uint8_t col = getRelativeX() / 16;
-	const uint8_t row = getRelativeY() / 16;
+	const tsPoint_t pt = getRelativePoint();
+	const uint8_t col = pt.x / 16;
+	const uint8_t row = pt.y / 16;
 	const uint8_t index = row * objectsPerTrayRow + col;
     const uint16_t gameObjectId = index + (currentTab * objectsPerTray);
 

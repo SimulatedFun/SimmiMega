@@ -8,6 +8,19 @@ namespace { // anonymous namespace limits to only use in this file
 	}
 }
 
+void Display::writeCommand(u8 cmd) {
+	digitalWrite(TFT_DC, LOW);
+	_spi->write(cmd);
+	digitalWrite(TFT_DC, HIGH);
+}
+
+void Display::sendCommand(u8 cmd, u8* data, u8 dataLen) {
+	startWrite();
+	writeCommand(cmd);
+	_spi->writeBytes(data, dataLen); // send the data bytes
+	endWrite();
+}
+
 void Display::startWrite() {
 	_spi->beginTransaction(SPISettings(SPI_TFT_FREQUENCY, MSBFIRST, SPI_MODE0));
 	digitalWrite(TFT_CS, LOW);
@@ -16,12 +29,6 @@ void Display::startWrite() {
 void Display::endWrite() {
 	digitalWrite(TFT_CS, HIGH);
 	_spi->endTransaction();
-}
-
-void Display::writeCommand(u8 cmd) {
-	digitalWrite(TFT_DC, LOW);
-	_spi->write(cmd);
-	digitalWrite(TFT_DC, HIGH);
 }
 
 void Display::initialize() {
@@ -56,13 +63,6 @@ void Display::initialize() {
 	sendCommand(ILI9341_MADCTL, &m, 1);
 
 	INFO("display initialized");
-}
-
-void Display::sendCommand(u8 cmd, u8* data, u8 dataLen) {
-	startWrite();
-	writeCommand(cmd);
-	_spi->writeBytes(data, dataLen); // send the data bytes
-	endWrite();
 }
 
 void Display::fillRectangleTx(u16 x, u16 y, u16 w, u16 h, u16 color) {
@@ -181,4 +181,40 @@ void Display::drawDottedRectangleTx(u16 x, u16 y, u16 w, u16 h, u16 color) {
 			drawPixelTx(x + i, y + h, color);
 		}
 	}
+}
+void Display::fillRectangle(u16 x, u16 y, u16 w, u16 h, u16 color) {
+	startWrite();
+	fillRectangleTx(x, y, w, h, color);
+	endWrite();
+}
+
+void Display::drawDottedRectangle(u16 x, u16 y, u16 w, u16 h, u16 color) {
+	startWrite();
+	drawDottedRectangleTx(x, y, w, h, color);
+	endWrite();
+}
+void Display::drawLine(u16 x0, u16 y0, u16 x1, u16 y1, u16 color) {
+	startWrite();
+	drawLineTx(x0, y0, x1, y1, color);
+	endWrite();
+}
+void Display::drawHorizontalLine(u16 x, u16 y, u16 w, u16 color) {
+	startWrite();
+	drawHorizontalLineTx(x, y, w, color);
+	endWrite();
+}
+void Display::drawVerticalLine(u16 x, u16 y, u16 h, u16 color) {
+	startWrite();
+	drawVerticalLineTx(x, y, h, color);
+	endWrite();
+}
+void Display::drawPixel(u16 x, u16 y, u16 color) {
+	startWrite();
+	drawPixelTx(x, y, color);
+	endWrite();
+}
+void Display::drawRectangle(u16 x, u16 y, u16 w, u16 h, u16 color) {
+	startWrite();
+	drawRectangleTx(x, y, w, h, color);
+	endWrite();
 }

@@ -1,5 +1,3 @@
-// Register and boot commands adapted from https://github.com/adafruit/Adafruit_ILI9341
-
 #ifndef Display_H
 #define Display_H
 
@@ -10,6 +8,7 @@
 #include "globals/SerialDebugging.h"
 #include "globals/Typedefs.h"
 
+// Register and boot commands adapted from https://github.com/adafruit/Adafruit_ILI9341
 #define ILI9341_RST_DELAY	  150 ///< delay ms wait for reset finish
 #define ILI9341_SLPIN_DELAY  150 ///< delay ms wait for sleep in finish
 #define ILI9341_SLPOUT_DELAY 150 ///< delay ms wait for sleep out finish
@@ -37,11 +36,11 @@
 #define ILI9341_DISPOFF	 0x28 ///< Display OFF
 #define ILI9341_DISPON	 0x29 ///< Display ON
 
-#define ILI9341_CASET 0x2A ///< Column Address Set
-#define ILI9341_PASET 0x2B ///< Page Address Set
-#define ILI9341_RAMWR 0x2C ///< Memory Write
+#define ILI9341_CASET  0x2A ///< Column Address Set
+#define ILI9341_PASET  0x2B ///< Page Address Set
+#define ILI9341_RAMWR  0x2C ///< Memory Write
 #define ILI9341_RGBSET 0x2D ///< Color set
-#define ILI9341_RAMRD 0x2E ///< Memory Read
+#define ILI9341_RAMRD  0x2E ///< Memory Read
 
 #define ILI9341_PTLAR	 0x30 ///< Partial Area
 #define ILI9341_VSCRDEF	 0x33 ///< Vertical Scrolling Definition
@@ -93,7 +92,7 @@
 
 // region Boot command format: <cmd> <argument count> <arg 1> <arg 2> <...>
 // clang-format off
-static const PROGMEM uint8_t tftBootCommands[] = {
+static const PROGMEM u8 tftBootCommands[] = {
 	0xEF, 3, 0x03, 0x80, 0x02,
 	ILI9341_PWRCTRB, 3, 0x00, 0xC1, 0x30,
 	ILI9341_PWRONSEQ, 4, 0x64, 0x03, 0x12, 0x81,
@@ -119,78 +118,132 @@ static const PROGMEM uint8_t tftBootCommands[] = {
 	ILI9341_SLPOUT, 1, 0x80, // Exit Sleep
 	ILI9341_DISPON, 1, 0x80, // Display on
 };
-constexpr uint8_t bootCommandLength = sizeof(tftBootCommands);
+constexpr u8 bootCommandLength = sizeof(tftBootCommands);
 // clang-format on
 // endregion
 
 #define SPI_TFT_FREQUENCY 120000000
-constexpr uint16_t ScreenWidth = 320;
-constexpr uint16_t ScreenHeight = 240;
+constexpr u16 ScreenWidth = 320;
+constexpr u16 ScreenHeight = 240;
 
 class Display {
 	private:
-		SPIClass* _spi;
-		void sendCommand(uint8_t commandByte, uint8_t* dataBytes = nullptr, uint8_t numDataBytes = 0);
-		void writeCommand(uint8_t cmd);
+		SPIClass* _spi; // shared spi bus passed on constructor/initialization
+
+		/// Writes a command, rather than data
+		/// \param cmd the singular command to send to the screen
+		void writeCommand(u8 cmd);
+
+		/// Writes several commands followed by supplemental data to the screen
+		/// \param commandByte the command
+		/// \param dataBytes data to send after the command
+		/// \param numDataBytes number of data bytes to send
+		void sendCommand(u8 commandByte, u8* dataBytes = nullptr, u8 numDataBytes = 0);
 
 	public:
-		explicit Display(SPIClass* spi) : _spi(spi) {}
+		explicit Display(SPIClass* spi) : _spi(spi) {
+		}
+
+		/// Sets pin modes, sends initial boot commands to the screen
 		void initialize();
 
+		/// Starts a draw transaction
 		void startWrite();
+
+		/// Ends a draw transaction
 		void endWrite();
 
-		void fillRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
-		void fillRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
-			startWrite();
-			fillRectangleTx(x, y, w, h, color);
-			endWrite();
-		}
+		/// Creates a draw window for future color fills
+		/// \param x1 x start pos of window
+		/// \param y1 y start pos of window
+		/// \param w width of window
+		/// \param h height of window
+		void setAddrWindowTx(u16 x1, u16 y1, u16 w, u16 h);
 
-		void drawRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
-		void drawRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
-			startWrite();
-			drawRectangleTx(x, y, w, h, color);
-			endWrite();
-		}
+		/// Writes len number of pixel data (2-byte per pixel)
+		/// \param color write this color len number of times to fill a draw window
+		/// \param len number of times to write the color data
+		void writeColorTx(u16 color, uint32_t len);
 
-		void drawDottedRectangleTx(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
-		void drawDottedRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
-			startWrite();
-			drawDottedRectangleTx(x, y, w, h, color);
-			endWrite();
-		}
 
-		void drawLineTx(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
-		void drawLine(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
-			startWrite();
-			drawLineTx(x0, y0, x1, y1, color);
-			endWrite();
-		}
+		/// Draws a solid rectangle on the screen (while inside a transaction)
+		/// \param x x position
+		/// \param y y position
+		/// \param w width of rectangle
+		/// \param h height of rectangle
+		/// \param color fill color for rectangle
+		void fillRectangleTx(u16 x, u16 y, u16 w, u16 h, u16 color);
 
-		void drawHorizontalLineTx(uint16_t x, uint16_t y, uint16_t w, uint16_t color);
-		void drawHorizontalLine(uint16_t x, uint16_t y, uint16_t w, uint16_t color) {
-			startWrite();
-			drawHorizontalLineTx(x, y, w, color);
-			endWrite();
-		}
+		/// Wraps fillRectangleTx in a transaction
+		void fillRectangle(u16 x, u16 y, u16 w, u16 h, u16 color);
 
-		void drawVerticalLineTx(uint16_t x, uint16_t y, uint16_t h, uint16_t color);
-		void drawVerticalLine(uint16_t x, uint16_t y, uint16_t h, uint16_t color) {
-			startWrite();
-			drawVerticalLineTx(x, y, h, color);
-			endWrite();
-		}
 
-		void drawPixelTx(uint16_t x, uint16_t y, uint16_t color);
-		void drawPixel(uint16_t x, uint16_t y, uint16_t color) {
-			startWrite();
-			drawPixelTx(x, y, color);
-			endWrite();
-		}
+		/// Draws a rectangle outline on the screen (while inside a transaction)
+		/// \param x x position
+		/// \param y y position
+		/// \param w width of rectangle outline
+		/// \param h height of rectangle outline
+		/// \param color outline color for rectangle
+		void drawRectangleTx(u16 x, u16 y, u16 w, u16 h, u16 color);
 
-		void setAddrWindowTx(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h);
-		void writeColorTx(uint16_t color, uint32_t len);
+		/// Wraps drawRectangleTx in a transaction
+		void drawRectangle(u16 x, u16 y, u16 w, u16 h, u16 color);
+
+
+		/// Draws a dotted rectangle outline. Dots are spaced by 2 pixels in between
+		/// \param x x start position of dotted outline
+		/// \param y y start position of dotted outline
+		/// \param w width of dotted outline
+		/// \param h height of dotted outline
+		/// \param color dot color for dotted outline
+		void drawDottedRectangleTx(u16 x, u16 y, u16 w, u16 h, u16 color);
+
+		/// Wraps drawDottedRectangleTx in a transaction
+		void drawDottedRectangle(u16 x, u16 y, u16 w, u16 h, u16 color);
+
+
+		/// Draws a 1px thick line from (x0, y0) to (x1, y1)
+		/// \param x0 start x
+		/// \param y0 start y
+		/// \param x1 end x
+		/// \param y1 end y
+		/// \param color color of line
+		void drawLineTx(u16 x0, u16 y0, u16 x1, u16 y1, u16 color);
+
+		/// Wraps drawLineTx in a transaction
+		void drawLine(u16 x0, u16 y0, u16 x1, u16 y1, u16 color);
+
+
+		/// Specific/quick method for drawing purely horizontal lines
+		/// \param x start x
+		/// \param y start y
+		/// \param w width of line
+		/// \param color color of line
+		void drawHorizontalLineTx(u16 x, u16 y, u16 w, u16 color);
+
+		/// Wraps drawHorizontalLineTx in a transaction
+		void drawHorizontalLine(u16 x, u16 y, u16 w, u16 color);
+
+
+		/// Specific/quick method for drawing purely vertical lines
+		/// \param x start x
+		/// \param y start y
+		/// \param h height of line
+		/// \param color color of line
+		void drawVerticalLineTx(u16 x, u16 y, u16 h, u16 color);
+
+		/// Wraps drawVerticalLineTx in a transaction
+		void drawVerticalLine(u16 x, u16 y, u16 h, u16 color);
+
+
+		/// Draws a single pixel to the screen at (x, y)
+		/// \param x x position
+		/// \param y y position
+		/// \param color color of pixel
+		void drawPixelTx(u16 x, u16 y, u16 color);
+
+		/// Wraps drawPixelTx in a transaction
+		void drawPixel(u16 x, u16 y, u16 color);
 };
 
 extern Display* display;

@@ -73,3 +73,15 @@ void UIElement::drawSelected(uint16_t color) const {
 	}
 	display->endWrite();
 }
+
+tsPoint_t UIElement::getRelativePoint() {
+	tsPoint_t point = touch->getLastTouch();
+	point.x -= x;
+	point.y -= y;
+	return point;
+}
+
+void UIElement::setPosition(uint16_t inX, uint16_t inY) {
+	x = inX;
+	y = inY;
+}

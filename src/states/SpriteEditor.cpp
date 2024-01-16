@@ -113,11 +113,11 @@ namespace SpriteEditor {
 	/// Binds to the main sprite editing area to handle the user drawing or erasing
 	/// Updates the sprite in the main edit area and in either of the frame preview areas
 	void callbackEditSprite(uint8_t index) {
-		if (testBit(*currentSprite, index) == selectedTool) {
+		if (Bits::testBit(*currentSprite, index) == selectedTool) {
 			// if pixel is already the value to which we're trying to set it to, do nothing
 			return;
 		}
-		setBit(currentSprite, index, selectedTool); // changes the bit value in the sprite
+		Bits::setBit(currentSprite, index, selectedTool); // changes the bit value in the sprite
 		drawSpritePixel(index);							  // draw the pixel change in the main edit area
 		if (frame1->selected) { // draw the pixel change also in the frame preview UI area
 			frame1->drawPreviewPixel(index);
@@ -204,7 +204,7 @@ namespace SpriteEditor {
 		const uint8_t row = index / 8;
 		const uint16_t xPos = drawingAreaXOffset + col * sizeOfPixel;
 		const uint16_t yPos = drawingAreaXOffset + row * sizeOfPixel;
-		const boolean filledPixel = testBit(*currentSprite, index);
+		const boolean filledPixel = Bits::testBit(*currentSprite, index);
 		if (filledPixel) {
 			display->fillRectangle(xPos, yPos, sizeOfPixel, sizeOfPixel, foregroundColor(gameObject));
 		} else {

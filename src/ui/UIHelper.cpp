@@ -98,12 +98,9 @@ boolean UIHelper::wasNewlyPressed(UIElement* e) {
 
 /// If the last touch press landed within the bounds of this UIElement
 boolean UIHelper::isWithinTouchBounds(UIElement* e) {
-	const boolean inBounds = (touch->touchX() > e->x and touch->touchX() < (e->x + e->width) and
-									  touch->touchY() > e->y and touch->touchY() < (e->y + e->height));
-	//		if (inBounds) {
-	//			DEBUG("touch (" << touch->touchX() << ", " << touch->touchY() << ") "
-	//								 << F("is within UIElement bounds: (") << e->x << ", " << e->y
-	//								 << F(") width: ") << e->width << F(", height: ") << e->height);
-	//		}
+	const tsPoint_t point = touch->getLastTouch();
+	const boolean inXBounds = point.x > e->x and point.x < (e->x + e->width);
+	const boolean inYBounds = point.y > e->y and point.y < (e->y + e->height);
+	const boolean inBounds = inXBounds and inYBounds;
 	return inBounds;
 }

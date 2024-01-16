@@ -46,7 +46,8 @@ class DropdownFlagUpdate : public UIElement {
 				return;
 			}
 
-			const uint8_t row = getRelativeY() / 25;
+			const tsPoint_t pt = getRelativePoint();
+			const uint8_t row = pt.y / 25;
 
 			switch (row) {
 				case 0: // no update to the flag

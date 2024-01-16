@@ -48,7 +48,7 @@ class DropdownTeleport : public UIElement {
 
 			// handle opening the dropdown
 			if (dropdownOpen) {
-				INFO(F("dropdown opened"));
+				INFO("dropdown opened");
 				touch->clearQueue();
 				UIHelper::clearActive();
 				UIHelper::registerUI(this); // dropdown
@@ -57,15 +57,17 @@ class DropdownTeleport : public UIElement {
 				return;
 			}
 
+			const tsPoint_t pt = getRelativePoint();
+
 			// the dropdown is open, so let the user select one of the three items
-			if (getRelativeY() <= 25) {
+			if (pt.y <= 25) {
 				INFO(F("dropdown: no teleport"));
 				obj->set_touchTeleportsToRoom(false);
-			} else if (getRelativeY() <= 50) {
+			} else if (pt.y <= 50) {
 				INFO(F("dropdown: always teleport"));
 				obj->set_touchTeleportsToRoom(true);
 				obj->set_touchTeleportRequiresFlag(false);
-			} else if (getRelativeY() <= 99) {
+			} else if (pt.y <= 99) {
 				INFO(F("dropdown: teleport on condition met"));
 				obj->set_touchTeleportsToRoom(true);
 				obj->set_touchTeleportRequiresFlag(true);

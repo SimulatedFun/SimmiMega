@@ -26,7 +26,7 @@ void SpriteFrameSelector::render() {
 /// Draws a single pixel in the frame preview (used while the user is editing
 /// in the main sprite area
 void SpriteFrameSelector::drawPreviewPixel(uint8_t index) {
-	const boolean filled = testBit(*sprite, index);
+	const boolean filled = Bits::testBit(*sprite, index);
 	uint16_t color = BLACK;
 	if (filled) {
 		if (obj->isHighlighted()) {
@@ -196,8 +196,9 @@ void ColorWheel::renderWheel() {
 }
 
 void ColorWheel::handlePress() {
-	const int touchX = (int) (getRelativeX() / colorWheelTileSize - colorWheelRadius);
-	const int touchY = (int) (getRelativeY() / colorWheelTileSize - colorWheelRadius);
+	const tsPoint_t pt = getRelativePoint();
+	const int touchX = (int) (pt.x / colorWheelTileSize - colorWheelRadius);
+	const int touchY = (int) (pt.y / colorWheelTileSize - colorWheelRadius);
 	const uint16_t color = getCircleColor(touchX, touchY);
 	if (callback.function != nullptr) {
 		callback.function(color);
@@ -227,7 +228,9 @@ void BrightnessSelector::render() {
 
 void BrightnessSelector::handlePress() {
 	// this maps y values from 240 to 255 linearly
-	const uint8_t newDarkness = 255 - (getRelativeY() + (getRelativeY() / 6));
+	const tsPoint_t pt = getRelativePoint();
+	const uint8_t adjustment = (pt.y / 6);
+	const uint8_t newDarkness = 255 - (pt.y + adjustment);
 	if (darknessValue == newDarkness) {
 		return;
 	}

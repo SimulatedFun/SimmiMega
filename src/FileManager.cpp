@@ -104,7 +104,7 @@ boolean FileManager::saveRoomThumbnailData(uint8_t roomId) {
 			obj.load();
 
 			uint8_t depth = PALETTE_BACKGROUND;
-			if (countSetBits(obj.data.frame1) >= 32) {
+			if (Bits::countSetBits(obj.data.frame1) >= 32) {
 				if (obj.isHighlighted()) {
 					depth = PALETTE_HIGHLIGHT;
 				} else {

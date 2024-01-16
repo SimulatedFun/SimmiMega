@@ -25,8 +25,9 @@ void XYSelectionGrid::render() {
 }
 
 void XYSelectionGrid::handlePress() {
-	const uint8_t col = getRelativeX() / 24;
-	const uint8_t row = getRelativeY() / 24;
+	const tsPoint_t pt = getRelativePoint();
+	const uint8_t col = pt.x / 24;
+	const uint8_t row = pt.y / 24;
 	const Coordinates coords = Coordinates(col, row, _NO_ROOM);
 	callback.function(coords);
 }

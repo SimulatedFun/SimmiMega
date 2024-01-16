@@ -14,6 +14,7 @@
 #include "Bitmaps/Intro.h"
 #include "FileManager.h"
 #include "Commands.h"
+#include "System.h"
 
 #include "states/States.h"
 #include "states/MainMenu.h"
@@ -28,6 +29,5 @@
 #include "states/SavedGames.h"
 
 void test();
-void syncEepromAndRam();
 
 #endif

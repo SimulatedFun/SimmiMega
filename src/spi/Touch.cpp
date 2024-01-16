@@ -159,10 +159,9 @@ void Touch::poll() {
 	raw.y = point.y;
 
 	if (getDisplayPoint(&calibrated, &raw)) {
-		lastX = calibrated.x;
-		lastY = calibrated.y;
+		lastTouch = calibrated;
 		touchIsPressed = true;
-		display->fillRectangle(lastX, lastY, 2, 2, BLUE); // debug
+		display->fillRectangle(lastTouch.x, lastTouch.y, 2, 2, BLUE); // debug
 	}
 }
 
@@ -352,15 +351,22 @@ void Touch::clearQueue() {
 	resetTimer(BetweenTouches);
 }
 
-void Touch::drawMatrix() {
-	Serial.println("drawMatrix");
+void Touch::debugDrawMatrix() {
+	Serial.println("debugDrawMatrix");
 	for (uint16_t x = 0; x < 4031; x += 90) {
 		for (uint16_t y = 308; y < 3984; y += 90) {
 			tsPoint_t px{0, 0};
 			tsPoint_t pt{x, y};
 			getDisplayPoint(&px, &pt);
-			//Serial.printf("%d %d\n", px.x, px.y);
 			display->fillRectangle(px.x, px.y, 1, 1, RED);
 		}
 	}
+}
+
+tsPoint_t Touch::getLastTouch() {
+	return lastTouch;
+}
+
+boolean Touch::isPressed() {
+	return touchIsPressed;
 }

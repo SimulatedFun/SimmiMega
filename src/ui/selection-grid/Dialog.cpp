@@ -32,7 +32,8 @@ void DialogSelectionGrid::render() {
 
 /// Returns row that was selected
 void DialogSelectionGrid::handlePress() {
-	uint8_t row = getRelativeY() / previewHeight;
+	const tsPoint_t pt = getRelativePoint();
+	uint8_t row = pt.y / previewHeight;
 	INFO(F("selected dialog row: ") << row);
 	if (callback.function != nullptr) {
 		callback.function(row);

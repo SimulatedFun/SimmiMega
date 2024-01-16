@@ -31,8 +31,9 @@ void ObjectSelectionGrid::render() {
 }
 
 void ObjectSelectionGrid::handlePress() {
-	const u8 col = getRelativeX() / 26; // 0 through 11
-	const u8 row = getRelativeY() / 26; // 0 through 6
+	const tsPoint_t pt = getRelativePoint();
+	const u8 col = pt.x / 26; // 0 through 11
+	const u8 row = pt.y / 26; // 0 through 6
 	INFO("col: " << col << ", row: " << row);
 	const u8 index = row * 12 + col;
 	INFO(F("selected gameobject id: ") << index);

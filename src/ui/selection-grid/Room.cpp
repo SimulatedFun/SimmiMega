@@ -20,9 +20,9 @@ void RoomSelectionGrid::render() {
 					obj.load();
 
 					uint8_t depth = PALETTE_BACKGROUND;
-                    if (countSetBits(obj.data.frame1) >= 16) {
+                    if (Bits::countSetBits(obj.data.frame1) >= 16) {
                         depth = PALETTE_FOREGROUND;
-                        if (obj.isHighlighted() and countSetBits(obj.data.frame1) >= 32) {
+                        if (obj.isHighlighted() and Bits::countSetBits(obj.data.frame1) >= 32) {
                             depth = PALETTE_HIGHLIGHT;
                         }
                     }
@@ -52,8 +52,9 @@ void RoomSelectionGrid::render() {
 }
 
 void RoomSelectionGrid::handlePress() {
-	const uint8_t col = getRelativeX() / 40;
-	const uint8_t row = getRelativeY() / 30;
+	const tsPoint_t pt = getRelativePoint();
+	const uint8_t col = pt.x / 40;
+	const uint8_t row = pt.y / 30;
 	const uint8_t index = row * 6 + col;
 	INFO(F("selected room id: ") << index);
 

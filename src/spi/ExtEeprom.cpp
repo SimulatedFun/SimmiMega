@@ -1,5 +1,9 @@
 #include "spi/ExtEeprom.h"
 
+ExtEeprom::ExtEeprom(SPIClass* spi) : _spi(spi) {
+	myEEP = new EEPROM_SPI_WE(spi, EEPROM_CS);
+}
+
 boolean ExtEeprom::initialize() {
 	pinMode(EEPROM_CS, OUTPUT);
 	pinMode(EEPROM_CS, HIGH);
@@ -20,7 +24,7 @@ void ExtEeprom::clear(uint32_t start, uint32_t end) {
 	}
 }
 
-void ExtEeprom::test() {
+void ExtEeprom::exampleCode() {
 	/* You can change the SPI clock speed. The default of is 8 MHz */
 	// myEEP->setSPIClockSpeed(4000000); // use AFTER init()!
 
@@ -56,7 +60,7 @@ void ExtEeprom::test() {
 	Serial.print("Char array read: ");
 	Serial.println(charArrayToRead);
 
-	String stringToWrite = "Hello, I am a test string";
+	String stringToWrite = "Hello, I am a exampleCode string";
 	unsigned int nextAddr =
 			  myEEP->putString(200, stringToWrite); // String objects need a different put function
 

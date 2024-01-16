@@ -1,10 +1,10 @@
 #include "globals/Bitwise.h"
 
-bool testBit(uint64_t data, uint8_t index) {
+bool Bits::testBit(uint64_t data, uint8_t index) {
 	return ((data >> index) & 1) != 0;
 }
 
-bool testBit(uint8_t data[], uint8_t index) {
+bool Bits::testBit(const uint8_t data[], uint8_t index) {
 	// Calculate the byte index and bit index within that byte
 	const uint8_t byteIndex = index / 8;
 	const uint8_t bitIndex = index % 8;
@@ -13,7 +13,7 @@ bool testBit(uint8_t data[], uint8_t index) {
 	return (data[byteIndex] & (1 << bitIndex)) != 0;
 }
 
-void setBit(uint64_t* data, uint8_t index, bool value) {
+void Bits::setBit(uint64_t* data, uint8_t index, bool value) {
 	// Create a mask with a 1 at the specified index
 	const uint64_t mask = static_cast<uint64_t>(1) << index;
 
@@ -26,7 +26,7 @@ void setBit(uint64_t* data, uint8_t index, bool value) {
 	}
 }
 
-void setBit(uint8_t* data, uint8_t index, bool value) {
+void Bits::setBit(uint8_t* data, uint8_t index, bool value) {
 	// Calculate the byte index and bit index within that byte
 	const uint8_t byteIndex = index / 8;
 	const uint8_t bitIndex = index % 8;
@@ -43,7 +43,7 @@ void setBit(uint8_t* data, uint8_t index, bool value) {
 	}
 }
 
-void setBits(uint8_t* data, uint8_t index, uint8_t bit_length, uint8_t value) {
+void Bits::setBits(uint8_t* data, uint8_t index, uint8_t bit_length, uint8_t value) {
 	// Calculate the byte index for the starting bit
 	uint8_t byteIndex = index / 8;
 
@@ -55,7 +55,7 @@ void setBits(uint8_t* data, uint8_t index, uint8_t bit_length, uint8_t value) {
 
 	if (bit_length <= bitsInFirstByte) {
 		// All bits fit within the first byte
-		uint8_t mask = (1 << bit_length) - 1;
+		const uint8_t mask = (1 << bit_length) - 1;
 		data[byteIndex] &= ~(mask << bitOffset);  // Clear bits to be written
 		data[byteIndex] |= ((value & mask) << bitOffset);  // Set the bits
 	} else {
@@ -64,12 +64,12 @@ void setBits(uint8_t* data, uint8_t index, uint8_t bit_length, uint8_t value) {
 		uint8_t currentBit = 0;
 
 		while (bitsToWrite > 0) {
-			uint8_t bitsInCurrentByte = (bitsToWrite <= bitsInFirstByte) ? bitsToWrite : bitsInFirstByte;
-			uint8_t mask = (1 << bitsInCurrentByte) - 1;
+			const uint8_t bitsInCurrentByte = (bitsToWrite <= bitsInFirstByte) ? bitsToWrite : bitsInFirstByte;
+			const uint8_t mask = (1 << bitsInCurrentByte) - 1;
 
 			data[byteIndex] &= ~(mask << bitOffset);  // Clear bits to be written
 
-			uint8_t bitsToShift = value >> currentBit;
+			const uint8_t bitsToShift = value >> currentBit;
 			data[byteIndex] |= ((bitsToShift & mask) << bitOffset);  // Set the bits
 
 			// Update indices and counts for the next iteration
@@ -82,7 +82,7 @@ void setBits(uint8_t* data, uint8_t index, uint8_t bit_length, uint8_t value) {
 	}
 }
 
-uint8_t getBits(uint8_t* data, uint8_t index, uint8_t bit_length) {
+uint16_t Bits::getBits(const uint8_t* data, uint8_t index, uint8_t bit_length) {
 	// Calculate the byte index for the starting bit
 	uint8_t byteIndex = index / 8;
 
@@ -90,17 +90,17 @@ uint8_t getBits(uint8_t* data, uint8_t index, uint8_t bit_length) {
 	uint8_t bitOffset = index % 8;
 
 	// Initialize the result
-	uint8_t result = 0;
+	uint16_t result = 0;
 
 	// Read bits that span multiple bytes
 	uint8_t bitsToRead = bit_length;
 	uint8_t currentBit = 0;
 
 	while (bitsToRead > 0) {
-		uint8_t bitsInCurrentByte = (bitsToRead <= 8 - bitOffset) ? bitsToRead : (8 - bitOffset);
-		uint8_t mask = (1 << bitsInCurrentByte) - 1;
+		const uint8_t bitsInCurrentByte = (bitsToRead <= 8 - bitOffset) ? bitsToRead : (8 - bitOffset);
+		const uint8_t mask = (1 << bitsInCurrentByte) - 1;
 
-		uint8_t bitsRead = (data[byteIndex] >> bitOffset) & mask;
+		const uint8_t bitsRead = (data[byteIndex] >> bitOffset) & mask;
 		result |= (bitsRead << currentBit);
 
 		// Update indices and counts for the next iteration
@@ -113,7 +113,7 @@ uint8_t getBits(uint8_t* data, uint8_t index, uint8_t bit_length) {
 	return result;
 }
 
-uint8_t countSetBits(uint64_t n) {
+uint8_t Bits::countSetBits(uint64_t n) {
 	int count = 0;
 	while (n != 0) {
 		n &= (n - 1);
@@ -122,8 +122,7 @@ uint8_t countSetBits(uint64_t n) {
 	return count;
 }
 
-// Prints out a 64-bit integer to the serial monitor
-void print64Bit(uint64_t number) {
+void Bits::print64Bit(uint64_t number) {
 	uint8_t buf[64];
 	uint8_t i = 0;
 

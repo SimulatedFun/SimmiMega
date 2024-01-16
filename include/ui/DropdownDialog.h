@@ -55,17 +55,19 @@ class DropdownDialog : public UIElement {
 				return;
 			}
 
+			const tsPoint_t pt = getRelativePoint();
+
 			// the dropdown is open, so let the user select one of the three items
-			if (getRelativeY() <= 25) {
+			if (pt.y <= 25) {
 				setPosition(x, 164);
 				INFO(F("dropdown: no dialog"));
 				obj->set_touchShowsDialog(false);
-			} else if (getRelativeY() <= 50) {
+			} else if (pt.y <= 50) {
 				setPosition(x, 164);
 				INFO(F("dropdown: always show dialog"));
 				obj->set_touchShowsDialog(true);
 				obj->set_touchShowsDialogRequiresFlag(false);
-			} else if (getRelativeY() <= 99) {
+			} else if (pt.y <= 99) {
 				setPosition(x, 153);
 				INFO(F("dropdown: show dialog on condition met"));
 				obj->set_touchShowsDialog(true);
