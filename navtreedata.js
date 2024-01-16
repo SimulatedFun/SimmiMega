@@ -87,17 +87,17 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "d1/d71/namespaceDataMenu.html#ac168a76fb9de905f952f8953ccd21bba",
-"d3/dae/namespaceChooseDialog.html#a16e646ca3f9b8adb7904defedd7201ee",
+"d3/dae/namespaceChooseDialog.html#a0e03ecedbff9ccb620a14eb883b10004",
 "d4/de8/DataMenu_8cpp.html#ac168a76fb9de905f952f8953ccd21bba",
-"d6/d7a/LogicEditor_8cpp.html#a7eb5cde714cee3b922e27c81265ac77a",
+"d6/d7a/LogicEditor_8cpp.html#a7bc75028eb0ec72d4081512794568e40",
 "d7/ddb/classAudio.html#a4dfd3fb133bc5c15476f40a982355c6c",
 "d8/dfc/namespaceEditTextField.html#adafa087b9270e53d206a4c1a56f03448",
 "da/d59/ChooseDialog_8cpp.html#a810c5eeee2b8952da7ebc2c37f310f95",
-"db/df2/ui_2selection-grid_2Dialog_8cpp.html",
-"dd/d46/Bitwise_8h.html",
-"de/d1c/classGameObject.html#a96f286e13989cff800b38ec42294327d",
-"df/d15/classPaletteSelector.html#a961d7e32318c363aaac5cfb7356aedc6",
-"functions_b.html"
+"db/d86/namespaceRoomEditor.html#ac65178d7a1b98b1e9368630e33536b1b",
+"dd/d43/classCoordinates.html#a837d2b61b3fa0ac52f0878d34aaad722",
+"de/d1c/classGameObject.html#a873080419f36d7ad4d6733eff0e4d5ff",
+"df/d15/classPaletteSelector.html#a0d4fe4240ab34cbb7b29556bb42a9ad2",
+"functions_func.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

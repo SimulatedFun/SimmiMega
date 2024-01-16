@@ -24,6 +24,16 @@ var namespaces_dup =
       [ "grid", "d1/d61/namespaceAStar.html#aad537080e05095d2dbdd543fa6234f5c", null ],
       [ "setLength", "d1/d61/namespaceAStar.html#ad63c23708502a6200f492a279a0d780d", null ]
     ] ],
+    [ "Bits", "db/d7b/namespaceBits.html", [
+      [ "countSetBits", "db/d7b/namespaceBits.html#af33c44c7b8d6ada23adf9d9d76f7d87c", null ],
+      [ "getBits", "db/d7b/namespaceBits.html#aa7fb2cbe5f2acbe69c1436ec0bef82aa", null ],
+      [ "print64Bit", "db/d7b/namespaceBits.html#a5c41ebcd9c3db66a9701ea20449a08f1", null ],
+      [ "setBit", "db/d7b/namespaceBits.html#aff81c49423c2d7beafead156f283fea0", null ],
+      [ "setBit", "db/d7b/namespaceBits.html#a5191e6416f54c853068e6fb12f542321", null ],
+      [ "setBits", "db/d7b/namespaceBits.html#a0284b9628a36fb1c1fe410a4e0cdc998", null ],
+      [ "testBit", "db/d7b/namespaceBits.html#a99285b8ed79fe4637ad6f52d5c1471ee", null ],
+      [ "testBit", "db/d7b/namespaceBits.html#a504e750b277ce408490a18ad5f238e06", null ]
+    ] ],
     [ "ChooseDialog", "d3/dae/namespaceChooseDialog.html", [
       [ "callbackChangeTab", "d3/dae/namespaceChooseDialog.html#a19e3d26619262f82eeb37f5d56811a57", null ],
       [ "callbackDialogTray", "d3/dae/namespaceChooseDialog.html#a9aad03dc6b65bfa54d059970ea6a1d24", null ],
@@ -461,6 +471,9 @@ var namespaces_dup =
       [ "pencil", "d7/d62/namespaceSpriteEditor.html#a7e4fa18540ed12cdfe0cbfbf77abd72b", null ],
       [ "selectedTool", "d7/d62/namespaceSpriteEditor.html#a2b23ead0d44256d4901d13af98f9ae35", null ],
       [ "sizeOfPixel", "d7/d62/namespaceSpriteEditor.html#aed66a58d3fbf7ff94b755b61985d3ad8", null ]
+    ] ],
+    [ "System", "d6/d27/namespaceSystem.html", [
+      [ "syncEepromAndRam", "d6/d27/namespaceSystem.html#a94a259cd64dec4aaeb68d871c41f5a9e", null ]
     ] ],
     [ "Validate", "d2/d7d/namespaceValidate.html", [
       [ "isAlphanumeric", "d2/d7d/namespaceValidate.html#ac84eb1136284ce1f31243a4d57761df2", null ],

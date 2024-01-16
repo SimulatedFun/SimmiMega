@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['logiceditor_1627',['LogicEditor',['../db/d4c/namespaceLogicEditor.html',1,'']]]
+  ['gamesettings_1618',['GameSettings',['../dd/d6b/namespaceGameSettings.html',1,'']]],
+  ['glyphs_1619',['Glyphs',['../d7/df2/namespaceGlyphs.html',1,'']]]
 ];

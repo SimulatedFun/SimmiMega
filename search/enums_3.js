@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logictab_2893',['LogicTab',['../d7/d42/NavigationElement_8h.html#ac5ad6d46145f8cb4749736de401ef7f8',1,'NavigationElement.h']]]
+  ['menushortcut_2887',['MenuShortcut',['../de/dc3/MenuItem_8h.html#a19f37b335a8157ada561005db1eedbef',1,'MenuItem.h']]]
 ];

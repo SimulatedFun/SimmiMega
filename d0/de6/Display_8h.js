@@ -68,9 +68,9 @@ var Display_8h =
     [ "ILI9341_VSCRDEF", "d0/de6/Display_8h.html#aba45bf6c8278bf5210bab2607e993cf3", null ],
     [ "ILI9341_VSCRSADD", "d0/de6/Display_8h.html#aed59201f8eb2291e618d3b3151adc497", null ],
     [ "SPI_TFT_FREQUENCY", "d0/de6/Display_8h.html#ae415cbe5717a2b956aa8e414cd8bc9f0", null ],
-    [ "bootCommandLength", "d0/de6/Display_8h.html#ac41758b9f5a5ce15336463658ad29e0f", null ],
+    [ "bootCommandLength", "d0/de6/Display_8h.html#a636b30978d8e3dce7ba9c53065b47138", null ],
     [ "display", "d0/de6/Display_8h.html#a854f9eb314f72feecf68ba03c6f0e5d5", null ],
-    [ "ScreenHeight", "d0/de6/Display_8h.html#a02055acb4380e291d2ff3ad9195d925c", null ],
-    [ "ScreenWidth", "d0/de6/Display_8h.html#a4032378a9ef17506a750d939da31e7dc", null ],
-    [ "tftBootCommands", "d0/de6/Display_8h.html#a8682bf44c2fbf31cb92f8037fbb93de6", null ]
+    [ "ScreenHeight", "d0/de6/Display_8h.html#a665fdb7e62cdeace2c95bbb37fcf9fd5", null ],
+    [ "ScreenWidth", "d0/de6/Display_8h.html#a91a12b116dac4d5780d02f2680540102", null ],
+    [ "tftBootCommands", "d0/de6/Display_8h.html#afa76ee6cba05c13fb2fb6af773c019f1", null ]
 ];

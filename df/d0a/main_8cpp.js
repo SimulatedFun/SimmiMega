@@ -2,7 +2,6 @@ var main_8cpp =
 [
     [ "loop", "df/d0a/main_8cpp.html#afe461d27b9c48d5921c00d521181f12f", null ],
     [ "setup", "df/d0a/main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d", null ],
-    [ "syncEepromAndRam", "df/d0a/main_8cpp.html#aa043137dd86d46ca44ee7beab3354dcf", null ],
     [ "bus", "df/d0a/main_8cpp.html#abd3b51fc8b63bba81a02c8867d76b016", null ],
     [ "currentFont", "df/d0a/main_8cpp.html#ad2f7e4535b966c6a9f902c3c4a10ca41", null ],
     [ "debugEeprom", "df/d0a/main_8cpp.html#a9e7fb41c3da93c5192cfca942e188043", null ],

@@ -23,14 +23,13 @@ var searchData=
   ['async_2eh_29',['Async.h',['../d7/ddf/Async_8h.html',1,'']]],
   ['asynchandlepathfindingobjects_30',['asyncHandlePathfindingObjects',['../d4/dd1/namespacePlay.html#a6479b28d7fe7bf905ec394fc43b302ab',1,'Play']]],
   ['asynchandlewanderingobjects_31',['asyncHandleWanderingObjects',['../d4/dd1/namespacePlay.html#a4c0e8b5f37ff2051c5fa7bf169573efd',1,'Play']]],
-  ['asyncid_32',['AsyncId',['../d7/ddf/Async_8h.html#aa0f1a9c952aa62434691003eb7186269',1,'Async.h']]],
-  ['asyncidcount_33',['AsyncIdCount',['../d7/ddf/Async_8h.html#aa0f1a9c952aa62434691003eb7186269abe42131c63e391ce47061af17e9388d6',1,'Async.h']]],
-  ['asyncplaymodeanimation_34',['AsyncPlayModeAnimation',['../d7/ddf/Async_8h.html#aa0f1a9c952aa62434691003eb7186269a80c73a5f36a7ca5d337aff11568a4a4f',1,'Async.h']]],
-  ['atan2_5fapproximation2_35',['atan2_approximation2',['../d0/dfd/ValueButton_8cpp.html#a1f535f8a6db5e6da0ec6fdb583b131c0',1,'ValueButton.cpp']]],
-  ['audio_36',['Audio',['../d7/ddb/classAudio.html',1,'Audio'],['../d7/ddb/classAudio.html#a9f1d2e932cda2f1c674adde6ec51e0fb',1,'Audio::Audio()']]],
-  ['audio_2ecpp_37',['Audio.cpp',['../dc/d48/Audio_8cpp.html',1,'']]],
-  ['audio_2eh_38',['Audio.h',['../d8/daa/Audio_8h.html',1,'']]],
-  ['audio_5fblck_39',['AUDIO_BLCK',['../dd/ddd/Pinout_8h.html#a792ec67d412a11faaafe9a177b568663',1,'Pinout.h']]],
-  ['audio_5fdin_40',['AUDIO_DIN',['../dd/ddd/Pinout_8h.html#a9af8996ae6f1cbbe117093f67bb6b35a',1,'Pinout.h']]],
-  ['audio_5flrclk_41',['AUDIO_LRCLK',['../dd/ddd/Pinout_8h.html#a98fb79579837a7d4056fda106883b836',1,'Pinout.h']]]
+  ['asyncidcount_32',['AsyncIdCount',['../d7/ddf/Async_8h.html#ad2ac216944eb3627e9e3e8507eb4a26fabe42131c63e391ce47061af17e9388d6',1,'Async.h']]],
+  ['asyncplaymodeanimation_33',['AsyncPlayModeAnimation',['../d7/ddf/Async_8h.html#ad2ac216944eb3627e9e3e8507eb4a26fa80c73a5f36a7ca5d337aff11568a4a4f',1,'Async.h']]],
+  ['atan2_5fapproximation2_34',['atan2_approximation2',['../d0/dfd/ValueButton_8cpp.html#a1f535f8a6db5e6da0ec6fdb583b131c0',1,'ValueButton.cpp']]],
+  ['audio_35',['Audio',['../d7/ddb/classAudio.html',1,'Audio'],['../d7/ddb/classAudio.html#a9f1d2e932cda2f1c674adde6ec51e0fb',1,'Audio::Audio()']]],
+  ['audio_2ecpp_36',['Audio.cpp',['../dc/d48/Audio_8cpp.html',1,'']]],
+  ['audio_2eh_37',['Audio.h',['../d8/daa/Audio_8h.html',1,'']]],
+  ['audio_5fblck_38',['AUDIO_BLCK',['../dd/ddd/Pinout_8h.html#a792ec67d412a11faaafe9a177b568663',1,'Pinout.h']]],
+  ['audio_5fdin_39',['AUDIO_DIN',['../dd/ddd/Pinout_8h.html#a9af8996ae6f1cbbe117093f67bb6b35a',1,'Pinout.h']]],
+  ['audio_5flrclk_40',['AUDIO_LRCLK',['../dd/ddd/Pinout_8h.html#a98fb79579837a7d4056fda106883b836',1,'Pinout.h']]]
 ];

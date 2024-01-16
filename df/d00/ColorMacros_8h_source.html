@@ -87,26 +87,25 @@ $(document).ready(function(){initNavTree('df/d00/ColorMacros_8h_source.html','..
 <div class="title">ColorMacros.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../df/d00/ColorMacros_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef ColorMacros_h</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define ColorMacros_h</span></div>
+<a href="../../df/d00/ColorMacros_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef ColorMacros_h</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define ColorMacros_h</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="../../df/d00/ColorMacros_8h.html#abf027cb5fe7a6bcfb36d4ba43a0a0867">   10</a></span>&#160;constexpr uint16_t <a class="code" href="../../df/d00/ColorMacros_8h.html#abf027cb5fe7a6bcfb36d4ba43a0a0867">RGB565</a>(uint32_t hex) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">return</span> (((((hex &amp; 0xFF0000) &gt;&gt; 16) &gt;&gt; 3) &lt;&lt; 11) |</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;              ((((hex &amp; 0x00FF00) &gt;&gt; 8) &gt;&gt; 2) &lt;&lt; 5) |</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;              ((hex &amp; 0x0000FF) &gt;&gt; 3));</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../df/d00/ColorMacros_8h.html#a780744d0cfb9a36956d7efb84b05877d">   16</a></span>&#160;constexpr uint16_t <a class="code" href="../../df/d00/ColorMacros_8h.html#abf027cb5fe7a6bcfb36d4ba43a0a0867">RGB565</a>(uint8_t red, uint8_t green, uint8_t blue) {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">return</span> ((red &amp; 0xF8) &lt;&lt; 8) |</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;             ((green &amp; 0xFC) &lt;&lt; 3) |</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;             (blue &gt;&gt; 3);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aColorMacros_8h_html_abf027cb5fe7a6bcfb36d4ba43a0a0867"><div class="ttname"><a href="../../df/d00/ColorMacros_8h.html#abf027cb5fe7a6bcfb36d4ba43a0a0867">RGB565</a></div><div class="ttdeci">constexpr uint16_t RGB565(uint32_t hex)</div><div class="ttdoc">Some useful macros for handling converting HEX to rgb565 for the screen.</div><div class="ttdef"><b>Definition:</b> ColorMacros.h:10</div></div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../df/d00/ColorMacros_8h.html#abf027cb5fe7a6bcfb36d4ba43a0a0867">    9</a></span>&#160;constexpr uint16_t <a class="code" href="../../df/d00/ColorMacros_8h.html#abf027cb5fe7a6bcfb36d4ba43a0a0867">RGB565</a>(uint32_t hex) {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordflow">return</span> (((((hex &amp; 0xFF0000) &gt;&gt; 16) &gt;&gt; 3) &lt;&lt; 11) |</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;              ((((hex &amp; 0x00FF00) &gt;&gt; 8) &gt;&gt; 2) &lt;&lt; 5) |</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;              ((hex &amp; 0x0000FF) &gt;&gt; 3));</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../df/d00/ColorMacros_8h.html#a780744d0cfb9a36956d7efb84b05877d">   20</a></span>&#160;constexpr uint16_t <a class="code" href="../../df/d00/ColorMacros_8h.html#abf027cb5fe7a6bcfb36d4ba43a0a0867">RGB565</a>(uint8_t red, uint8_t green, uint8_t blue) {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">return</span> ((red &amp; 0xF8) &lt;&lt; 8) |</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;             ((green &amp; 0xFC) &lt;&lt; 3) |</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;             (blue &gt;&gt; 3);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aColorMacros_8h_html_abf027cb5fe7a6bcfb36d4ba43a0a0867"><div class="ttname"><a href="../../df/d00/ColorMacros_8h.html#abf027cb5fe7a6bcfb36d4ba43a0a0867">RGB565</a></div><div class="ttdeci">constexpr uint16_t RGB565(uint32_t hex)</div><div class="ttdef"><b>Definition:</b> ColorMacros.h:9</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

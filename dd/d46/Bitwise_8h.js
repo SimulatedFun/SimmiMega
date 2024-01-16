@@ -1,11 +1,11 @@
 var Bitwise_8h =
 [
-    [ "countSetBits", "dd/d46/Bitwise_8h.html#afa7f964e01d6bc90322de82f56a75598", null ],
-    [ "getBits", "dd/d46/Bitwise_8h.html#a44ba620386ff0c249586d776a64ef0c8", null ],
-    [ "print64Bit", "dd/d46/Bitwise_8h.html#ae503f2295761b729e8283c3d843068c4", null ],
-    [ "setBit", "dd/d46/Bitwise_8h.html#a8b61e5e2235a1053dfe3c38ac8803b6c", null ],
-    [ "setBit", "dd/d46/Bitwise_8h.html#aaadb4cbc4e829c86f8ca787d602fa743", null ],
-    [ "setBits", "dd/d46/Bitwise_8h.html#a5d2a38b4391a692ab30d46ee32570634", null ],
-    [ "testBit", "dd/d46/Bitwise_8h.html#a0ec16083c4e6907037c3291a611d5e2d", null ],
-    [ "testBit", "dd/d46/Bitwise_8h.html#ab4b9e23b3bcff8faeb65d7a8afd7333c", null ]
+    [ "countSetBits", "dd/d46/Bitwise_8h.html#af33c44c7b8d6ada23adf9d9d76f7d87c", null ],
+    [ "getBits", "dd/d46/Bitwise_8h.html#aa7fb2cbe5f2acbe69c1436ec0bef82aa", null ],
+    [ "print64Bit", "dd/d46/Bitwise_8h.html#a5c41ebcd9c3db66a9701ea20449a08f1", null ],
+    [ "setBit", "dd/d46/Bitwise_8h.html#aff81c49423c2d7beafead156f283fea0", null ],
+    [ "setBit", "dd/d46/Bitwise_8h.html#a5191e6416f54c853068e6fb12f542321", null ],
+    [ "setBits", "dd/d46/Bitwise_8h.html#a0284b9628a36fb1c1fe410a4e0cdc998", null ],
+    [ "testBit", "dd/d46/Bitwise_8h.html#a99285b8ed79fe4637ad6f52d5c1471ee", null ],
+    [ "testBit", "dd/d46/Bitwise_8h.html#a504e750b277ce408490a18ad5f238e06", null ]
 ];
