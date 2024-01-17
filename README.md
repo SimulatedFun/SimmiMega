@@ -1,19 +1,14 @@
 # SimmiMega
+### A Micro-Game Making Machine from Simulated Fun LLC
 
-### Wiring Configuration
+#### Design and Features
 
-#### ILI9341:
-- TFT_CS = 5
-- TFT_DC = 27
-- TFT_MOSI = 23
-- TFT_SCK = 18
-- TFT_RST = 33
-- TFT_MISO = 19
+- A game engine for beginners
+- Easy to make your own games! Teaches simple rules that can compound to create innovative gameplay.
+- Exportable games to share with your friends
+- Only $20! Very affordable :)
 
-#### EEPROM:
-- EEP_CS = 15
-- EEP_SPI = Hardware SPI connection
+#### Warnings
 
-#### MicroSD:
-- SD_CS = 17
-- SD_SPI = Hardware SPI connection
+- If a cosmic ray flips a bit, it could very well make all the doors have the solid attribute.
+- While the SimmiMega might seem kid-friendly, we recommend keeping it away from children. They're likely to be better at game creation than you, which can be a severe blow to adult egos.
