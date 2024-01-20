@@ -640,7 +640,7 @@ namespace Play {
 		GameSettings::getDirectory(&gameFolder);
 
 		INFO(F("file path: ") << filename);
-		Audio::playFile(String(gameFolder.text) + "/" + filename);
+		Sound::playFile(String(gameFolder.text) + "/music/" + filename);
 	}
 
 	/// Draws a whole room and begins playing said room's music
@@ -709,7 +709,7 @@ namespace Play {
 		// todo an object might not have any effect, it might just be set to the flag as default
 		//  ie an object might be set to be updated by the flag but might not have any visual changes
 		//		for (uint8_t i = 0; i < objectsPerRoom; i++) {
-		//			Audio::buffer();
+		//			Sound::buffer();
 		//
 		//			// for each position in the room
 		//			const uint16_t x = i % 13;
@@ -1132,7 +1132,7 @@ namespace Play {
 			if (touch->isPressed()) {
 				DEBUG(F("menu from loop"));
 				if (exitingPlayMode()) {
-					Audio::stop();
+					Sound::stop();
 					state = MainMenuState;
 					deallocate();
 					return;
@@ -1240,7 +1240,7 @@ namespace Play {
 		}
 
 		// If there's no input, just redraw a tile and restart the loop
-		Audio::buffer();
+		Sound::buffer();
 		// timings[timingAudio] = micros();
 
 		loopPathfindingObjects();
@@ -1434,7 +1434,7 @@ namespace Play {
 	void forceRoomFullDraw(uint8_t roomId) {
 		drawCoords.x = drawCoords.y = 0;
 		for (uint8_t i = 0; i < 130; i++) {
-			Audio::buffer();
+			Sound::buffer();
 			drawRoomTileAsync(roomId, true);
 		}
 	}
@@ -1466,7 +1466,7 @@ namespace Play {
 
 			// wait for input
 			do {
-				Audio::buffer();
+				Sound::buffer();
 				drawAnimatedDialogArrow(yPos + dialogBoxOuterHeight * scale);
 				if (drawBehind) {
 					animateRoomWhileDialogOpen(alignment);
@@ -1486,7 +1486,7 @@ namespace Play {
 					DEBUG(F("opened exit prompt"));
 
 					if (exitingPlayMode()) {
-						Audio::stop();
+						Sound::stop();
 						state = MainMenuState;
 						deallocate();
 						return;

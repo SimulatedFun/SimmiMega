@@ -15,9 +15,9 @@
 #define TOUCH_CS				 15
 #define SD_CS					 5
 #define EEPROM_CS				 27
-#define AUDIO_DIN				 33
-#define AUDIO_BLCK			 26
-#define AUDIO_LRCLK			 25
+#define I2S_DOUT      23
+#define I2S_BCLK      26
+#define I2S_LRC       25
 
 // Button input pins
 #define PIN_BUTTON_INPUT 19

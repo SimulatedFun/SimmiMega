@@ -82,7 +82,7 @@ namespace WarningBox {
 	void loop() {
 		while (!choiceMade) {
 			UIHelper::loop();
-			Audio::buffer();
+			Sound::buffer();
 		}
 	}
 

@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "Glyphs.h"
-#include "Audio.h"
+#include "Sound.h"
 #include "ui/SimpleButton.h"
 #include "ui/UIHelper.h"
 #include "ui/RoundButton.h"

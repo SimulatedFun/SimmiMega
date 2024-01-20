@@ -5,7 +5,7 @@
 #include "spi/Display.h"
 #include "spi/MicroSD.h"
 #include "Palette.h"
-#include "Audio.h"
+#include "Sound.h"
 #include "ui/TrayElement.h"
 #include "ui/RoundButton.h"
 #include "ui/UIHelper.h"

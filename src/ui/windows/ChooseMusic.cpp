@@ -110,7 +110,7 @@ namespace ChooseMusic {
 	}
 
 	void callbackPlay(RoundButton&) {
-		Audio::stop();
+		Sound::stop();
 		tray->play->depressed = true;
 		tray->play->render();
 
@@ -126,13 +126,13 @@ namespace ChooseMusic {
 		GameSettings::getDirectory(&gameFolder);
 
 		INFO(F("file path: ") << filename);
-		Audio::playFile(String(gameFolder.text) + "/" + filename);
+		Sound::playFile(String(gameFolder.text) + "/music/" + filename);
 	}
 
 	void callbackStop(RoundButton&) {
 		tray->stop->depressed = true;
 		tray->stop->render();
-		Audio::stop();
+		Sound::stop();
 		delay(200);
 		tray->stop->depressed = false;
 		tray->stop->render();
@@ -144,13 +144,13 @@ namespace ChooseMusic {
 
 		while (!callbackSelected) {
 			UIHelper::loop();
-			Audio::buffer();
+			Sound::buffer();
 		}
 
 		deallocate();
 		INFO(F("ChooseMusic::pick() returns ") << callbackTrackId);
 		touch->clearQueue();
-		Audio::stop();
+		Sound::stop();
 		return callbackTrackId;
 	}
 

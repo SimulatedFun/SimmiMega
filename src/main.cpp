@@ -71,6 +71,8 @@ void setup() {
 	// todo handle sd card not being present since it's not necessary for game engine operation
 	microSd->initialize();
 
+	Sound::initialize();
+
 	// ############################# Set Palette 0 to a black/white gradient
 //	Palette* pal = new Palette();
 //	pal->id = 0;

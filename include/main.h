@@ -15,6 +15,7 @@
 #include "FileManager.h"
 #include "Commands.h"
 #include "System.h"
+#include "Sound.h"
 
 #include "states/States.h"
 #include "states/MainMenu.h"
