@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['dark_5fblue_2961',['DARK_BLUE',['../da/d4f/Colors_8h.html#ab17de36a1b487f9ad9ef7dabd63531ab',1,'Colors.h']]],
-  ['dark_5fgreen_2962',['DARK_GREEN',['../da/d4f/Colors_8h.html#a2ebb0bf1d379e615bda6e25cccf0f08f',1,'Colors.h']]],
-  ['dark_5fgrey_2963',['DARK_GREY',['../da/d4f/Colors_8h.html#a85998c833c5007dc61315ea69919582e',1,'Colors.h']]],
-  ['dark_5fpurple_2964',['DARK_PURPLE',['../da/d4f/Colors_8h.html#a45f2ebf3267424d8dcbf0c02ea6b33fd',1,'Colors.h']]],
-  ['dark_5fred_2965',['DARK_RED',['../da/d4f/Colors_8h.html#adf1abd1d6844a43cca874c266bb57b9b',1,'Colors.h']]],
-  ['debug_2966',['DEBUG',['../d7/de2/SerialDebugging_8h.html#a96dd473db0b3d10bd43390cdacb00120',1,'SerialDebugging.h']]],
-  ['def_2967',['def',['../d2/dce/Typedefs_8h.html#a64d516b4117c9d3d79afc82f5e4cf4fc',1,'Typedefs.h']]]
+  ['eeprom_5fbyte_5flen_2967',['EEPROM_BYTE_LEN',['../dd/dd5/ExtEeprom_8h.html#af2907fe89d5cd853e8aa95a80d603488',1,'ExtEeprom.h']]],
+  ['eeprom_5fcs_2968',['EEPROM_CS',['../dd/ddd/Pinout_8h.html#a33366197bea45ae89aeaa2be6ea9b674',1,'Pinout.h']]],
+  ['eeprom_5fspi_5ffreq_2969',['EEPROM_SPI_FREQ',['../dd/dd5/ExtEeprom_8h.html#a155ed053a6c323be1c26d44cb4e26eb5',1,'ExtEeprom.h']]],
+  ['error_2970',['ERROR',['../d7/de2/SerialDebugging_8h.html#a02ce8a968600d004ba60858425c46307',1,'SerialDebugging.h']]]
 ];

@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['black_2951',['BLACK',['../da/d4f/Colors_8h.html#a7b3b25cba33b07c303f3060fe41887f6',1,'Colors.h']]],
-  ['blue_2952',['BLUE',['../da/d4f/Colors_8h.html#a79d10e672abb49ad63eeaa8aaef57c38',1,'Colors.h']]],
-  ['brown_2953',['BROWN',['../da/d4f/Colors_8h.html#ab2baea56ece91306020afd6d77fd19f9',1,'Colors.h']]],
-  ['btn_5fpurple_5fbg_2954',['BTN_PURPLE_BG',['../da/d4f/Colors_8h.html#abc1a78062ea35bf39243b3185f64c8e4',1,'Colors.h']]],
-  ['btn_5fpurple_5fdark_2955',['BTN_PURPLE_DARK',['../da/d4f/Colors_8h.html#a4e86456bd893ed9cc6c96dbce7690ed2',1,'Colors.h']]],
-  ['btn_5fpurple_5fshadow_2956',['BTN_PURPLE_SHADOW',['../da/d4f/Colors_8h.html#a76aeb3a6661a05fdbb099d34bab4d11b',1,'Colors.h']]]
+  ['cfg_5feeprom_5ftouchscreen_5fcalibrated_2956',['CFG_EEPROM_TOUCHSCREEN_CALIBRATED',['../df/d18/Touch_8h.html#a4add31fbaac641490edd895082efa0ed',1,'Touch.h']]],
+  ['cmyk_5fcyan_2957',['CMYK_CYAN',['../da/d4f/Colors_8h.html#a6ca46300793ef664db0b0344f6364fee',1,'Colors.h']]],
+  ['cmyk_5fmagenta_2958',['CMYK_MAGENTA',['../da/d4f/Colors_8h.html#a18aa320d832b4b6abf834d9fc490a70a',1,'Colors.h']]],
+  ['cmyk_5fyellow_2959',['CMYK_YELLOW',['../da/d4f/Colors_8h.html#a1e5224a7d1444be1ad3367a74da62e9c',1,'Colors.h']]]
 ];

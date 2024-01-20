@@ -5,7 +5,6 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "states", "dir_61a31ff85c95043c98241b02dc2a1804.html", "dir_61a31ff85c95043c98241b02dc2a1804" ],
     [ "ui", "dir_da5c6b39c0a2f54e57df6799511cd3ab.html", "dir_da5c6b39c0a2f54e57df6799511cd3ab" ],
     [ "AStar.cpp", "df/d8b/AStar_8cpp.html", "df/d8b/AStar_8cpp" ],
-    [ "Audio.cpp", "dc/d48/Audio_8cpp.html", null ],
     [ "Commands.cpp", "d5/d6b/Commands_8cpp.html", "d5/d6b/Commands_8cpp" ],
     [ "Dialog.cpp", "d7/d1e/Dialog_8cpp.html", null ],
     [ "DisplayExtra.cpp", "d6/dba/DisplayExtra_8cpp.html", "d6/dba/DisplayExtra_8cpp" ],
@@ -19,6 +18,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "Palette.cpp", "d9/daf/Palette_8cpp.html", null ],
     [ "RamBlock.cpp", "dd/dae/RamBlock_8cpp.html", "dd/dae/RamBlock_8cpp" ],
     [ "RoomHelper.cpp", "d6/dc6/RoomHelper_8cpp.html", null ],
+    [ "Sound.cpp", "d1/d8a/Sound_8cpp.html", "d1/d8a/Sound_8cpp" ],
     [ "System.cpp", "d3/d7c/System_8cpp.html", null ],
     [ "Text.cpp", "de/d37/Text_8cpp.html", null ],
     [ "Validate.cpp", "df/d1b/Validate_8cpp.html", "df/d1b/Validate_8cpp" ]

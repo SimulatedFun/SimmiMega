@@ -10,7 +10,7 @@ var searchData=
   ['an_16',['An',['../de/d02/uniontsMatrix__t.html#a0297328e5648aa350e5d09faaf1ab2d2',1,'tsMatrix_t']]],
   ['animated_17',['animated',['../d1/d55/classAnimatedSelection.html#ac396edcc1db6d7e7469915b03d47044d',1,'AnimatedSelection']]],
   ['animatedinitially_18',['animatedInitially',['../db/d4c/namespaceLogicEditor.html#a410dd10e62c63cdf7329df53a4dc1935',1,'LogicEditor']]],
-  ['animatedselection_19',['AnimatedSelection',['../d1/d55/classAnimatedSelection.html#ad7b570bed0fe447557f76f20cb23dfe6',1,'AnimatedSelection::AnimatedSelection()'],['../d1/d55/classAnimatedSelection.html',1,'AnimatedSelection']]],
+  ['animatedselection_19',['AnimatedSelection',['../d1/d55/classAnimatedSelection.html',1,'AnimatedSelection'],['../d1/d55/classAnimatedSelection.html#ad7b570bed0fe447557f76f20cb23dfe6',1,'AnimatedSelection::AnimatedSelection()']]],
   ['animateroomwhiledialogopen_20',['animateRoomWhileDialogOpen',['../d4/dd1/namespacePlay.html#ac513f7e3807e70d870156b60b157afcb',1,'Play']]],
   ['anonymous_5fnamespace_7bdisplay_2ecpp_7d_21',['anonymous_namespace{Display.cpp}',['../d0/d5b/namespaceanonymous__namespace_02Display_8cpp_03.html',1,'']]],
   ['appendfile_22',['appendFile',['../dd/d94/classMicroSD.html#a5b688026df0467d67c74d6edb6ac4390',1,'MicroSD']]],
@@ -26,10 +26,5 @@ var searchData=
   ['asyncidcount_32',['AsyncIdCount',['../d7/ddf/Async_8h.html#ad2ac216944eb3627e9e3e8507eb4a26fabe42131c63e391ce47061af17e9388d6',1,'Async.h']]],
   ['asyncplaymodeanimation_33',['AsyncPlayModeAnimation',['../d7/ddf/Async_8h.html#ad2ac216944eb3627e9e3e8507eb4a26fa80c73a5f36a7ca5d337aff11568a4a4f',1,'Async.h']]],
   ['atan2_5fapproximation2_34',['atan2_approximation2',['../d0/dfd/ValueButton_8cpp.html#a1f535f8a6db5e6da0ec6fdb583b131c0',1,'ValueButton.cpp']]],
-  ['audio_35',['Audio',['../d7/ddb/classAudio.html',1,'Audio'],['../d7/ddb/classAudio.html#a9f1d2e932cda2f1c674adde6ec51e0fb',1,'Audio::Audio()']]],
-  ['audio_2ecpp_36',['Audio.cpp',['../dc/d48/Audio_8cpp.html',1,'']]],
-  ['audio_2eh_37',['Audio.h',['../d8/daa/Audio_8h.html',1,'']]],
-  ['audio_5fblck_38',['AUDIO_BLCK',['../dd/ddd/Pinout_8h.html#a792ec67d412a11faaafe9a177b568663',1,'Pinout.h']]],
-  ['audio_5fdin_39',['AUDIO_DIN',['../dd/ddd/Pinout_8h.html#a9af8996ae6f1cbbe117093f67bb6b35a',1,'Pinout.h']]],
-  ['audio_5flrclk_40',['AUDIO_LRCLK',['../dd/ddd/Pinout_8h.html#a98fb79579837a7d4056fda106883b836',1,'Pinout.h']]]
+  ['audiolib_35',['audioLib',['../d1/d8a/Sound_8cpp.html#ab50aea9df95c72d328893f5d7f7daed8',1,'Sound.cpp']]]
 ];

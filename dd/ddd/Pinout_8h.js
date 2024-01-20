@@ -1,9 +1,9 @@
 var Pinout_8h =
 [
-    [ "AUDIO_BLCK", "dd/ddd/Pinout_8h.html#a792ec67d412a11faaafe9a177b568663", null ],
-    [ "AUDIO_DIN", "dd/ddd/Pinout_8h.html#a9af8996ae6f1cbbe117093f67bb6b35a", null ],
-    [ "AUDIO_LRCLK", "dd/ddd/Pinout_8h.html#a98fb79579837a7d4056fda106883b836", null ],
     [ "EEPROM_CS", "dd/ddd/Pinout_8h.html#a33366197bea45ae89aeaa2be6ea9b674", null ],
+    [ "I2S_BCLK", "dd/ddd/Pinout_8h.html#a70b8935619178318d99117188dbcaf83", null ],
+    [ "I2S_DOUT", "dd/ddd/Pinout_8h.html#a7e4b916b58b0737d949d2d335c31552e", null ],
+    [ "I2S_LRC", "dd/ddd/Pinout_8h.html#a93aef9c6f74b75248da7d5f3b894f4b1", null ],
     [ "PIN_BUTTON_INPUT", "dd/ddd/Pinout_8h.html#a2869c88db0bc136fd1ca73bd856aabd1", null ],
     [ "PIN_DOWN_BUTTON", "dd/ddd/Pinout_8h.html#afdb93ecb019f1dfdbb5c706718c31cfd", null ],
     [ "PIN_LEFT_BUTTON", "dd/ddd/Pinout_8h.html#a0bbf1fe03bb3fb36b8ebed47bec9fea0", null ],

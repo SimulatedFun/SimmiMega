@@ -5,7 +5,6 @@ var annotated_dup =
       [ "pinCorrelation", "db/d0f/structPlay_1_1pinCorrelation.html", "db/d0f/structPlay_1_1pinCorrelation" ]
     ] ],
     [ "AnimatedSelection", "d1/d55/classAnimatedSelection.html", "d1/d55/classAnimatedSelection" ],
-    [ "Audio", "d7/ddb/classAudio.html", "d7/ddb/classAudio" ],
     [ "BrightnessSelector", "d4/d37/classBrightnessSelector.html", "d4/d37/classBrightnessSelector" ],
     [ "BtnColor", "d0/d5c/structBtnColor.html", "d0/d5c/structBtnColor" ],
     [ "Callback", "db/dd3/classCallback.html", "db/dd3/classCallback" ],
@@ -62,6 +61,7 @@ var annotated_dup =
     [ "ScreenPosition", "df/d38/structScreenPosition.html", "df/d38/structScreenPosition" ],
     [ "SimpleButton", "d9/dca/classSimpleButton.html", "d9/dca/classSimpleButton" ],
     [ "SoliditySelection", "df/ddb/classSoliditySelection.html", "df/ddb/classSoliditySelection" ],
+    [ "Sound", "df/d49/classSound.html", "df/d49/classSound" ],
     [ "SpriteEditGrid", "d8/d8c/classSpriteEditGrid.html", "d8/d8c/classSpriteEditGrid" ],
     [ "SpriteFrameSelector", "dd/dba/classSpriteFrameSelector.html", "dd/dba/classSpriteFrameSelector" ],
     [ "TabElement", "df/dc5/classTabElement.html", "df/dc5/classTabElement" ],

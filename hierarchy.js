@@ -1,6 +1,5 @@
 var hierarchy =
 [
-    [ "Audio", "d7/ddb/classAudio.html", null ],
     [ "BtnColor", "d0/d5c/structBtnColor.html", null ],
     [ "Callback< T >", "db/dd3/classCallback.html", null ],
     [ "Callback< boolean >", "db/dd3/classCallback.html", null ],
@@ -35,6 +34,7 @@ var hierarchy =
     [ "RamBlock", "d3/d02/classRamBlock.html", null ],
     [ "RoomHelper", "db/d3a/classRoomHelper.html", null ],
     [ "ScreenPosition", "df/d38/structScreenPosition.html", null ],
+    [ "Sound", "df/d49/classSound.html", null ],
     [ "Text", "df/d53/classText.html", null ],
     [ "Title", "d5/dc0/classTitle.html", null ],
     [ "Touch", "d7/d9b/classTouch.html", null ],

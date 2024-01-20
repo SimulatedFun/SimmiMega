@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['cfg_5feeprom_5ftouchscreen_5fcalibrated_2957',['CFG_EEPROM_TOUCHSCREEN_CALIBRATED',['../df/d18/Touch_8h.html#a4add31fbaac641490edd895082efa0ed',1,'Touch.h']]],
-  ['cmyk_5fcyan_2958',['CMYK_CYAN',['../da/d4f/Colors_8h.html#a6ca46300793ef664db0b0344f6364fee',1,'Colors.h']]],
-  ['cmyk_5fmagenta_2959',['CMYK_MAGENTA',['../da/d4f/Colors_8h.html#a18aa320d832b4b6abf834d9fc490a70a',1,'Colors.h']]],
-  ['cmyk_5fyellow_2960',['CMYK_YELLOW',['../da/d4f/Colors_8h.html#a1e5224a7d1444be1ad3367a74da62e9c',1,'Colors.h']]]
+  ['dark_5fblue_2960',['DARK_BLUE',['../da/d4f/Colors_8h.html#ab17de36a1b487f9ad9ef7dabd63531ab',1,'Colors.h']]],
+  ['dark_5fgreen_2961',['DARK_GREEN',['../da/d4f/Colors_8h.html#a2ebb0bf1d379e615bda6e25cccf0f08f',1,'Colors.h']]],
+  ['dark_5fgrey_2962',['DARK_GREY',['../da/d4f/Colors_8h.html#a85998c833c5007dc61315ea69919582e',1,'Colors.h']]],
+  ['dark_5fpurple_2963',['DARK_PURPLE',['../da/d4f/Colors_8h.html#a45f2ebf3267424d8dcbf0c02ea6b33fd',1,'Colors.h']]],
+  ['dark_5fred_2964',['DARK_RED',['../da/d4f/Colors_8h.html#adf1abd1d6844a43cca874c266bb57b9b',1,'Colors.h']]],
+  ['debug_2965',['DEBUG',['../d7/de2/SerialDebugging_8h.html#a96dd473db0b3d10bd43390cdacb00120',1,'SerialDebugging.h']]],
+  ['def_2966',['def',['../d2/dce/Typedefs_8h.html#a64d516b4117c9d3d79afc82f5e4cf4fc',1,'Typedefs.h']]]
 ];
