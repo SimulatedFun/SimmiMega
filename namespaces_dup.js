@@ -26,7 +26,7 @@ var namespaces_dup =
     ] ],
     [ "Bits", "db/d7b/namespaceBits.html", [
       [ "countSetBits", "db/d7b/namespaceBits.html#af33c44c7b8d6ada23adf9d9d76f7d87c", null ],
-      [ "getBits", "db/d7b/namespaceBits.html#aa7fb2cbe5f2acbe69c1436ec0bef82aa", null ],
+      [ "getBits", "db/d7b/namespaceBits.html#a6b9423a1d9f235aa044064df789b7770", null ],
       [ "print64Bit", "db/d7b/namespaceBits.html#a5c41ebcd9c3db66a9701ea20449a08f1", null ],
       [ "setBit", "db/d7b/namespaceBits.html#aff81c49423c2d7beafead156f283fea0", null ],
       [ "setBit", "db/d7b/namespaceBits.html#a5191e6416f54c853068e6fb12f542321", null ],

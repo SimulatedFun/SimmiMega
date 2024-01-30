@@ -1,7 +1,7 @@
 var Bitwise_8h =
 [
     [ "countSetBits", "dd/d46/Bitwise_8h.html#af33c44c7b8d6ada23adf9d9d76f7d87c", null ],
-    [ "getBits", "dd/d46/Bitwise_8h.html#aa7fb2cbe5f2acbe69c1436ec0bef82aa", null ],
+    [ "getBits", "dd/d46/Bitwise_8h.html#a6b9423a1d9f235aa044064df789b7770", null ],
     [ "print64Bit", "dd/d46/Bitwise_8h.html#a5c41ebcd9c3db66a9701ea20449a08f1", null ],
     [ "setBit", "dd/d46/Bitwise_8h.html#aff81c49423c2d7beafead156f283fea0", null ],
     [ "setBit", "dd/d46/Bitwise_8h.html#a5191e6416f54c853068e6fb12f542321", null ],

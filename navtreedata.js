@@ -87,17 +87,17 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "d1/d71/namespaceDataMenu.html#ac168a76fb9de905f952f8953ccd21bba",
-"d3/dae/namespaceChooseDialog.html",
-"d4/de8/DataMenu_8cpp.html#ab93655cca17dcb0ac985e6656dcb2542",
-"d6/d7a/LogicEditor_8cpp.html#a76f716d98ff15d6c4e1359065f357767",
-"d7/dce/classMenuItem.html#acac62d7f13bf0a8c6d53a30a2e1919c9",
-"d8/dfc/namespaceEditTextField.html#affdee5bf91b8520a015a4f1a089483d0",
-"da/d59/ChooseDialog_8cpp.html#aa323bca7f730345e98dc54688cd7914f",
-"db/dae/DropdownFlagUpdate_8h.html",
-"dd/d46/Bitwise_8h.html#a0284b9628a36fb1c1fe410a4e0cdc998",
-"de/d1c/classGameObject.html#a97d00b87d519897bfdf2e728d3551c19",
-"df/d15/classPaletteSelector.html#aeadcbc62d3036dadaddd9dada15b98ee",
-"functions_func.html"
+"d3/dae/namespaceChooseDialog.html#a810c5eeee2b8952da7ebc2c37f310f95",
+"d5/d1b/SettingsMenu_8h.html#af5377dbec6c7da35b17d34398523928d",
+"d6/d7a/LogicEditor_8cpp.html#ab73133ad705b54090efe84c8f43b60bb",
+"d7/de2/SerialDebugging_8h.html",
+"d9/d01/namespacePaletteEditor.html#aedcf798d3b88c2b4354f22b489dcb0fe",
+"da/d78/StateMachine_8h.html#a5d74787dedbc4e11c1ab15bf487e61f8a7b9f162e64266ec1038ee8c6dd832704",
+"dc/d01/structKeyPosition.html#a0fdb0ded361cb19f9f079d5156995f23",
+"dd/d67/ChooseDialog_8h.html#ad03159f50c68e36b83b6a6481b993796",
+"de/d1c/classGameObject.html#aa9ff9dd0783f7bf48e045d5bf0d7484e",
+"df/d1b/Validate_8cpp.html",
+"functions_func_u.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

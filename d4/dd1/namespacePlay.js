@@ -72,14 +72,5 @@ var namespacePlay =
     [ "newCoords", "d4/dd1/namespacePlay.html#abf100a56a2da52a0be74c8c0c338095c", null ],
     [ "playerCoords", "d4/dd1/namespacePlay.html#ab7373937a8b4150d5739350541d8c938", null ],
     [ "playerGameObj", "d4/dd1/namespacePlay.html#a46187938277cfe60f043f9763b4feacd", null ],
-    [ "roomPalette", "d4/dd1/namespacePlay.html#a9d48fca1fd709e3925e94be1b8156a9f", null ],
-    [ "timingAnimate", "d4/dd1/namespacePlay.html#a8bdd097a48bad6c6fd9abce8f7c78f32", null ],
-    [ "timingAudio", "d4/dd1/namespacePlay.html#acfe06baf694d3d18a3e89f1255799b46", null ],
-    [ "timingInputPoll", "d4/dd1/namespacePlay.html#a85091c6331fd67ed4c8d134a2073ed82", null ],
-    [ "timingMove", "d4/dd1/namespacePlay.html#a1093b4bc1d959c441087b85feaf82ae4", null ],
-    [ "timings", "d4/dd1/namespacePlay.html#a2cc5b238453f3155ad92cd46e163782a", null ],
-    [ "timingStart", "d4/dd1/namespacePlay.html#a53a02451818ecbbf6c84b27a3192fac9", null ],
-    [ "timingTarget", "d4/dd1/namespacePlay.html#af21ea30406b428a3d57c27ca063ea475", null ],
-    [ "timingTouch", "d4/dd1/namespacePlay.html#a4f06a1d58663784389bc237bac30fd56", null ],
-    [ "timingWander", "d4/dd1/namespacePlay.html#a07aa2c355a14af8135b4ac8cb8979f89", null ]
+    [ "roomPalette", "d4/dd1/namespacePlay.html#a9d48fca1fd709e3925e94be1b8156a9f", null ]
 ];

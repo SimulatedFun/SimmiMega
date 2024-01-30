@@ -36,10 +36,11 @@ var searchData=
   ['frame_528',['frame',['../dd/d37/classOneTwoSelection.html#a53588253c46dcef74673515cf70f6a41',1,'OneTwoSelection']]],
   ['frame1_529',['frame1',['../de/de7/structObject.html#a387d91caa43eb88022ea4da9db6040fc',1,'Object::frame1()'],['../d7/d62/namespaceSpriteEditor.html#a1cae2eb121065084c216829f6f164611',1,'SpriteEditor::frame1()']]],
   ['frame1_530',['Frame1',['../dc/d33/ValueButton_8h.html#a642c03d62e6eb1c46d6d01b29ee41b9eadd68a6ad8ca9a858663dd6114db3f07d',1,'ValueButton.h']]],
-  ['frame2_531',['frame2',['../de/de7/structObject.html#aab22b87923f15afd288629a3fedf6544',1,'Object::frame2()'],['../d7/d62/namespaceSpriteEditor.html#ab889391cd5fa2a2b28d83d49655530b6',1,'SpriteEditor::frame2()']]],
+  ['frame2_531',['frame2',['../de/de7/structObject.html#aab22b87923f15afd288629a3fedf6544',1,'Object']]],
   ['frame2_532',['Frame2',['../dc/d33/ValueButton_8h.html#a642c03d62e6eb1c46d6d01b29ee41b9ea59905975c9008a290de2df74599d1499',1,'ValueButton.h']]],
-  ['fullequal_533',['fullEqual',['../dd/d43/classCoordinates.html#a56b01fbf449845a1333d1081b7b5fb1b',1,'Coordinates']]],
-  ['fullscreen_534',['FullScreen',['../df/d53/classFullScreen.html#a59c44c7adc851424f669cf2733de6bf7',1,'FullScreen::FullScreen()'],['../df/d53/classFullScreen.html',1,'FullScreen']]],
-  ['fullwidth_535',['fullWidth',['../d2/d67/namespaceWarningBox.html#a781252ae5ac87339b6e3dfdc15733619',1,'WarningBox']]],
-  ['function_536',['function',['../db/dd3/classCallback.html#ad1a4e218727c717f522fd3fb82c83451',1,'Callback']]]
+  ['frame2_533',['frame2',['../d7/d62/namespaceSpriteEditor.html#ab889391cd5fa2a2b28d83d49655530b6',1,'SpriteEditor']]],
+  ['fullequal_534',['fullEqual',['../dd/d43/classCoordinates.html#a56b01fbf449845a1333d1081b7b5fb1b',1,'Coordinates']]],
+  ['fullscreen_535',['FullScreen',['../df/d53/classFullScreen.html#a59c44c7adc851424f669cf2733de6bf7',1,'FullScreen::FullScreen()'],['../df/d53/classFullScreen.html',1,'FullScreen']]],
+  ['fullwidth_536',['fullWidth',['../d2/d67/namespaceWarningBox.html#a781252ae5ac87339b6e3dfdc15733619',1,'WarningBox']]],
+  ['function_537',['function',['../db/dd3/classCallback.html#ad1a4e218727c717f522fd3fb82c83451',1,'Callback']]]
 ];
