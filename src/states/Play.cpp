@@ -456,7 +456,7 @@ namespace Play {
 
 				// load room and redraw
 				DEBUG(F("play 527"));
-				enterRoom(playerCoords.roomId);
+				enterRoom(playerCoords.roomId, false);
 			}
 		}
 	}
@@ -579,7 +579,7 @@ namespace Play {
 		DEBUG(F("resetGameVariables"));
 		showBeginningDialog();
 		DEBUG(F("todo REENABLE showBeginningDialog"));
-		enterRoom(playerCoords.roomId);
+		enterRoom(playerCoords.roomId, true);
 		DEBUG(F("enterRoom"));
 
 		resetTimer(ButtonMoveDelay);			// wait 150ms before receiving input
@@ -619,10 +619,16 @@ namespace Play {
 		showDialogSequence(dialogId, dialogMiddle, false);
 	}
 
-	void playRoomMusic(uint8_t roomId) {
+	void playRoomMusic(uint8_t roomId, boolean initialStart) {
+        static uint8_t currentMusicId = 0;
 		uint8_t musicId = 0;
 		RoomHelper::getMusicId(&musicId, roomId);
 		INFO(F("music id: ") << musicId);
+
+        // don't restart track when moving between rooms with the same bgm
+        if (!initialStart and musicId == currentMusicId) {
+            return;
+        }
 
 		String filename;
 
@@ -644,12 +650,12 @@ namespace Play {
 	}
 
 	/// Draws a whole room and begins playing said room's music
-	void enterRoom(uint8_t roomId) {
+	void enterRoom(uint8_t roomId, boolean initialStart) {
 		DEBUG(F("enterRoom: ") << roomId);
 		loadRoomVariables(roomId);
 		stateOfPlay();
 		forceRoomFullDraw(roomId);
-		playRoomMusic(roomId);
+		playRoomMusic(roomId, initialStart);
 	}
 
 	void allocate() {
@@ -1035,7 +1041,7 @@ namespace Play {
 			playerCoords = newCoords;
 
 			// load room vars and redraw
-			enterRoom(playerCoords.roomId);
+			enterRoom(playerCoords.roomId, false);
 		}
 
 		handleCollisionWithObject(objectAtNewLocation, &playerMovedInSameRoom);
@@ -1125,7 +1131,6 @@ namespace Play {
 	}
 
 	void loopCheckForTouch() {
-		return;
 		static uint8_t loopCounter = 0;
 		if (loopCounter++ == 15) {
 			// touch->poll();
@@ -1478,7 +1483,7 @@ namespace Play {
 				if (loopCounter++ == 15) {
 					loopCounter = 0;
 
-					// touch->poll();
+					touch->poll();
 					if (!checkTimer(250, BetweenTouches) or !touch->isPressed()) {
 						continue;
 					}

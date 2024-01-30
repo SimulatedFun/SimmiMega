@@ -7,6 +7,10 @@
 // todo show games on sd
 // todo save game to sd
 
+// Simple Todos/Bug Fixes
+// todo add debounce delay for dialog box in play mode
+// todo add solid border flags for walls of room
+
 // Global variables initialized from "states/States.h"
 State state = MainMenuState; // Starting state upon initialization
 State oldState = OffState;	  // Old state - what it was before
