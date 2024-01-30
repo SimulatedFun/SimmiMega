@@ -146,6 +146,6 @@ sd_err MicroSD::begin() {
 }
 
 void MicroSD::end() {
-	SD.end();
+	//SD.end();
 	sdTransactionOpen = false;
 }

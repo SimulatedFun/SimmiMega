@@ -11,7 +11,7 @@
 #include "FS.h"
 #include "SD.h"
 
-#define SPI_MICROSD_FREQUENCY 2500000
+#define SPI_MICROSD_FREQUENCY 25000000
 #define SD_RETRY_COUNT 10
 
 using sd_err = uint8_t;

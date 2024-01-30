@@ -39,6 +39,12 @@ void setup() {
 					  "|_____|_|_|_|_|_|_|_|_|_|_|_|___|_  |__,|\n"
 					  "                                |___|\n");
 
+	// push buttons
+	pinMode(PIN_LEFT_BUTTON, INPUT);
+	pinMode(PIN_DOWN_BUTTON, INPUT);
+	pinMode(PIN_UP_BUTTON, INPUT);
+	pinMode(PIN_RIGHT_BUTTON, INPUT);
+
 	bus = new SPIClass(HSPI);
 	bus->begin(SHARED_CLK, SHARED_MISO, SHARED_MOSI, -1);
 
@@ -74,6 +80,7 @@ void setup() {
 	microSd = new MicroSD(bus);
 	// todo handle sd card not being present since it's not necessary for game engine operation
 	microSd->initialize();
+	microSd->begin();
 
 	Sound::initialize();
 

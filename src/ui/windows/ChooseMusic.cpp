@@ -116,9 +116,9 @@ namespace ChooseMusic {
 
 		String filename;
 
-		microSd->begin();
+		//microSd->begin();
 		FileManager::getSongInfoTx(tray->playingTrackId, &filename);
-		microSd->end();
+		//microSd->end();
 
 		INFO(F("playing song: ") << filename);
 

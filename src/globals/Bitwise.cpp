@@ -82,7 +82,7 @@ void Bits::setBits(uint8_t* data, uint8_t index, uint8_t bit_length, uint8_t val
 	}
 }
 
-uint16_t Bits::getBits(const uint8_t* data, uint8_t index, uint8_t bit_length) {
+uint8_t Bits::getBits(const uint8_t* data, uint8_t index, uint8_t bit_length) {
 	// Calculate the byte index for the starting bit
 	uint8_t byteIndex = index / 8;
 
@@ -90,7 +90,7 @@ uint16_t Bits::getBits(const uint8_t* data, uint8_t index, uint8_t bit_length) {
 	uint8_t bitOffset = index % 8;
 
 	// Initialize the result
-	uint16_t result = 0;
+	uint8_t result = 0;
 
 	// Read bits that span multiple bytes
 	uint8_t bitsToRead = bit_length;

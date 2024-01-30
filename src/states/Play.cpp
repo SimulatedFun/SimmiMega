@@ -531,7 +531,7 @@ namespace Play {
 
 		if (newPos.x == playerCoords.x and newPos.y == playerCoords.y) {
 
-//          INFO(F("collision triggered by targeting object"));
+			//          INFO(F("collision triggered by targeting object"));
 
 
 			const Coordinates pos(object->x, object->y, playerCoords.roomId);
@@ -774,7 +774,7 @@ namespace Play {
 			return no_change;
 		}
 		for (uint8_t i = 0; i < 4; i++) {
-			if (digitalRead(inputPins[i].pin) == 0) {
+			if (digitalRead(inputPins[i].pin)) {
 				resetTimer(ButtonMoveDelay);
 				return inputPins[i].direction;
 			}
@@ -1167,8 +1167,8 @@ namespace Play {
 
 		// if we're at the beginning, wait until 500ms have passed
 		if (drawCoords.x == 0 and drawCoords.y == 0) {
-            // restart animation timings start time
-            drawStart = millis();
+			// restart animation timings start time
+			drawStart = millis();
 
 			if (!checkTimer(500, AsyncPlayModeAnimation, true)) {
 				return; // not ready for animation
@@ -1179,27 +1179,15 @@ namespace Play {
 
 		// when we finish a frame:
 		if (drawCoords.x == 0 and drawCoords.y == 0) {
-            Serial.printf("frame took %lu ms\n", (millis() - drawStart));
-            if (500 < (millis() - drawStart)) {
-                waitTime = 0;
-            } else {
-                waitTime =  500 - (millis() - drawStart);
-            }
-            Serial.printf("we would wait %lu ms\n", waitTime);
-        }
-//			if ((millis() - drawStart) >= 500) { // took longer than 500ms
-//				waitTime = 0;
-//				display->fillRectangle(312, 0, 8, 8, RED);
-//				// INFO(F("frame lagging"));
-//				Serial.printf(">500ms new waitTime: %lu\n", waitTime);
-//			} else { // took less than 500ms
-//				display->fillRectangle(312, 0, 8, 8, GREEN);
-//				waitTime = 500 - (millis() - drawStart);
-//				Serial.printf("<500ms new waitTime: %lu\n", waitTime);
-//			}
-//		}
+			if (500 < (millis() - drawStart)) {
+				waitTime = 0;
+			} else {
+				waitTime = 500 - (millis() - drawStart);
+			}
+		}
 	}
 
+#ifdef ENABLE_TIMINGS
 	unsigned long timings[8];
 	constexpr uint8_t timingStart = 0;
 	constexpr uint8_t timingInputPoll = 1;
@@ -1209,9 +1197,10 @@ namespace Play {
 	constexpr uint8_t timingWander = 5;
 	constexpr uint8_t timingAnimate = 6;
 	constexpr uint8_t timingTouch = 7;
+#endif
 
 	void loopTimingsReport() {
-		return;
+#ifdef ENABLE_TIMINGS
 		const unsigned long start = timings[timingStart];
 		Serial << "\n== Timings Report ==" << endl;
 		Serial << "Input poll  : " << timings[timingInputPoll] - start << endl;
@@ -1222,17 +1211,25 @@ namespace Play {
 		Serial << "Tile animate: " << timings[timingAnimate] - start << endl;
 		Serial << "Touch poll  : " << timings[timingTouch] - start << endl;
 		Serial << "====================" << endl;
+#endif
 	}
 
 	void loop() {
-		//		timings[timingStart] = micros();
-		//		for (uint8_t i = 1; i < 8; i++) {
-		//			timings[i] = 0;
-		//		}
+		Sound::buffer();
+#ifdef ENABLE_TIMINGS
+		timings[timingStart] = micros();
+		for (uint8_t i = 1; i < 8; i++) {
+			timings[i] = 0;
+		}
+#endif
 
 		// Check if the player wants to move (max every 140 millis)
 		const uint8_t playerIntention = pollInput();
-		// timings[timingInputPoll] = micros();
+#ifdef ENABLE_TIMINGS
+		timings[timingInputPoll] = micros();
+#endif
+
+		Sound::buffer();
 
 		if (playerIntention != no_change) {
 			// Set newCoordinates based on playerIntention
@@ -1246,22 +1243,33 @@ namespace Play {
 
 		// If there's no input, just redraw a tile and restart the loop
 		Sound::buffer();
-		// timings[timingAudio] = micros();
+#ifdef ENABLE_TIMINGS
+		timings[timingAudio] = micros();
+#endif
 
 		loopPathfindingObjects();
-		// timings[timingTarget] = micros();
+#ifdef ENABLE_TIMINGS
+		timings[timingTarget] = micros();
+#endif
+
+		Sound::buffer();
 
 		loopWanderingObjects();
 		// timings[timingWander] = micros();
 
+		Sound::buffer();
+
 		loopAnimateTiles();
 		// timings[timingAnimate] = micros();
 
-		// Check if we need to exit to the main menu
-		loopCheckForTouch();
-		// timings[timingTouch] = micros();
+		Sound::buffer();
 
-		// loopTimingsReport();
+		// Check if we need to exit to the main menu
+		// loopCheckForTouch();
+
+		Sound::buffer();
+
+		loopTimingsReport();
 	}
 
 	boolean isAnimated(GameObject* obj) {
