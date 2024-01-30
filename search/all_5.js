@@ -20,7 +20,7 @@ var searchData=
   ['endwrite_460',['endWrite',['../d6/dd6/classDisplay.html#a70ae4198d7883be1b9869e2fcd754f1d',1,'Display']]],
   ['enter_461',['enter',['../dc/dd2/classKeyboard.html#a954b7bc16b076067a7ffd899aa8e7170',1,'Keyboard']]],
   ['enterkey_462',['EnterKey',['../d0/df8/Keyboard_8h.html#aec8f276a2d2588abed7ea07ad63e5dda',1,'Keyboard.h']]],
-  ['enterroom_463',['enterRoom',['../d4/dd1/namespacePlay.html#a0475cef0a0d6286565b59fc3a8881ef4',1,'Play']]],
+  ['enterroom_463',['enterRoom',['../d4/dd1/namespacePlay.html#a2c2b9707fe050620f704e185755135f4',1,'Play']]],
   ['erasecursor_464',['eraseCursor',['../d6/d05/namespaceDialogEditor.html#ada27cb8ab754034a1129ce6caa13079c',1,'DialogEditor::eraseCursor()'],['../d8/dfc/namespaceEditTextField.html#a63ac8f789ca5516d9fc9d6fe598ceaee',1,'EditTextField::eraseCursor()']]],
   ['eraser_465',['eraser',['../db/d86/namespaceRoomEditor.html#a19f5da990e2614e2cc5ca0417109c9cf',1,'RoomEditor::eraser()'],['../d7/d62/namespaceSpriteEditor.html#abf34d779023b05750a11b42fd0b0bcd6',1,'SpriteEditor::eraser()']]],
   ['eraser_5foutline_466',['ERASER_OUTLINE',['../d9/d4b/Glyphs_8h.html#a8757e34fddf6394ab74740a872ec2599',1,'Glyphs.h']]],
