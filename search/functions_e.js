@@ -8,7 +8,7 @@ var searchData=
   ['playerwantstochangerooms_2100',['playerWantsToChangeRooms',['../d4/dd1/namespacePlay.html#ad500342c16a70aa1ceb36ab21f9eaea2',1,'Play']]],
   ['playerwantstomove_2101',['playerWantsToMove',['../d4/dd1/namespacePlay.html#a11b8be5122f411819122fb7998e77c14',1,'Play']]],
   ['playfile_2102',['playFile',['../df/d49/classSound.html#a08cb0d727367dbbdfc6f9c965e898af1',1,'Sound']]],
-  ['playroommusic_2103',['playRoomMusic',['../d4/dd1/namespacePlay.html#a27947279d257a9510e60d97530cb9d5f',1,'Play']]],
+  ['playroommusic_2103',['playRoomMusic',['../d4/dd1/namespacePlay.html#a4f0105cab2037bcb85956fc3a923e1d1',1,'Play']]],
   ['poll_2104',['poll',['../d7/d9b/classTouch.html#a53dc3beac420b514ec7f9c4940c6da57',1,'Touch']]],
   ['pollinput_2105',['pollInput',['../d4/dd1/namespacePlay.html#a7ec1e4607e2e92e89c1f28799c886a8d',1,'Play']]],
   ['print_2106',['print',['../df/d53/classText.html#a351b37eb3f9f6fd591992245fcb72067',1,'Text']]],

@@ -52,7 +52,7 @@ var Play_8cpp =
     [ "objectTeleportsPlayer", "d3/d97/Play_8cpp.html#a740340c5dbef382d31fe192afba47c5e", null ],
     [ "objectTriggersFlagChange", "d3/d97/Play_8cpp.html#a096394c2b7eae4dc724cebae2c2e892c", null ],
     [ "playerWantsToChangeRooms", "d3/d97/Play_8cpp.html#ad500342c16a70aa1ceb36ab21f9eaea2", null ],
-    [ "playRoomMusic", "d3/d97/Play_8cpp.html#a27947279d257a9510e60d97530cb9d5f", null ],
+    [ "playRoomMusic", "d3/d97/Play_8cpp.html#a4f0105cab2037bcb85956fc3a923e1d1", null ],
     [ "pollInput", "d3/d97/Play_8cpp.html#a7ec1e4607e2e92e89c1f28799c886a8d", null ],
     [ "resetGameVariables", "d3/d97/Play_8cpp.html#aa44736dc6dbc63eb4862abf7269d368d", null ],
     [ "setup", "d3/d97/Play_8cpp.html#a4dcf596a7a6fdd41f5a6f2cc4faea489", null ],

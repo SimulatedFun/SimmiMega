@@ -68,7 +68,7 @@ var searchData=
   ['playerwantstomove_1001',['playerWantsToMove',['../d4/dd1/namespacePlay.html#a11b8be5122f411819122fb7998e77c14',1,'Play']]],
   ['playfile_1002',['playFile',['../df/d49/classSound.html#a08cb0d727367dbbdfc6f9c965e898af1',1,'Sound']]],
   ['playingtrackid_1003',['playingTrackId',['../d8/d8d/classMusicSelectionGrid.html#a4e51e6f8b1d651d9606e285724b9c3c7',1,'MusicSelectionGrid']]],
-  ['playroommusic_1004',['playRoomMusic',['../d4/dd1/namespacePlay.html#a27947279d257a9510e60d97530cb9d5f',1,'Play']]],
+  ['playroommusic_1004',['playRoomMusic',['../d4/dd1/namespacePlay.html#a4f0105cab2037bcb85956fc3a923e1d1',1,'Play']]],
   ['playstate_1005',['PlayState',['../da/d78/StateMachine_8h.html#a5d74787dedbc4e11c1ab15bf487e61f8aee586d737875c1dffc91ce402f6c5345',1,'PlayState():&#160;StateMachine.h'],['../dc/d3d/States_8h.html#a5d74787dedbc4e11c1ab15bf487e61f8aee586d737875c1dffc91ce402f6c5345',1,'PlayState():&#160;States.h']]],
   ['poll_1006',['poll',['../d7/d9b/classTouch.html#a53dc3beac420b514ec7f9c4940c6da57',1,'Touch']]],
   ['pollinput_1007',['pollInput',['../d4/dd1/namespacePlay.html#a7ec1e4607e2e92e89c1f28799c886a8d',1,'Play']]],
