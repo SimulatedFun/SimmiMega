@@ -577,9 +577,12 @@ namespace Play {
 		DEBUG(F("allocate"));
 		resetGameVariables();
 		DEBUG(F("resetGameVariables"));
+
+		playRoomMusic(playerCoords.roomId, true);
+
 		showBeginningDialog();
 		DEBUG(F("todo REENABLE showBeginningDialog"));
-		enterRoom(playerCoords.roomId, true);
+		enterRoom(playerCoords.roomId);
 		DEBUG(F("enterRoom"));
 
 		resetTimer(ButtonMoveDelay);			// wait 150ms before receiving input
@@ -619,16 +622,16 @@ namespace Play {
 		showDialogSequence(dialogId, dialogMiddle, false);
 	}
 
-	void playRoomMusic(uint8_t roomId, boolean initialStart) {
-        static uint8_t currentMusicId = 0;
+	void playRoomMusic(uint8_t roomId, boolean forceRestart) {
+		static uint8_t currentMusicId = 0;
 		uint8_t musicId = 0;
 		RoomHelper::getMusicId(&musicId, roomId);
 		INFO(F("music id: ") << musicId);
 
-        // don't restart track when moving between rooms with the same bgm
-        if (!initialStart and musicId == currentMusicId) {
-            return;
-        }
+		// don't restart track when moving between rooms with the same bgm
+		if (!forceRestart and musicId == currentMusicId) {
+			return;
+		}
 
 		String filename;
 
@@ -647,6 +650,7 @@ namespace Play {
 
 		INFO(F("file path: ") << filename);
 		Sound::playFile(String(gameFolder.text) + "/music/" + filename);
+		currentMusicId = musicId;
 	}
 
 	/// Draws a whole room and begins playing said room's music
@@ -655,7 +659,7 @@ namespace Play {
 		loadRoomVariables(roomId);
 		stateOfPlay();
 		forceRoomFullDraw(roomId);
-		playRoomMusic(roomId, initialStart);
+		playRoomMusic(roomId);
 	}
 
 	void allocate() {
@@ -770,7 +774,7 @@ namespace Play {
 											 {PIN_RIGHT_BUTTON, move_right}};
 	/// Checks button inputs and returns a direction the player wants to move
 	direction pollInput() {
-		if (!checkTimer(140, ButtonMoveDelay, false)) {
+		if (!checkTimer(160, ButtonMoveDelay, false)) {
 			return no_change;
 		}
 		for (uint8_t i = 0; i < 4; i++) {
@@ -1133,7 +1137,7 @@ namespace Play {
 	void loopCheckForTouch() {
 		static uint8_t loopCounter = 0;
 		if (loopCounter++ == 15) {
-			// touch->poll();
+			touch->poll();
 			if (touch->isPressed()) {
 				DEBUG(F("menu from loop"));
 				if (exitingPlayMode()) {
@@ -1265,7 +1269,7 @@ namespace Play {
 		Sound::buffer();
 
 		// Check if we need to exit to the main menu
-		// loopCheckForTouch();
+		loopCheckForTouch();
 
 		Sound::buffer();
 
@@ -1473,11 +1477,23 @@ namespace Play {
 
 		for (uint8_t page = 0; page < pageCount; page++) {
 			drawDialogPagePlayMode(&dialog, page, dialogXOffset, yPos, scale);
+			Sound::buffer();
 
+			// don't let any touch input through until 300 ms
+			// just wait a little and play the music
 			resetTimer(ButtonMoveDelay);
+			do {
+				Sound::buffer();
+				drawAnimatedDialogArrow(yPos + dialogBoxOuterHeight * scale);
+				if (drawBehind) {
+					animateRoomWhileDialogOpen(alignment);
+				}
+			} while (!checkTimer(300, ButtonMoveDelay, true));
+
 			touch->clearQueue();
 
-			// wait for input
+			// the first button press after the mandatory 300ms delay will immediately register and
+			// turn the dialog page
 			do {
 				Sound::buffer();
 				drawAnimatedDialogArrow(yPos + dialogBoxOuterHeight * scale);

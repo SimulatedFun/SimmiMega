@@ -36,7 +36,7 @@ namespace Play {
 
 	void showBeginningDialog();
 	void enterRoom(uint8_t roomId, boolean initialStart = false);
-	void playRoomMusic(uint8_t roomId, boolean initialStart = false);
+	void playRoomMusic(uint8_t roomId, boolean forceRestart = false);
 	void drawRoomTileAsync(uint8_t roomId, boolean fullDraw = false);
 	void drawFlagUpdate(uint8_t flagId, uint8_t roomId);
 	void drawAnimatedDialogArrow(uint16_t yPos);

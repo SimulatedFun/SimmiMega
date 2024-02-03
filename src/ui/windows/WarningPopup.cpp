@@ -27,6 +27,7 @@ namespace WarningBox {
 
 	void drawWindow() {
 		DrawingUtils::dither(RGB565(0x323232));
+		Sound::buffer(); // todo hacky fix
 		display->startWrite();
 		{
 			const uint16_t x = 40;
